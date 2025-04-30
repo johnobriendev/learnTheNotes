@@ -1,54 +1,29 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Guitar Note Visualizer
 
-Currently, two official plugins are available:
+A simple, interactive web application that visualizes notes on a guitar fretboard to help musicians learn and understand guitar theory.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+* Interactive fretboard visualization with 6 strings (standard tuning E-A-D-G-B-E) and 13 positions (open string + 12 frets)
+* Color-coded note selection system
+* Ability to select and visualize specific notes across the entire fretboard
+* Select All and Clear Selection options for quick note management
+* Responsive design that works on both desktop and mobile devices
+* Visual fret markers (inlays) at standard positions (3, 5, 7, 9, 12)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Usage
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+### Basic Controls
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+1. **Selecting Notes**: Click on any note button on the right panel to highlight all occurrences of that note on the fretboard
+2. **Multiple Notes**: Select multiple notes to visualize patterns, scales, or chords on the fretboard
+3. **Select All**: Click the "Select All" button to highlight all notes on the fretboard
+4. **Clear Selection**: Click the "Clear Selection" button to remove all highlights
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Learning Applications
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+* Visualize scales by selecting the notes that make up a particular scale
+* Learn chord shapes by seeing where specific notes appear across the fretboard
+* Understand note relationships and intervals by observing patterns
+* Discover alternative positions for playing the same notes
