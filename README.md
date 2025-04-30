@@ -1,5 +1,5 @@
 
-# Guitar Note Visualizer
+# Learn the Notes
 
 A simple, interactive web application that visualizes notes on a guitar fretboard to help musicians learn and understand guitar theory.
 
