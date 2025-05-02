@@ -27,6 +27,27 @@ const App = () => {
 
   const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
+  const [useFlats, setUseFlats] = useState<boolean>(false);
+
+  const sharpToFlat: Record<Note, string> = {
+    'C': 'C',
+    'C#': 'Db',
+    'D': 'D',
+    'D#': 'Eb',
+    'E': 'E',
+    'F': 'F',
+    'F#': 'Gb',
+    'G': 'G',
+    'G#': 'Ab',
+    'A': 'A',
+    'A#': 'Bb',
+    'B': 'B'
+  };
+
+  const displayNote = (note: Note): string => {
+    return useFlats ? sharpToFlat[note] : note;
+  };
+
 
   // Map of what note is at each position (string, fret)
   const getNoteAtPosition = (stringNote: string, fret: number): Note => {
@@ -181,7 +202,7 @@ const App = () => {
                           transform: 'translate(-50%, -50%)'
                         }}
                       >
-                        {note}
+                        {displayNote(note as Note)}
                       </div>
                     );
                   })
@@ -197,7 +218,17 @@ const App = () => {
         <div className="w-full md:w-96 order-1 md:order-2 flex flex-col gap-6">
           {/* Note Buttons Section */}
           <div className="p-4 bg-gray-50 rounded-md shadow-md">
-            <h3 className="w-full text-lg font-bold mb-4">Select Notes</h3>
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold">Select Notes</h3>
+
+              {/* ADD THIS: Sharps/Flats toggle button */}
+              <button
+                className="px-3 py-1 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 flex items-center gap-1 text-sm"
+                onClick={() => setUseFlats(!useFlats)}
+              >
+                {useFlats ? '♭ Flats' : '♯ Sharps'}
+              </button>
+            </div>
             <div className="buttons-grid grid grid-cols-3 gap-2 w-full">
               {allNotes.map(note => (
                 <button
@@ -208,7 +239,8 @@ const App = () => {
                     }`}
                   onClick={() => toggleNote(note)}
                 >
-                  {note}
+                  {displayNote(note)}
+
                 </button>
               ))}
             </div>
