@@ -5,12 +5,12 @@ A simple, interactive web application that visualizes notes on a guitar fretboar
 
 ## Features
 
-* Interactive fretboard visualization with 6 strings (standard tuning E-A-D-G-B-E) and 13 positions (open string + 12 frets)
+* Interactive fretboard visualization 
 * Color-coded note selection system
 * Ability to select and visualize specific notes across the entire fretboard
 * Select All and Clear Selection options for quick note management
 * Responsive design that works on both desktop and mobile devices
-* Visual fret markers (inlays) at standard positions (3, 5, 7, 9, 12)
+
 
 ## Usage
 
