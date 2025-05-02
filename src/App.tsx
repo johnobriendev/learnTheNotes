@@ -1,13 +1,16 @@
 import { useState } from 'react'
 
 const App = () => {
+
+  type Note = 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B';
+  
   // Standard tuning - E A D G B E (low to high)
-  const strings = ['E', 'A', 'D', 'G', 'B', 'E'];
-  const frets = Array.from({ length: 13 }, (_, i) => i); // 0-12 frets (including open string)
-  const allNotes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const strings: string[] = ['E', 'A', 'D', 'G', 'B', 'E'];
+  const frets: number[] = Array.from({ length: 13 }, (_, i) => i); // 0-12 frets (including open string)
+  const allNotes: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   
   // Color palette for selected notes
-  const noteColors = {
+  const noteColors: Record<Note, string> = {
     'C': 'bg-red-500',
     'C#': 'bg-red-600',
     'D': 'bg-orange-500',
@@ -22,18 +25,18 @@ const App = () => {
     'B': 'bg-pink-500'
   };
   
-  const [selectedNotes, setSelectedNotes] = useState([]);
-  const [allSelected, setAllSelected] = useState(false);
+  const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
+  const [allSelected, setAllSelected] = useState<boolean>(false);
   
   // Map of what note is at each position (string, fret)
-  const getNoteAtPosition = (stringNote, fret) => {
-    const startIndex = allNotes.indexOf(stringNote);
+  const getNoteAtPosition = (stringNote: string, fret: number): Note => {
+    const startIndex = allNotes.indexOf(stringNote as Note);
     return allNotes[(startIndex + fret) % 12];
   };
   
   // Check if a position should be highlighted and with what color
-  const highlightInfo = (stringNote, fret) => {
-    if (selectedNotes.length === 0) return { highlighted: false, color: '' };
+  const highlightInfo = (stringNote: string, fret: number): { highlighted: boolean; color: string; note: string } => {
+    if (selectedNotes.length === 0) return { highlighted: false, color: '', note: '' };
     
     const noteAtPosition = getNoteAtPosition(stringNote, fret);
     if (selectedNotes.includes(noteAtPosition)) {
@@ -48,7 +51,7 @@ const App = () => {
   };
   
   // Toggle note selection
-  const toggleNote = (note) => {
+  const toggleNote = (note: Note): void => {
     if (selectedNotes.includes(note)) {
       setSelectedNotes(selectedNotes.filter(n => n !== note));
       setAllSelected(false);
@@ -61,7 +64,7 @@ const App = () => {
   };
   
   // Toggle all notes
-  const toggleAllNotes = () => {
+  const toggleAllNotes = (): void => {
     if (allSelected) {
       setSelectedNotes([]);
       setAllSelected(false);
@@ -72,7 +75,7 @@ const App = () => {
   };
   
   // Clear all selected notes
-  const clearSelection = () => {
+  const clearSelection = (): void => {
     setSelectedNotes([]);
     setAllSelected(false);
   };
@@ -235,7 +238,6 @@ const App = () => {
           <h3 className="text-lg font-bold mb-4">How to Use</h3>
           <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
             <li>Click on any note button to see where it appears on the fretboard</li>
-            <li>Select multiple notes to visualize scales, chords, or intervals</li>
             <li>Use "Select All" to see all note positions at once</li>
             <li>The colored dots show the selected notes on each string and fret</li>
             <li>Open string positions appear above the fretboard</li>
