@@ -328,6 +328,7 @@ const App = () => {
                   <li>Look at the relationship between where a note is and where it is two strings away.</li>
                   <li>A great exersice is to take the notes from the C major scale and learn them on one of the top strings (B or E).</li>
                   <li>Learn all the notes from a scale on two adjacent strings and examine how playing the same note on two different strings could open up more possibilities in your playing.</li>
+                  <li>Use the dots on the fretboard to help you. They are there to act as another reference point while you learn.</li>
                 </ul>
 
                 
