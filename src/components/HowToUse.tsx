@@ -1,26 +1,63 @@
 // src/components/HowToUse.tsx
-import React from 'react';
+import { HowToUseProps } from "../types";
 
-interface HowToUseProps {
-  onShowTips: () => void;
-}
+const HowToUse: React.FC<HowToUseProps> = ({ 
+  onShowTips,
+  tipType = 'notes' // Default value
+}) => {
+  // Render different content based on tipType
+  const renderContent = () => {
+    switch (tipType) {
+      case 'triads':
+        return (
+          <>
+            <h3 className="text-lg font-bold mb-4">How to Use Triads</h3>
+            <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
+              <li>Select a root note and chord quality to see the triad</li>
+              <li>Choose a string set to focus on specific strings</li>
+              <li>The colored dots show the intervals (R, 3, 5) of the triad</li>
+              <li>Toggle between sharps and flats using the notation button</li>
+            </ul>
+          </>
+        );
+      
+      case 'scales':
+        return (
+          <>
+            <h3 className="text-lg font-bold mb-4">How to Use Scales</h3>
+            <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
+              <li>Coming soon...</li>
+            </ul>
+          </>
+        );
+      
+      case 'notes':
+      default:
+        return (
+          <>
+            <h3 className="text-lg font-bold mb-4">How to Use</h3>
+            <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
+              <li>Click on any note button to see where it appears on the fretboard</li>
+              <li>Use "Select All" to see all note positions at once</li>
+              <li>The colored dots show the selected notes on each string and fret</li>
+              <li>Open string positions appear above the fretboard</li>
+              <li>Toggle between sharps (♯) and flats (♭) notation using the button in settings</li>
+            </ul>
+          </>
+        );
+    }
+  };
 
-const HowToUse: React.FC<HowToUseProps> = ({ onShowTips }) => {
   return (
     <div className="p-4 bg-blue-50 rounded-md shadow-md">
-      <h3 className="text-lg font-bold mb-4">How to Use</h3>
-      <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
-        <li>Click on any note button to see where it appears on the fretboard</li>
-        <li>Use "Select All" to see all note positions at once</li>
-        <li>The colored dots show the selected notes on each string and fret</li>
-        <li>Open string positions appear above the fretboard</li>
-        <li>Toggle between sharps (♯) and flats (♭) notation using the button in settings</li>
-      </ul>
+      {renderContent()}
       <button
         onClick={onShowTips}
         className="mt-4 w-full px-4 py-2 bg-indigo-100 text-indigo-800 rounded-md hover:bg-indigo-200 transition-colors"
       >
-        Tips for Learning
+        {tipType === 'triads' ? 'Triad Tips' : 
+         tipType === 'scales' ? 'Scale Tips' : 
+         'Tips for Learning'}
       </button>
     </div>
   );

@@ -1,5 +1,5 @@
 import { Note, FretboardProps } from '../types';
-import { displayNote, getNoteAtPosition, getHighlightInfo } from '../utils';
+import { displayNote, getHighlightInfo } from '../utils/utils';
 
 const Fretboard: React.FC<FretboardProps> = ({
   numFrets,
@@ -7,11 +7,22 @@ const Fretboard: React.FC<FretboardProps> = ({
   selectedNotes,
   useFlats,
   noteColors,
-  sharpToFlat
+  displayMode = 'notes', 
+  intervals = {}          
 }) => {
   const frets: number[] = Array.from({ length: numFrets + 1 }, (_, i) => i);
-  
 
+  const getNoteDisplay = (note: Note): string => {
+    // If in interval mode and we have an interval name for this note
+    if (displayMode === 'intervals' && intervals[note]) {
+      return intervals[note];
+    }
+    
+    // Default to regular note display
+    return displayNote(note, useFlats);
+  };
+
+  
   return (
     <div className="bg-white rounded-md p-8 pr-16 shadow-lg h-full flex justify-center items-center">
       <div className="relative flex self-center">
@@ -89,7 +100,7 @@ const Fretboard: React.FC<FretboardProps> = ({
             {/* Notes on strings */}
             {frets.map((fret) => (
               strings.map((string, stringIndex) => {
-                const { highlighted, color, note } = getHighlightInfo(string, fret, selectedNotes, noteColors);
+                const { highlighted, color, note } = getHighlightInfo(string, fret, selectedNotes, noteColors, intervals);
 
                 if (!highlighted) return null;
 
@@ -105,7 +116,7 @@ const Fretboard: React.FC<FretboardProps> = ({
                       transform: 'translate(-50%, -50%)'
                     }}
                   >
-                    {displayNote(note as Note, useFlats)}
+                    {getNoteDisplay(note as Note)}
                   </div>
                 );
               })
