@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import FretboardSettings from './components/FretBoardSettings';
+
 
 const App = () => {
 
@@ -6,7 +8,10 @@ const App = () => {
 
   // Standard tuning - E A D G B E (low to high)
   const strings: string[] = ['E', 'A', 'D', 'G', 'B', 'E'];
-  const frets: number[] = Array.from({ length: 13 }, (_, i) => i); // 0-12 frets (including open string)
+  const [numFrets, setNumFrets] = useState<number>(12);
+  const frets: number[] = Array.from({ length: numFrets + 1 }, (_, i) => i); // 0-numFrets (including open string)
+  
+  //const frets: number[] = Array.from({ length: 13 }, (_, i) => i); // 0-12 frets (including open string)
   const allNotes: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
   // Color palette for selected notes
@@ -97,6 +102,15 @@ const App = () => {
     }
   };
 
+   const handleFretsChange = (count: number): void => {
+    setNumFrets(count);
+  };
+
+  // Toggle flats/sharps
+  const toggleFlats = (): void => {
+    setUseFlats(!useFlats);
+  };
+
   // Clear all selected notes
   const clearSelection = (): void => {
     setSelectedNotes([]);
@@ -110,6 +124,14 @@ const App = () => {
       <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-4">
         Learn the Notes
       </h1>
+
+      <FretboardSettings 
+        numFrets={numFrets}
+        onFretsChange={handleFretsChange}
+        useFlats={useFlats}
+        onFlatsToggle={toggleFlats}
+      />
+      
       <div className="flex flex-col md:flex-row gap-8 justify-around">
         <div className=" order-2 md:order-1 bg-white rounded-md p-8 pr-16 shadow-lg h-full flex justify-center items-center">
           {/* Fretboard */}
