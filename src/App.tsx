@@ -1,82 +1,22 @@
 import { useState } from 'react'
 import FretboardSettings from './components/FretBoardSettings';
-
+import Fretboard from './components/FretBoard';
+import { Note } from './types';
+import { allNotes, noteColors, sharpToFlat, standardTuning } from './constants';
+import { displayNote } from './utils';
 
 const App = () => {
 
-  type Note = 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B';
 
-  // Standard tuning - E A D G B E (low to high)
-  const strings: string[] = ['E', 'A', 'D', 'G', 'B', 'E'];
-  const [numFrets, setNumFrets] = useState<number>(12);
-  const frets: number[] = Array.from({ length: numFrets + 1 }, (_, i) => i); // 0-numFrets (including open string)
+
   
-  //const frets: number[] = Array.from({ length: 13 }, (_, i) => i); // 0-12 frets (including open string)
-  const allNotes: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-
-  // Color palette for selected notes
-  const noteColors: Record<Note, string> = {
-    'C': 'bg-red-500',
-    'C#': 'bg-red-600',
-    'D': 'bg-orange-500',
-    'D#': 'bg-orange-600',
-    'E': 'bg-yellow-500',
-    'F': 'bg-green-500',
-    'F#': 'bg-green-600',
-    'G': 'bg-blue-500',
-    'G#': 'bg-blue-600',
-    'A': 'bg-purple-500',
-    'A#': 'bg-purple-600',
-    'B': 'bg-pink-500'
-  };
-
+ 
+  const [numFrets, setNumFrets] = useState<number>(12);
   const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [useFlats, setUseFlats] = useState<boolean>(false);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
 
-
-  const sharpToFlat: Record<Note, string> = {
-    'C': 'C',
-    'C#': 'Db',
-    'D': 'D',
-    'D#': 'Eb',
-    'E': 'E',
-    'F': 'F',
-    'F#': 'Gb',
-    'G': 'G',
-    'G#': 'Ab',
-    'A': 'A',
-    'A#': 'Bb',
-    'B': 'B'
-  };
-
-  const displayNote = (note: Note): string => {
-    return useFlats ? sharpToFlat[note] : note;
-  };
-
-
-  // Map of what note is at each position (string, fret)
-  const getNoteAtPosition = (stringNote: string, fret: number): Note => {
-    const startIndex = allNotes.indexOf(stringNote as Note);
-    return allNotes[(startIndex + fret) % 12];
-  };
-
-  // Check if a position should be highlighted and with what color
-  const highlightInfo = (stringNote: string, fret: number): { highlighted: boolean; color: string; note: string } => {
-    if (selectedNotes.length === 0) return { highlighted: false, color: '', note: '' };
-
-    const noteAtPosition = getNoteAtPosition(stringNote, fret);
-    if (selectedNotes.includes(noteAtPosition)) {
-      return {
-        highlighted: true,
-        color: noteColors[noteAtPosition],
-        note: noteAtPosition
-      };
-    }
-
-    return { highlighted: false, color: '', note: '' };
-  };
 
   // Toggle note selection
   const toggleNote = (note: Note): void => {
@@ -133,107 +73,15 @@ const App = () => {
       />
       
       <div className="flex flex-col md:flex-row gap-8 justify-around">
-        <div className=" order-2 md:order-1 bg-white rounded-md p-8 pr-16 shadow-lg h-full flex justify-center items-center">
-          {/* Fretboard */}
-          <div className="relative flex self-center">
-            {/* Fret numbers column */}
-            <div className="w-10 mr-4 relative">
-              {frets.map(fret => (
-                <div
-                  key={`fret-num-${fret}`}
-                  className="absolute right-4 text-gray-600 text-sm"
-                  style={{
-                    top: `${((fret * 100) / frets.length) + (100 / (frets.length * 2))}%`,
-                    transform: 'translateY(-50%)'
-                  }}
-                >
-                  {fret === 0 ? "Open" : fret}
-                </div>
-              ))}
-            </div>
-
-            {/* Main fretboard area */}
-            <div className="relative w-64">
-              {/* String Labels - positioned above the fretboard */}
-              <div className="absolute w-full -top-6">
-                {strings.map((string, index) => (
-                  <div
-                    key={`string-label-${index}`}
-                    className="absolute font-bold text-gray-700"
-                    style={{
-                      left: `${(index * 100) / (strings.length - 1)}%`,
-                      transform: 'translateX(-50%)'
-                    }}
-                  >
-                    {string}
-                  </div>
-                ))}
-              </div>
-
-              <div className="relative" style={{ height: `${3.5 * frets.length}rem` }}>
-                {/* Strings - vertical lines */}
-                {strings.map((_, stringIndex) => (
-                  <div
-                    key={`string-${stringIndex}`}
-                    className="absolute bottom-0 bg-slate-600"
-                    style={{
-                      left: `${(stringIndex * 100) / (strings.length - 1)}%`,
-                      width: '1px',
-                      top: `${100 / frets.length}%`
-                    }}
-                  />
-                ))}
-
-                {/* Frets - horizontal lines */}
-                {frets.map((fret) => (
-                  fret > 0 && (
-                    <div
-                      key={`fret-${fret}`}
-                      className="absolute w-full bg-slate-600"
-                      style={{
-                        top: `${(fret * 100) / frets.length}%`,
-                        height: '1px'
-                      }}
-                    />
-                  )
-                ))}
-
-                {/* Bottom fret line */}
-                <div
-                  className="absolute w-full bg-slate-600"
-                  style={{
-                    bottom: '0',
-                    height: '1px'
-                  }}
-                />
-
-                {/* Notes on strings */}
-                {frets.map((fret) => (
-                  strings.map((string, stringIndex) => {
-                    const { highlighted, color, note } = highlightInfo(string, fret);
-
-                    if (!highlighted) return null;
-
-                    return (
-                      <div
-                        key={`note-${stringIndex}-${fret}`}
-                        className={`absolute w-6 h-6 rounded-full flex items-center justify-center ${color} text-white font-bold shadow-lg text-xs`}
-                        style={{
-                          left: `${(stringIndex * 100) / (strings.length - 1)}%`,
-                          top: fret === 0
-                            ? `${(50 / frets.length)}%`
-                            : `${((fret * 100) / frets.length) + (100 / (frets.length * 2))}%`,
-                          transform: 'translate(-50%, -50%)'
-                        }}
-                      >
-                        {displayNote(note as Note)}
-                      </div>
-                    );
-                  })
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className=" order-2 md:order-1">
+          <Fretboard
+            numFrets={numFrets}
+            strings={standardTuning}
+            selectedNotes={selectedNotes}
+            useFlats={useFlats}
+            noteColors={noteColors}
+            sharpToFlat={sharpToFlat}
+          />
         </div>
 
 
@@ -263,7 +111,7 @@ const App = () => {
                     }`}
                   onClick={() => toggleNote(note)}
                 >
-                  {displayNote(note)}
+                  {displayNote(note, useFlats)}
 
                 </button>
               ))}
