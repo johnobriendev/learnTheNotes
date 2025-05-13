@@ -23,7 +23,7 @@ const TitleWithNavigation = () => {
   };
   
   return (
-    <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-6 relative">
+    <h1 className="text-3xl md:text-4xl font-bold text-center text-gray-800 relative">
       <span className="flex items-center justify-center gap-2 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
         Learn the {getCurrentPage()}
         <span className="text-sm">▼</span>

@@ -6,7 +6,7 @@ import TriadSelector from '../components/TriadSelector';
 import StringSetSelector from '../components/StringSetSelector';
 import TriadInfo from '../components/TriadInfo';
 import TipsModal from '../components/TipsModal';
-import { Note, ChordQuality, StringSet } from '../types';
+import { Note, ChordQuality, StringSet, DisplayMode } from '../types';
 import { allNotes, noteColors, standardTuning } from '../constants';
 import { createTriad } from '../utils/triadUtils';
 import { filterNotesByStringSet } from '../utils/stringSetUtils'; 
@@ -22,6 +22,8 @@ const TriadsPage = () => {
   const [selectedQuality, setSelectedQuality] = useState<ChordQuality>('major');
   const [selectedStringSet, setSelectedStringSet] = useState<StringSet>('1-2-3');
   const [notesToHighlight, setNotesToHighlight] = useState<Note[]>([]);
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('intervals');
+
   
   // Create the current triad
   const currentTriad = createTriad(selectedRoot, selectedQuality);
@@ -47,18 +49,22 @@ const TriadsPage = () => {
   // Handle settings changes
   const handleFretsChange = (count: number) => setNumFrets(count);
   const toggleFlats = () => setUseFlats(!useFlats);
+  const toggleDisplayMode = () => {
+    setDisplayMode(mode => mode === 'notes' ? 'intervals' : 'notes');
+  };
+
   
   return (
     <div className="flex flex-col md:flex-row gap-6 justify-around">
       {/* Left Side - Fretboard */}
-      <div className="order-2 md:order-1 md:flex-grow">
+      <div className="order-2 md:order-1 ">
         <Fretboard
           numFrets={numFrets}
           strings={standardTuning}
           selectedNotes={notesToHighlight}
           useFlats={useFlats}
           noteColors={noteColors}
-          displayMode="intervals"
+          displayMode={displayMode}
           intervals={currentTriad.intervals}
           selectedStringSet={selectedStringSet}
         />
@@ -79,6 +85,8 @@ const TriadsPage = () => {
           useFlats={useFlats}
           onSelectRoot={setSelectedRoot}
           onSelectQuality={setSelectedQuality}
+          displayMode={displayMode} 
+          onToggleDisplayMode={toggleDisplayMode} 
         />
         
         <StringSetSelector

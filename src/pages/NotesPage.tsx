@@ -59,7 +59,7 @@ const NotesPage = () => {
   return (
     <div className="flex flex-col md:flex-row gap-6 justify-around">
       {/* Left Side - Fretboard */}
-      <div className="order-2 md:order-1 md:flex-grow">
+      <div className="order-2 md:order-1">
         <Fretboard
           numFrets={numFrets}
           strings={standardTuning}
