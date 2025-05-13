@@ -7,7 +7,7 @@ import StringSetSelector from '../components/StringSetSelector';
 import TriadInfo from '../components/TriadInfo';
 import TipsModal from '../components/TipsModal';
 import { Note, ChordQuality, StringSet, DisplayMode } from '../types';
-import { allNotes, noteColors, standardTuning } from '../constants';
+import { noteColors, standardTuning } from '../constants';
 import { createTriad } from '../utils/triadUtils';
 import { filterNotesByStringSet } from '../utils/stringSetUtils'; 
 

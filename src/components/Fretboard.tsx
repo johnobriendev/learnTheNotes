@@ -1,4 +1,4 @@
-import { Note, FretboardProps, StringSet, IntervalName } from '../types';
+import { Note, FretboardProps} from '../types';
 import { displayNote, getHighlightInfo } from '../utils/utils';
 import { stringSetToIndices } from '../utils/stringSetUtils';
 
