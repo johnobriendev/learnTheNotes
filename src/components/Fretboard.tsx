@@ -16,6 +16,9 @@ const Fretboard: React.FC<FretboardProps> = ({
 
   const visibleStringIndices = stringSetToIndices(selectedStringSet);
 
+  const singleDotFrets = [3, 5, 7, 9, 15, 17, 19, 21];
+  const doubleDotFrets = [12, 24];
+
 
   const getNoteDisplay = (note: Note): string => {
     // If in interval mode and we have an interval name for this note
@@ -67,6 +70,64 @@ const Fretboard: React.FC<FretboardProps> = ({
           </div>
 
           <div className="relative" style={{ height: `${3.5 * frets.length}rem` }}>
+            {/* Fretboard position markers (dots) */}
+            {frets.map((fret) => {
+              // Skip frets that don't need dots
+              if (!singleDotFrets.includes(fret) && !doubleDotFrets.includes(fret)) {
+                return null;
+              }
+
+              if (singleDotFrets.includes(fret)) {
+                // Single dot - between D and G strings (strings index 2 and 3)
+                const leftPosition = ((2.5 * 100) / (strings.length - 1)) + '%';
+                return (
+                  <div
+                    key={`marker-${fret}`}
+                    className="absolute bg-gray-500 rounded-full w-3 h-3"
+                    style={{
+                      left: leftPosition,
+                      top: `${((fret * 100) / frets.length) + (50 / frets.length)}%`,
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 1
+                    }}
+                  />
+                );
+              }
+
+              if (doubleDotFrets.includes(fret)) {
+                // Double dots - outside D and G strings (at strings index 1 and 4)
+                return (
+                  <>
+                    <div
+                      key={`marker-${fret}-1`}
+                      className="absolute bg-gray-500 rounded-full w-3 h-3"
+                      style={{
+                        left: `${(1 * 100) / (strings.length - 1)}%`,
+                        top: `${((fret * 100) / frets.length) + (50 / frets.length)}%`,
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 1
+                      }}
+                    />
+                    <div
+                      key={`marker-${fret}-2`}
+                      className="absolute bg-gray-500 rounded-full w-3 h-3"
+                      style={{
+                        left: `${(4 * 100) / (strings.length - 1)}%`,
+                        top: `${((fret * 100) / frets.length) + (50 / frets.length)}%`,
+                        transform: 'translate(-50%, -50%)',
+                        zIndex: 1
+                      }}
+                    />
+                  </>
+                );
+              }
+              
+              return null;
+            })}
+            
+            
+            
+            
             {/* Strings - vertical lines */}
             {strings.map((_, stringIndex) => (
               <div
