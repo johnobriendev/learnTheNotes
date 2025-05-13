@@ -102,7 +102,7 @@ const Fretboard: React.FC<FretboardProps> = ({
                       key={`marker-${fret}-1`}
                       className="absolute bg-gray-300 rounded-full w-3 h-3"
                       style={{
-                        left: `${(1 * 100) / (strings.length - 1)}%`,
+                        left: `${(1.5 * 100) / (strings.length - 1)}%`,
                         top: `${((fret * 100) / frets.length) + (50 / frets.length)}%`,
                         transform: 'translate(-50%, -50%)',
                         zIndex: 1
@@ -112,7 +112,7 @@ const Fretboard: React.FC<FretboardProps> = ({
                       key={`marker-${fret}-2`}
                       className="absolute bg-gray-300 rounded-full w-3 h-3"
                       style={{
-                        left: `${(4 * 100) / (strings.length - 1)}%`,
+                        left: `${(3.5 * 100) / (strings.length - 1)}%`,
                         top: `${((fret * 100) / frets.length) + (50 / frets.length)}%`,
                         transform: 'translate(-50%, -50%)',
                         zIndex: 1
