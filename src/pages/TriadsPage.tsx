@@ -97,6 +97,7 @@ const TriadsPage = () => {
         <TriadInfo 
           triad={currentTriad}
           onShowTips={() => setShowTipsModal(true)}
+          useFlats={useFlats}
         />
       </div>
       

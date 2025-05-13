@@ -1,75 +1,111 @@
-// utils/triadUtils.ts
-import { Note, ChordQuality, IntervalName, Triad } from '../types';
+import { Note, ChordQuality, Triad, IntervalName } from '../types';
 import { allNotes } from '../constants';
 
-// Convert semitones to interval names based on chord quality
-const semitonesToInterval = (
-  semitones: number, 
-  quality: ChordQuality
-): IntervalName => {
-  switch (semitones) {
-    case 0: return 'R';
-    case 3: return '♭3'; // Minor third
-    case 4: return '3';  // Major third
-    case 6: return '♭5'; // Diminished fifth
-    case 7: return '5';  // Perfect fifth
-    case 8: return '♯5'; // Augmented fifth
-    default: return 'R'; // Default fallback
-  }
-};
-
-// Get index of a note in the allNotes array
-const getNoteIndex = (note: Note): number => {
-  return allNotes.indexOf(note);
-};
-
-// Calculate a note at a given interval from root
-const getIntervalNote = (root: Note, semitones: number): Note => {
-  const rootIndex = getNoteIndex(root);
-  return allNotes[(rootIndex + semitones) % 12];
-};
-
-// Generate a complete triad object
+/**
+ * Creates a triad based on the given root note and chord quality
+ */
 export const createTriad = (root: Note, quality: ChordQuality): Triad => {
-  let notes: Note[] = [];
-  const intervals: Record<Note, IntervalName> = {} as Record<Note, IntervalName>;
+  const rootIndex = allNotes.indexOf(root);
+  let intervals: number[] = [];
   
-  // Add root note
-  notes.push(root);
-  intervals[root] = 'R';
+  // Determine intervals based on chord quality
+  switch (quality) {
+    case 'major':
+      intervals = [0, 4, 7]; // Root, major 3rd, perfect 5th
+      break;
+    case 'minor':
+      intervals = [0, 3, 7]; // Root, minor 3rd, perfect 5th
+      break;
+    case 'diminished':
+      intervals = [0, 3, 6]; // Root, minor 3rd, diminished 5th
+      break;
+    case 'augmented':
+      intervals = [0, 4, 8]; // Root, major 3rd, augmented 5th
+      break;
+  }
   
-  // Add third based on quality
-  const thirdSemitones = quality === 'major' || quality === 'augmented' ? 4 : 3;
-  const third = getIntervalNote(root, thirdSemitones);
-  notes.push(third);
-  intervals[third] = semitonesToInterval(thirdSemitones, quality);
+  // Calculate the notes in the triad
+  const notes: Note[] = intervals.map(interval => {
+    const noteIndex = (rootIndex + interval) % 12;
+    return allNotes[noteIndex];
+  });
   
-  // Add fifth based on quality
-  let fifthSemitones = 7; // Perfect fifth by default
-  if (quality === 'diminished') fifthSemitones = 6; // Flat fifth
-  if (quality === 'augmented') fifthSemitones = 8;  // Sharp fifth
-  
-  const fifth = getIntervalNote(root, fifthSemitones);
-  notes.push(fifth);
-  intervals[fifth] = semitonesToInterval(fifthSemitones, quality);
+  // Create a mapping of notes to interval names
+  const intervalNames = {} as Record<Note, IntervalName>;
+  notes.forEach((note, index) => {
+    let intervalName: IntervalName;
+    switch (index) {
+      case 0:
+        intervalName = 'R'; // Root
+        break;
+      case 1:
+        intervalName = quality === 'major' || quality === 'augmented' ? '3' : '♭3';
+        break;
+      case 2:
+        if (quality === 'diminished') intervalName = '♭5';
+        else if (quality === 'augmented') intervalName = '♯5';
+        else intervalName = '5';
+        break;
+      default:
+        intervalName = 'R'; // Default fallback
+    }
+    intervalNames[note] = intervalName;
+  });
   
   return {
     root,
     quality,
     notes,
-    intervals
+    intervals: intervalNames
   };
 };
 
-// Check if a note belongs to a triad
-export const isNoteInTriad = (note: Note, triad: Triad): boolean => {
-  return triad.notes.includes(note);
+/**
+ * Returns the notes and intervals for a triad
+ * Utility function for components that need formatted triad data
+ */
+export const getTriadDetails = (triad: Triad, useFlats: boolean = false) => {
+  // Import the displayNote function here to avoid circular dependencies
+  const displayNote = (note: Note, useFlats: boolean): string => {
+    const sharpToFlat: Record<Note, string> = {
+      'C': 'C',
+      'C#': 'D♭',
+      'D': 'D',
+      'D#': 'E♭',
+      'E': 'E',
+      'F': 'F',
+      'F#': 'G♭',
+      'G': 'G',
+      'G#': 'A♭',
+      'A': 'A',
+      'A#': 'B♭',
+      'B': 'B'
+    };
+    return useFlats ? sharpToFlat[note] : note;
+  };
+  
+  return {
+    rootName: displayNote(triad.root, useFlats),
+    quality: triad.quality,
+    noteNames: triad.notes.map(note => displayNote(note, useFlats)),
+    intervalText: getIntervalText(triad.quality)
+  };
 };
 
-// Get the interval name for a note within a triad
-export const getIntervalName = (note: Note, triad: Triad): IntervalName | null => {
-  if (isNoteInTriad(note, triad)) {
-    return triad.intervals[note];
+/**
+ * Helper function to get proper notation for intervals based on quality
+ */
+const getIntervalText = (quality: ChordQuality): string => {
+  switch (quality) {
+    case 'major':
+      return 'Root - 3rd - 5th';
+    case 'minor':
+      return 'Root - ♭3rd - 5th';
+    case 'diminished':
+      return 'Root - ♭3rd - ♭5th';
+    case 'augmented':
+      return 'Root - 3rd - ♯5th';
+    default:
+      return 'Root - 3rd - 5th';
   }
-  return null;
 };
