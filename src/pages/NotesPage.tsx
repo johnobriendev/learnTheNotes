@@ -10,7 +10,7 @@ import { allNotes, noteColors, standardTuning } from '../constants';
 
 const NotesPage = () => {
   // State management
-  const [numFrets, setNumFrets] = useState<number>(12);
+  const [numFrets, setNumFrets] = useState<number>(15);
   const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [useFlats, setUseFlats] = useState<boolean>(false);

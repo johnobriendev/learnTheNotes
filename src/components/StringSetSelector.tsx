@@ -10,7 +10,7 @@ const StringSetSelector: React.FC<StringSetSelectorProps> = ({
   selectedSet, 
   onSelectSet 
 }) => {
-  const stringSets: StringSet[] = ['All', '1-2-3', '2-3-4', '3-4-5', '4-5-6'];
+  const stringSets: StringSet[] = ['1-2-3', '2-3-4', '3-4-5', '4-5-6', 'All'];
   
   return (
     <div className="p-3 bg-gray-50 rounded-md shadow-md">

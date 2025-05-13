@@ -34,6 +34,7 @@ export interface FretboardProps {
   noteColors: Record<Note, string>;
   displayMode?: 'notes' | 'intervals'; 
   intervals?: Record<Note, string>;
+  selectedStringSet?: StringSet;
 }
 
 export interface FretboardSettingsProps {

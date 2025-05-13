@@ -9,33 +9,40 @@ import TipsModal from '../components/TipsModal';
 import { Note, ChordQuality, StringSet } from '../types';
 import { allNotes, noteColors, standardTuning } from '../constants';
 import { createTriad } from '../utils/triadUtils';
-import { filterNotesByStringSet } from '../utils/fretboardUtils';
+import { filterNotesByStringSet } from '../utils/stringSetUtils'; 
 
 const TriadsPage = () => {
   // Basic settings
-  const [numFrets, setNumFrets] = useState<number>(12);
+  const [numFrets, setNumFrets] = useState<number>(15);
   const [useFlats, setUseFlats] = useState<boolean>(false);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
   
   // Triad-specific state
   const [selectedRoot, setSelectedRoot] = useState<Note>('C');
   const [selectedQuality, setSelectedQuality] = useState<ChordQuality>('major');
-  const [selectedStringSet, setSelectedStringSet] = useState<StringSet>('All');
+  const [selectedStringSet, setSelectedStringSet] = useState<StringSet>('1-2-3');
   const [notesToHighlight, setNotesToHighlight] = useState<Note[]>([]);
   
   // Create the current triad
   const currentTriad = createTriad(selectedRoot, selectedQuality);
   
-  // Update notes to highlight whenever triad or string set changes
   useEffect(() => {
-    const filteredNotes = filterNotesByStringSet(
-      currentTriad,
-      selectedStringSet,
-      standardTuning,
-      numFrets
-    );
-    setNotesToHighlight(filteredNotes);
+    try {
+      const filteredNotes = filterNotesByStringSet(
+        currentTriad,
+        selectedStringSet,
+        standardTuning,
+        numFrets
+      );
+      setNotesToHighlight(filteredNotes);
+    } catch (error) {
+      // Fallback to showing all notes in case of error
+      setNotesToHighlight(currentTriad.notes);
+    }
   }, [selectedRoot, selectedQuality, selectedStringSet, numFrets]);
+  
+
+
   
   // Handle settings changes
   const handleFretsChange = (count: number) => setNumFrets(count);
@@ -53,6 +60,7 @@ const TriadsPage = () => {
           noteColors={noteColors}
           displayMode="intervals"
           intervals={currentTriad.intervals}
+          selectedStringSet={selectedStringSet}
         />
       </div>
 

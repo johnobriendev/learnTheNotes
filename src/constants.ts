@@ -18,4 +18,4 @@ export const sharpToFlat: Record<Note, string> = {
 
 export const standardTuning = ['E', 'A', 'D', 'G', 'B', 'E'];
 
-export const fretCountOptions = [12, 15, 20, 22, 24];
+export const fretCountOptions = [15, 20, 22, 24];
