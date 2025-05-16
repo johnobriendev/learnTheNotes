@@ -1,5 +1,5 @@
 // src/components/CollapsiblePanel.tsx
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
 interface CollapsiblePanelProps {
   title: string;
