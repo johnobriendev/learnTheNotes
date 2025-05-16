@@ -160,7 +160,7 @@ const NotesPage = () => {
               />
             </CollapsiblePanel>
             
-            <CollapsiblePanel title="Help Information" defaultOpen={true}>
+            <CollapsiblePanel title="How to Use" defaultOpen={true}>
               <HowToUse 
                 onShowTips={() => setShowTipsModal(true)} 
                 tipType="notes"

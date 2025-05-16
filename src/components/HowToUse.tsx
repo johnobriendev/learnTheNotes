@@ -49,7 +49,7 @@ const HowToUse: React.FC<HowToUseProps> = ({
   };
 
   return (
-    <div className="p-4 bg-blue-50 rounded-md shadow-md">
+    <div className="p-4 ">
       {renderContent()}
       <button
         onClick={onShowTips}

@@ -13,15 +13,8 @@ const CollapsiblePanel: React.FC<CollapsiblePanelProps> = ({
   children 
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  const [contentHeight, setContentHeight] = useState<number | undefined>(undefined);
-  const contentRef = useRef<HTMLDivElement>(null);
   
-  useEffect(() => {
-    if (contentRef.current) {
-      const height = contentRef.current.scrollHeight;
-      setContentHeight(height);
-    }
-  }, [ isOpen]);
+  
 
   return (
     <div className="bg-gray-50 rounded-md shadow-md overflow-hidden">
@@ -37,15 +30,8 @@ const CollapsiblePanel: React.FC<CollapsiblePanelProps> = ({
       </button>
 
       {/* Collapsible content with dynamic height */}
-      <div 
-        style={{
-          maxHeight: isOpen ? `${contentHeight}px` : '0',
-          opacity: isOpen ? 1 : 0,
-          transition: 'max-height 0.3s ease-in-out, opacity 0.3s ease-in-out'
-        }}
-        className="overflow-hidden"
-      >
-        <div className="p-3" ref={contentRef}>
+      <div className={`${isOpen ? 'block' : 'hidden'}`}>
+        <div className="p-3" >
           {children}
         </div>
       </div>
