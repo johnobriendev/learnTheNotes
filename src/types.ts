@@ -41,8 +41,6 @@ export interface FretboardProps {
 export interface FretboardSettingsProps {
   numFrets: number;
   onFretsChange: (frets: number) => void;
-  useFlats: boolean;
-  onFlatsToggle: () => void;
 }
 
 export interface TriadSelectorProps {
@@ -53,6 +51,11 @@ export interface TriadSelectorProps {
   onSelectQuality: (quality: ChordQuality) => void;
   displayMode: DisplayMode; // Add display mode prop
   onToggleDisplayMode: () => void; // Add toggle handler prop
+  onFlatsToggle: () => void;
+  onShowTips: () => void;
+  selectedStringSet: StringSet;
+  onSelectStringSet: (set: StringSet) => void;
+  triad: Triad;
 }
 
 export interface TipsModalProps {

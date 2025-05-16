@@ -11,6 +11,7 @@ interface NoteSelectorProps {
   onToggleNote: (note: Note) => void;
   onToggleAllNotes: () => void;
   onClearSelection: () => void;
+  onFlatsToggle: () => void;
 }
 
 const NoteSelector: React.FC<NoteSelectorProps> = ({
@@ -19,10 +20,21 @@ const NoteSelector: React.FC<NoteSelectorProps> = ({
   allSelected,
   onToggleNote,
   onToggleAllNotes,
-  onClearSelection
+  onClearSelection,
+  onFlatsToggle
 }) => {
   return (
     <div className="p-4 bg-gray-50 rounded-md shadow-md">
+
+      {/* Sharps/Flats toggle */}
+        <div className="mb-3">
+          <button
+            className="px-3 py-1 w-full bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 text-sm"
+            onClick={onFlatsToggle}
+          >
+            {useFlats ? '♯ Use Sharps' : '♭ Use Flats'}
+          </button>
+        </div>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-bold">Select Notes</h3>
       </div>
