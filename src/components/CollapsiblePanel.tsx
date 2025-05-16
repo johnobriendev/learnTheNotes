@@ -21,7 +21,7 @@ const CollapsiblePanel: React.FC<CollapsiblePanelProps> = ({
       const height = contentRef.current.scrollHeight;
       setContentHeight(height);
     }
-  }, [children, isOpen]);
+  }, [ isOpen]);
 
   return (
     <div className="bg-gray-50 rounded-md shadow-md overflow-hidden">

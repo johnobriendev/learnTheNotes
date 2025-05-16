@@ -1,5 +1,5 @@
 // src/pages/TriadsPage.tsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import FretboardSettings from '../components/FretboardSettings';
 import Fretboard from '../components/Fretboard';
 import TriadSelector from '../components/TriadSelector';
@@ -8,71 +8,92 @@ import CollapsiblePanel from '../components/CollapsiblePanel';
 import { Note, ChordQuality, StringSet, DisplayMode } from '../types';
 import { noteColors, standardTuning } from '../constants';
 import { createTriad } from '../utils/triadUtils';
-import { filterNotesByStringSet } from '../utils/stringSetUtils'; 
+import { filterNotesByStringSet } from '../utils/stringSetUtils';
 
+// Create a key for localStorage that won't conflict with other components
+const SIDEBAR_STORAGE_KEY = 'triads_sidebarOpen';
 
 const TriadsPage = () => {
   // Basic settings
   const [numFrets, setNumFrets] = useState<number>(15);
   const [useFlats, setUseFlats] = useState<boolean>(false);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
-  
+
   // Triad-specific state
   const [selectedRoot, setSelectedRoot] = useState<Note>('C');
   const [selectedQuality, setSelectedQuality] = useState<ChordQuality>('major');
   const [selectedStringSet, setSelectedStringSet] = useState<StringSet>('1-2-3');
   const [notesToHighlight, setNotesToHighlight] = useState<Note[]>([]);
   const [displayMode, setDisplayMode] = useState<DisplayMode>('intervals');
-  
-   // Sidebar state - with localStorage persistence
+
+  // Sidebar state - with localStorage persistence - using safer implementation
   const [sidebarOpen, setSidebarOpen] = useState(() => {
-    // Get the stored value from localStorage, default to true if not found
-    const stored = localStorage.getItem('triads_sidebarOpen');
-    return stored === null ? true : stored === 'true';
+    try {
+      // Get the stored value from localStorage, default to true if not found
+      const stored = localStorage.getItem(SIDEBAR_STORAGE_KEY);
+      return stored === null ? true : stored === 'true';
+    } catch (e) {
+      // If localStorage fails for any reason, default to true
+      console.error('Failed to access localStorage:', e);
+      return true;
+    }
   });
 
-  
-  // Create the current triad
-  const currentTriad = createTriad(selectedRoot, selectedQuality);
-
-
-  
+  // Improved approach: update localStorage when state changes
   useEffect(() => {
     try {
-      const filteredNotes = filterNotesByStringSet(
-        currentTriad,
-        selectedStringSet,
-        standardTuning,
-        numFrets
-      );
-      setNotesToHighlight(filteredNotes);
-    } catch (error) {
-      // Fallback to showing all notes in case of error
-      setNotesToHighlight(currentTriad.notes);
+      localStorage.setItem(SIDEBAR_STORAGE_KEY, sidebarOpen.toString());
+    } catch (e) {
+      console.error('Failed to write to localStorage:', e);
     }
-  }, [selectedRoot, selectedQuality, selectedStringSet, numFrets, currentTriad]);
-  
+  }, [sidebarOpen]);
 
+  // Create the current triad with useCallback for stability
+   const currentTriad = useMemo(() => {
+    return createTriad(selectedRoot, selectedQuality);
+  }, [selectedRoot, selectedQuality]);
 
-  
-  // Handle settings changes
-  const handleFretsChange = (count: number) => setNumFrets(count);
-  const toggleFlats = () => setUseFlats(!useFlats);
-  const toggleDisplayMode = () => {
+  // Update notes effect with better dependency tracking
+  useEffect(() => {
+    const filteredNotes = filterNotesByStringSet(
+      currentTriad,
+      selectedStringSet,
+      standardTuning,
+      numFrets
+    );
+    
+    setNotesToHighlight(filteredNotes);
+  }, [selectedStringSet, numFrets, currentTriad]);
+
+  // Handle settings changes - memoized with useCallback
+  const handleFretsChange = useCallback((count: number) => {
+    setNumFrets(count);
+  }, []);
+
+  const toggleFlats = useCallback(() => {
+    setUseFlats(prev => !prev);
+  }, []);
+
+  const toggleDisplayMode = useCallback(() => {
     setDisplayMode(mode => mode === 'notes' ? 'intervals' : 'notes');
-  };
-  const toggleSidebar = () => {
-    const newState = !sidebarOpen;
-    setSidebarOpen(newState);
-    localStorage.setItem('triads_sidebarOpen', newState.toString());
-  };
-  
-  
+  }, []);
+
+  const toggleSidebar = useCallback(() => {
+    setSidebarOpen(prev => !prev);
+  }, []);
+
+  // Clear modal state on unmount
+  useEffect(() => {
+    return () => {
+      setShowTipsModal(false);
+    };
+  }, []);
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="flex flex-col md:flex-row relative h-full">
         {/* Left Side - Fretboard */}
-        <div 
+        <div
           className={`
             transition-all duration-300 ease-in-out bg-gray-50
             flex-grow w-full h-full p-4 md:p-6
@@ -93,8 +114,8 @@ const TriadsPage = () => {
               </button>
             </div>
           )}
-          
-          <div className="h-full  flex items-center justify-center mb-4">
+
+          <div className="h-full flex items-center justify-center mb-4">
             <Fretboard
               numFrets={numFrets}
               strings={standardTuning}
@@ -128,9 +149,8 @@ const TriadsPage = () => {
             border-t md:border-t-0 md:border-l border-gray-200 p-4 md:p-6 
             flex flex-col gap-4 overflow-y-auto relative
           ">
-
-              {/* Desktop toggle button - inside the sidebar */}
-            <div className="hidden md:block ">
+            {/* Desktop toggle button - inside the sidebar */}
+            <div className="hidden md:block">
               <button
                 onClick={toggleSidebar}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
@@ -143,12 +163,12 @@ const TriadsPage = () => {
             </div>
 
             <CollapsiblePanel title="Fretboard Settings" defaultOpen={true}>
-              <FretboardSettings 
+              <FretboardSettings
                 numFrets={numFrets}
                 onFretsChange={handleFretsChange}
               />
             </CollapsiblePanel>
-            
+
             <CollapsiblePanel title="Triad Selector" defaultOpen={true}>
               <TriadSelector
                 selectedRoot={selectedRoot}
@@ -168,12 +188,14 @@ const TriadsPage = () => {
           </div>
         )}
       </div>
-      
-      <TipsModal 
-        isOpen={showTipsModal} 
-        onClose={() => setShowTipsModal(false)}
-        tipType="triads"
-      />
+
+      {showTipsModal && (
+        <TipsModal
+          isOpen={showTipsModal}
+          onClose={() => setShowTipsModal(false)}
+          tipType="triads"
+        />
+      )}
     </div>
   );
 };
