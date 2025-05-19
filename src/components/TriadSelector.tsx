@@ -144,7 +144,7 @@ const TriadSelector: React.FC<TriadSelectorProps> = ({
           onClick={onShowTips}
           className="mt-4 w-full px-4 py-2 bg-indigo-100 text-indigo-800 rounded-md hover:bg-indigo-200 transition-colors"
         >
-          Learn About Triads
+          Tips for Learning
         </button>
       </div>
     </div>

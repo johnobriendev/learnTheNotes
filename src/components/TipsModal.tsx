@@ -16,25 +16,25 @@ const TipsModal: React.FC<TipsModalProps> = ({
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              Triads are three-note chords consisting of a root, third, and fifth.
-              They are the building blocks of chord progressions in Western music.
+              Triads are three-note chords consisting of a root (R), third (3), and fifth (5).
             </p>
             <p>
               There are four main types of triads:
             </p>
-            <ul className="list-disc list-inside space-y-2">
-              <li><strong>Major</strong>: Root, major 3rd (4 semitones), perfect 5th (7 semitones)</li>
-              <li><strong>Minor</strong>: Root, minor 3rd (3 semitones), perfect 5th (7 semitones)</li>
-              <li><strong>Diminished</strong>: Root, minor 3rd (3 semitones), diminished 5th (6 semitones)</li>
-              <li><strong>Augmented</strong>: Root, major 3rd (4 semitones), augmented 5th (8 semitones)</li>
+            <ul className="list-disc pl-5 space-y-2">
+              <li className='pl-1' ><strong>Major</strong>:  R, 3, 5</li>
+              <li className='pl-1'><strong>Minor</strong>:  R, b3, 5</li>
+              <li className='pl-1'><strong>Diminished</strong>: R, b3, b5</li>
+              <li className='pl-1'><strong>Augmented</strong>: R, 3, #5</li>
             </ul>
             
             <h3 className="text-lg font-semibold">Tips for Learning Triads</h3>
-            <ul className="list-disc list-inside space-y-2">
-              <li>Learn triads in the context of the Circle of Fifths</li>
-              <li>Practice visualizing triads across different string sets</li>
-              <li>Learn to see the relationship between triad shapes and scale patterns</li>
-              <li>Try to identify the role of each note (root, third, fifth) in the chord</li>
+            <ul className="list-disc pl-5 space-y-2">
+              <li className='pl-1'>Start by learning a few triads of notes you know like C, G, D on the top group of strings (1, 2, 3)</li>
+              <li className='pl-1'>Each triad will have three inversions. Take note of the distance vertically between each shape</li>
+              <li className='pl-1'>The inversions always follow the order of R, 3, 5 (Root position) 3, 5, R (First Inversion) or 5, R, 3 (Second Inversion)</li>
+              <li className='pl-1'>Pick a song you know and replace the chords with triads</li>
+              
             </ul>
           </div>
         );
@@ -63,14 +63,14 @@ const TipsModal: React.FC<TipsModalProps> = ({
             </p>
 
             <h3 className="text-lg font-semibold">Some recommendations</h3>
-            <ul className="list-disc list-inside space-y-2">
-              <li>Start with C. Learn what fret it is on for all 6 strings.</li>
-              <li>After that pick another note like G or D. The idea is to start forming spacial relationships between notes. Don't overwhelm youself.</li>
-              <li>Pay attention to how many frets you need to move up or down to find the same note when you move to the next string.</li>
-              <li>Look at the relationship between where a note is and where it is two strings away.</li>
-              <li>A great exersice is to take the notes from the C major scale and learn them on one of the top strings (B or E).</li>
-              <li>Learn all the notes from a scale on two adjacent strings and examine how playing the same note on two different strings could open up more possibilities in your playing.</li>
-              <li>Use the dots on the fretboard to help you. They are there to act as another reference point while you learn.</li>
+            <ul className="list-disc pl-5 space-y-2">
+              <li className='pl-1'>Start with C. Learn what fret it is on for all 6 strings.</li>
+              <li className='pl-1'>After that pick another note like G or D. The idea is to start forming spacial relationships between notes. Don't overwhelm youself.</li>
+              <li className='pl-1'>Pay attention to how many frets you need to move up or down to find the same note when you move to the next string.</li>
+              <li className='pl-1'>Look at the relationship between where a note is and where it is two strings away.</li>
+              <li className='pl-1'>A great exersice is to take the notes from the C major scale and learn them on one of the top strings (B or E).</li>
+              <li className='pl-1'>Learn all the notes from a scale on two adjacent strings and examine how playing the same note on two different strings could open up more possibilities in your playing.</li>
+              <li className='pl-1'>Use the dots on the fretboard to help you. They are there to act as another reference point while you learn.</li>
             </ul>
           </div>
         );
