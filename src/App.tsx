@@ -87,21 +87,21 @@ const RootLayout = () => {
   const location = useLocation();
   return (
     <div className="flex flex-col min-h-screen w-full bg-gray-100">
-      <header className="py-4 border-b border-gray-200 bg-white shadow-sm">
+      <header className="py-2 border-b border-gray-200 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
           <TitleWithNavigation />
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:px-6 lg:px-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-4 sm:px-6 lg:px-8">
         <Outlet key={location.key} />
       </main>
 
-      <footer className="py-3 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
+      {/* <footer className="py-3 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           © {new Date().getFullYear()} Learn the Notes
         </div>
-      </footer>
+      </footer> */}
     </div>
   );
 };
