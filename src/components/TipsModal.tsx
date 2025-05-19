@@ -32,6 +32,7 @@ const TipsModal: React.FC<TipsModalProps> = ({
             <ul className="list-disc pl-5 space-y-2">
               <li className='pl-1'>Start by learning a few triads of notes you know like C, G, D on the top group of strings (1, 2, 3)</li>
               <li className='pl-1'>Each triad will have three inversions. Take note of the distance vertically between each shape</li>
+              <li className='pl-1'>Learn the notes of the triad on a single string</li>
               <li className='pl-1'>The inversions always follow the order of R, 3, 5 (Root position) 3, 5, R (First Inversion) or 5, R, 3 (Second Inversion)</li>
               <li className='pl-1'>Pick a song you know and replace the chords with triads</li>
               
