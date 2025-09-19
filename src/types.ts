@@ -36,6 +36,13 @@ export interface FretboardProps {
   displayMode?: 'notes' | 'intervals'; 
   intervals?: Record<Note, string>;
   selectedStringSet?: StringSet;
+  // Quiz props
+  quizState?: QuizState;
+  currentQuestion?: QuizQuestion | null;
+  userAnswers?: { string: number; fret: number }[];
+  incorrectPositions?: { string: number; fret: number }[];
+  showFeedback?: boolean;
+  onFretboardClick?: (stringIndex: number, fret: number) => void;
 }
 
 export interface FretboardSettingsProps {
@@ -67,4 +74,15 @@ export interface TipsModalProps {
 export interface HowToUseProps {
   onShowTips: () => void;
   tipType?: 'notes' | 'triads' | 'scales';
+}
+
+// Quiz types - minimal and simple
+export type QuizMode = 'find-note' | 'name-note';
+export type QuizState = 'idle' | 'active' | 'completed';
+
+export interface QuizQuestion {
+  note: Note;
+  mode: QuizMode;
+  targetPosition?: { string: number; fret: number }; // For name-note mode
+  correctPositions?: { string: number; fret: number }[]; // For find-note mode
 }

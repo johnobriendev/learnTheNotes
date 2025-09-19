@@ -1,5 +1,5 @@
 import { Note, FretboardProps} from '../types';
-import { displayNote, getHighlightInfo } from '../utils/utils';
+import { displayNote, getHighlightInfo, getNoteAtPosition } from '../utils/utils';
 import { stringSetToIndices } from '../utils/stringSetUtils';
 
 const Fretboard: React.FC<FretboardProps> = ({
@@ -10,7 +10,13 @@ const Fretboard: React.FC<FretboardProps> = ({
   noteColors,
   displayMode = 'notes', 
   intervals,
-  selectedStringSet = 'All'        
+  selectedStringSet = 'All',
+  quizState = 'idle',
+  currentQuestion,
+  userAnswers = [],
+  incorrectPositions = [],
+  showFeedback = false,
+  onFretboardClick
 }) => {
   const frets: number[] = Array.from({ length: numFrets + 1 }, (_, i) => i);
 
@@ -28,6 +34,76 @@ const Fretboard: React.FC<FretboardProps> = ({
     
     // Default to regular note display
     return displayNote(note, useFlats);
+  };
+
+  // Quiz-specific logic
+  const getQuizHighlightInfo = (stringIndex: number, fret: number) => {
+    if (quizState !== 'active' || !currentQuestion) return null;
+    
+    const note = getNoteAtPosition(strings[stringIndex], fret);
+    
+    if (currentQuestion.mode === 'find-note') {
+      const isUserSelected = userAnswers.some(answer => 
+        answer.string === stringIndex && answer.fret === fret
+      );
+      
+      // Check if this is a correct position (from the question's correct answers)
+      const isCorrectPosition = currentQuestion.correctPositions?.some(pos => 
+        pos.string === stringIndex && pos.fret === fret
+      ) || false;
+      
+      // Check if this is one of the user's incorrect selections
+      const isUserIncorrect = incorrectPositions.some(pos => 
+        pos.string === stringIndex && pos.fret === fret
+      );
+      
+      let color = '';
+      let highlighted = false;
+      
+      if (isUserIncorrect) {
+        // User selected this position but it's incorrect
+        color = 'bg-red-500';
+        highlighted = true;
+      } else if (isCorrectPosition && showFeedback) {
+        // This is a correct position, but only show it during feedback
+        color = 'bg-green-500';
+        highlighted = true;
+      } else if (isUserSelected) {
+        // User selected this position but it's not in feedback mode yet
+        color = 'bg-blue-500';
+        highlighted = true;
+      }
+      
+      return {
+        highlighted,
+        note,
+        color,
+        clickable: true, // All positions are clickable in find-note mode
+        isUserSelected,
+        showNoteName: false // Don't show note names in find-note mode
+      };
+    } else if (currentQuestion.mode === 'name-note') {
+      // Highlight only the target position
+      const isTargetPosition = currentQuestion.targetPosition?.string === stringIndex && 
+                              currentQuestion.targetPosition?.fret === fret;
+      
+      return {
+        highlighted: isTargetPosition,
+        note,
+        color: isTargetPosition ? 'bg-yellow-400' : '',
+        clickable: false,
+        isUserSelected: false,
+        showNoteName: false // Don't show note names in name-note mode
+      };
+    }
+    
+    return null;
+  };
+
+  const handlePositionClick = (stringIndex: number, fret: number) => {
+    if (onFretboardClick && quizState === 'active' && currentQuestion?.mode === 'find-note') {
+      onFretboardClick(stringIndex, fret);
+    }
   };
 
 
@@ -169,14 +245,52 @@ const Fretboard: React.FC<FretboardProps> = ({
               strings.map((string, stringIndex) => {
 
                 if (!visibleStringIndices.includes(stringIndex)) return null;
-                const { highlighted, color, note } = getHighlightInfo(string, fret, selectedNotes, noteColors, intervals);
+                
+                // Use quiz highlighting if in quiz mode, otherwise use normal highlighting
+                let highlightInfo;
+                let showNoteName = true;
+                let shouldRender = false;
+                
+                if (quizState === 'active' && currentQuestion) {
+                  const quizInfo = getQuizHighlightInfo(stringIndex, fret);
+                  if (quizInfo) {
+                    highlightInfo = {
+                      highlighted: quizInfo.highlighted,
+                      color: quizInfo.color,
+                      note: quizInfo.note
+                    };
+                    showNoteName = quizInfo.showNoteName !== false;
+                    shouldRender = true; // Always render in quiz mode for clickability
+                  } else {
+                    // In find-note mode, render invisible clickable areas
+                    if (currentQuestion.mode === 'find-note') {
+                      highlightInfo = {
+                        highlighted: false,
+                        color: 'bg-transparent',
+                        note: getNoteAtPosition(string, fret)
+                      };
+                      showNoteName = false;
+                      shouldRender = true;
+                    }
+                  }
+                } else {
+                  const normalInfo = getHighlightInfo(string, fret, selectedNotes, noteColors, intervals);
+                  if (normalInfo.highlighted) {
+                    highlightInfo = normalInfo;
+                    shouldRender = true;
+                  }
+                }
 
-                if (!highlighted) return null;
+                if (!shouldRender || !highlightInfo) return null;
 
                 return (
                   <div
                     key={`note-${stringIndex}-${fret}`}
-                    className={`absolute w-6 h-6 rounded-full flex items-center justify-center ${color} text-white font-bold shadow-lg text-xs`}
+                    className={`absolute w-6 h-6 rounded-full flex items-center justify-center ${highlightInfo.color} text-white font-bold shadow-lg text-xs ${
+                      quizState === 'active' && currentQuestion?.mode === 'find-note'
+                        ? 'cursor-pointer hover:opacity-80' 
+                        : ''
+                    }`}
                     style={{
                       left: `${(stringIndex * 100) / (strings.length - 1)}%`,
                       top: fret === 0
@@ -184,8 +298,9 @@ const Fretboard: React.FC<FretboardProps> = ({
                         : `${((fret * 100) / frets.length) + (100 / (frets.length * 2))}%`,
                       transform: 'translate(-50%, -50%)'
                     }}
+                    onClick={() => handlePositionClick(stringIndex, fret)}
                   >
-                    {getNoteDisplay(note as Note)}
+                    {showNoteName ? getNoteDisplay(highlightInfo.note as Note) : ''}
                   </div>
                 );
               })

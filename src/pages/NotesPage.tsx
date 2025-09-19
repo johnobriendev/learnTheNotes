@@ -3,15 +3,16 @@ import { useState } from 'react';
 import FretboardSettings from '../components/FretboardSettings';
 import Fretboard from '../components/Fretboard';
 import NoteSelector from '../components/NoteSelector';
-import HowToUse from '../components/HowToUse';
+// import HowToUse from '../components/HowToUse';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
-import { Note } from '../types';
+import { Note, QuizMode, QuizState, QuizQuestion } from '../types';
 import { allNotes, noteColors, standardTuning } from '../constants';
+import { displayNote } from '../utils/utils';
 
 const NotesPage = () => {
   // State management
-  const [numFrets, setNumFrets] = useState<number>(15);
+  const [numFrets, setNumFrets] = useState<number>(12);
   const [selectedNotes, setSelectedNotes] = useState<Note[]>([]);
   const [allSelected, setAllSelected] = useState<boolean>(false);
   const [useFlats, setUseFlats] = useState<boolean>(false);
@@ -23,6 +24,19 @@ const NotesPage = () => {
     const stored = localStorage.getItem('notes_sidebarOpen');
     return stored === null ? true : stored === 'true';
   });
+
+  // Quiz state
+  const [quizMode, setQuizMode] = useState<QuizMode>('find-note');
+  const [quizState, setQuizState] = useState<QuizState>('idle');
+  const [currentQuestion, setCurrentQuestion] = useState<QuizQuestion | null>(null);
+  const [questionNumber, setQuestionNumber] = useState(0);
+  const [score, setScore] = useState(0);
+  const [userAnswers, setUserAnswers] = useState<{ string: number; fret: number }[]>([]);
+  const [selectedNoteAnswer, setSelectedNoteAnswer] = useState<Note | null>(null);
+  const [showScoreModal, setShowScoreModal] = useState(false);
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false);
+  const [incorrectPositions, setIncorrectPositions] = useState<{ string: number; fret: number }[]>([]);
   
   // Toggle note selection
   const toggleNote = (note: Note): void => {
@@ -70,6 +84,150 @@ const NotesPage = () => {
     localStorage.setItem('notes_sidebarOpen', newState.toString());
   };
 
+  // Quiz functions
+  const generateQuizQuestion = (): QuizQuestion => {
+    const randomNote = allNotes[Math.floor(Math.random() * allNotes.length)];
+    
+    if (quizMode === 'find-note') {
+      // Find all positions where this note appears
+      const correctPositions: { string: number; fret: number }[] = [];
+      standardTuning.forEach((stringNote, stringIndex) => {
+        for (let fret = 0; fret <= numFrets; fret++) {
+          if (getNoteAtPosition(stringNote, fret) === randomNote) {
+            correctPositions.push({ string: stringIndex, fret });
+          }
+        }
+      });
+      
+      return {
+        note: randomNote,
+        mode: 'find-note',
+        correctPositions
+      };
+    } else {
+      // Pick a random position and find what note it is
+      const stringIndex = Math.floor(Math.random() * standardTuning.length);
+      const fret = Math.floor(Math.random() * (numFrets + 1));
+      const note = getNoteAtPosition(standardTuning[stringIndex], fret);
+      
+      return {
+        note,
+        mode: 'name-note',
+        targetPosition: { string: stringIndex, fret }
+      };
+    }
+  };
+
+  const startQuiz = () => {
+    setQuizState('active');
+    setQuestionNumber(1);
+    setScore(0);
+    setUserAnswers([]);
+    setSelectedNoteAnswer(null);
+    const question = generateQuizQuestion();
+    setCurrentQuestion(question);
+  };
+
+  const endQuiz = () => {
+    setQuizState('completed');
+    setShowScoreModal(true);
+  };
+
+  const nextQuestion = () => {
+    if (questionNumber >= 12) {
+      endQuiz();
+    } else {
+      setQuestionNumber(questionNumber + 1);
+      setUserAnswers([]);
+      setSelectedNoteAnswer(null);
+      setIncorrectPositions([]);
+      const question = generateQuizQuestion();
+      setCurrentQuestion(question);
+    }
+  };
+
+  const handleFretboardClick = (stringIndex: number, fret: number) => {
+    if (quizState !== 'active' || !currentQuestion) return;
+    
+    if (quizMode === 'find-note') {
+      const position = { string: stringIndex, fret };
+      if (userAnswers.some(answer => answer.string === stringIndex && answer.fret === fret)) {
+        // Remove if already selected
+        setUserAnswers(userAnswers.filter(answer => 
+          !(answer.string === stringIndex && answer.fret === fret)
+        ));
+      } else {
+        // Add to answers
+        setUserAnswers([...userAnswers, position]);
+      }
+    }
+  };
+
+  const submitAnswer = () => {
+    if (!currentQuestion) return;
+    
+    let isCorrect = false;
+    
+    if (quizMode === 'find-note') {
+      // Check if all correct positions are selected and no incorrect ones
+      const questionCorrectPositions = currentQuestion.correctPositions || [];
+      
+      // Find positions that are correct (user selected and are actually correct)
+      const userCorrectSelections = userAnswers.filter(answer => 
+        questionCorrectPositions.some(pos => pos.string === answer.string && pos.fret === answer.fret)
+      );
+      
+      // Find positions that are incorrect (user selected but are not correct)
+      const userIncorrectSelections = userAnswers.filter(answer => 
+        !questionCorrectPositions.some(pos => pos.string === answer.string && pos.fret === answer.fret)
+      );
+      
+      // For feedback display, we want to show:
+      // - All correct positions (both selected and missed) in green
+      // - User's incorrect selections in red
+      setIncorrectPositions(userIncorrectSelections); // Only user's incorrect selections
+      
+      // Answer is correct only if all correct positions are selected and no incorrect ones
+      isCorrect = userCorrectSelections.length === questionCorrectPositions.length && userIncorrectSelections.length === 0;
+    } else if (quizMode === 'name-note') {
+      // Check if the selected note matches the target note
+      isCorrect = selectedNoteAnswer === currentQuestion.note;
+      setIncorrectPositions([]);
+    }
+    
+    setLastAnswerCorrect(isCorrect);
+    setShowFeedback(true);
+    
+    if (isCorrect) {
+      setScore(score + 1);
+    }
+  };
+
+  const proceedToNext = () => {
+    setShowFeedback(false);
+    nextQuestion();
+  };
+
+  const restartQuiz = () => {
+    setQuizState('idle');
+    setQuestionNumber(0);
+    setScore(0);
+    setUserAnswers([]);
+    setSelectedNoteAnswer(null);
+    setCurrentQuestion(null);
+    setShowScoreModal(false);
+    setShowFeedback(false);
+    setLastAnswerCorrect(false);
+    setIncorrectPositions([]);
+  };
+
+  // Import the getNoteAtPosition function
+  const getNoteAtPosition = (stringNote: string, fret: number): Note => {
+    const noteIndex = allNotes.indexOf(stringNote as Note);
+    if (noteIndex === -1) return 'C';
+    return allNotes[(noteIndex + fret) % 12] as Note;
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="flex flex-col md:flex-row relative h-full">
@@ -104,6 +262,12 @@ const NotesPage = () => {
               useFlats={useFlats}
               noteColors={noteColors}
               displayMode="notes"
+              quizState={quizState}
+              currentQuestion={currentQuestion}
+              userAnswers={userAnswers}
+              incorrectPositions={incorrectPositions}
+              showFeedback={showFeedback}
+              onFretboardClick={handleFretboardClick}
             />
           </div>
           
@@ -160,12 +324,127 @@ const NotesPage = () => {
               />
             </CollapsiblePanel>
             
-            <CollapsiblePanel title="How to Use" defaultOpen={true}>
+            <CollapsiblePanel title="Quiz Mode" defaultOpen={true}>
+              <div className="space-y-4">
+                {quizState === 'active' && currentQuestion && !showFeedback && (
+                  <>
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600 mb-2">
+                        Question {questionNumber} of 12
+                      </div>
+                      <div className="text-lg font-semibold text-gray-800">
+                        {quizMode === 'find-note' 
+                          ? `Find all ${displayNote(currentQuestion.note, useFlats)} positions`
+                          : `What note is highlighted on the fretboard?`
+                        }
+                      </div>
+                    </div>
+                    
+                    {quizMode === 'name-note' && (
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-3 gap-2">
+                          {allNotes.map(note => (
+                            <button
+                              key={note}
+                              onClick={() => setSelectedNoteAnswer(note)}
+                              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                                selectedNoteAnswer === note
+                                  ? 'bg-indigo-600 text-white'
+                                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                              }`}
+                            >
+                              {displayNote(note, useFlats)}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="text-center">
+                      <button
+                        onClick={submitAnswer}
+                        disabled={quizMode === 'name-note' && !selectedNoteAnswer}
+                        className="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white px-4 py-2 rounded-md font-medium"
+                      >
+                        Submit Answer
+                      </button>
+                    </div>
+                  </>
+                )}
+
+                {showFeedback && currentQuestion && (
+                  <div className="text-center space-y-4">
+                    <div className={`text-2xl font-bold ${lastAnswerCorrect ? 'text-green-600' : 'text-red-600'}`}>
+                      {lastAnswerCorrect ? '✓ Correct!' : '✗ Incorrect'}
+                    </div>
+                    
+                    {!lastAnswerCorrect && (
+                      <div className="text-lg text-gray-700">
+                        <div className="mb-2">The correct answer is:</div>
+                        <div className="font-bold text-indigo-600">
+                          {displayNote(currentQuestion.note, useFlats)}
+                        </div>
+                      </div>
+                    )}
+                    
+                    <button
+                      onClick={proceedToNext}
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md font-medium"
+                    >
+                      {questionNumber >= 12 ? 'See Results' : 'Next Question'}
+                    </button>
+                  </div>
+                )}
+                
+                {quizState !== 'active' && (
+                  <div className="space-y-3">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Quiz Mode
+                      </label>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="quizMode"
+                            value="find-note"
+                            checked={quizMode === 'find-note'}
+                            onChange={(e) => setQuizMode(e.target.value as QuizMode)}
+                            className="mr-2"
+                          />
+                          Find the Note
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="quizMode"
+                            value="name-note"
+                            checked={quizMode === 'name-note'}
+                            onChange={(e) => setQuizMode(e.target.value as QuizMode)}
+                            className="mr-2"
+                          />
+                          Name the Note
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <button
+                      onClick={startQuiz}
+                      className="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium"
+                    >
+                      Start Quiz
+                    </button>
+                  </div>
+                )}
+              </div>
+            </CollapsiblePanel>
+            
+            {/* <CollapsiblePanel title="How to Use" defaultOpen={true}>
               <HowToUse 
                 onShowTips={() => setShowTipsModal(true)} 
                 tipType="notes"
               />
-            </CollapsiblePanel>
+            </CollapsiblePanel> */}
           </div>
         )}
       </div>
@@ -175,6 +454,37 @@ const NotesPage = () => {
         onClose={() => setShowTipsModal(false)}
         tipType="notes" 
       />
+      
+      {/* Score Modal */}
+      {showScoreModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h2 className="text-2xl font-bold text-center mb-4">Quiz Complete!</h2>
+            <div className="text-center mb-6">
+              <div className="text-4xl font-bold text-indigo-600 mb-2">
+                {score} out of 12
+              </div>
+              <div className="text-lg text-gray-600">
+                {Math.round((score / 12) * 100)}% correct
+              </div>
+            </div>
+            <div className="flex space-x-3">
+              <button
+                onClick={restartQuiz}
+                className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium"
+              >
+                Try Again
+              </button>
+              <button
+                onClick={() => setShowScoreModal(false)}
+                className="flex-1 bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md font-medium"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
