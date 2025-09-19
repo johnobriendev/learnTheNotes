@@ -80,7 +80,7 @@ const Fretboard: React.FC<FretboardProps> = ({
         color,
         clickable: true, // All positions are clickable in find-note mode
         isUserSelected,
-        showNoteName: false // Don't show note names in find-note mode
+        showNoteName: showFeedback // Show note names only during feedback
       };
     } else if (currentQuestion.mode === 'name-note') {
       // Highlight only the target position

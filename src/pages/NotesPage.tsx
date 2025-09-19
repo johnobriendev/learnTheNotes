@@ -208,6 +208,19 @@ const NotesPage = () => {
     nextQuestion();
   };
 
+  const quitQuiz = () => {
+    setQuizState('idle');
+    setQuestionNumber(0);
+    setScore(0);
+    setUserAnswers([]);
+    setSelectedNoteAnswer(null);
+    setCurrentQuestion(null);
+    setShowScoreModal(false);
+    setShowFeedback(false);
+    setLastAnswerCorrect(false);
+    setIncorrectPositions([]);
+  };
+
   const restartQuiz = () => {
     setQuizState('idle');
     setQuestionNumber(0);
@@ -226,6 +239,13 @@ const NotesPage = () => {
     const noteIndex = allNotes.indexOf(stringNote as Note);
     if (noteIndex === -1) return 'C';
     return allNotes[(noteIndex + fret) % 12] as Note;
+  };
+
+  // Function to display note with both sharp and flat notation
+  const displayNoteWithBothNotations = (note: Note): string => {
+    const sharp = note;
+    const flat = displayNote(note, true);
+    return sharp === flat ? sharp : `${sharp}/${flat}`;
   };
 
   return (
@@ -347,20 +367,20 @@ const NotesPage = () => {
                             <button
                               key={note}
                               onClick={() => setSelectedNoteAnswer(note)}
-                              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                              className={`px-2 py-2 rounded-md text-xs font-medium transition-colors ${
                                 selectedNoteAnswer === note
                                   ? 'bg-indigo-600 text-white'
                                   : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
                               }`}
                             >
-                              {displayNote(note, useFlats)}
+                              {displayNoteWithBothNotations(note)}
                             </button>
                           ))}
                         </div>
                       </div>
                     )}
                     
-                    <div className="text-center">
+                    <div className="text-center space-y-2">
                       <button
                         onClick={submitAnswer}
                         disabled={quizMode === 'name-note' && !selectedNoteAnswer}
@@ -368,6 +388,14 @@ const NotesPage = () => {
                       >
                         Submit Answer
                       </button>
+                      <div>
+                        <button
+                          onClick={quitQuiz}
+                          className="text-sm text-gray-600 hover:text-gray-800 underline"
+                        >
+                          Quit Quiz
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
