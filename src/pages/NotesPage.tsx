@@ -38,6 +38,11 @@ const NotesPage = () => {
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false);
   const [incorrectPositions, setIncorrectPositions] = useState<{ string: number; fret: number }[]>([]);
   
+  // Panel states
+  const [fretboardSettingsOpen, setFretboardSettingsOpen] = useState(false);
+  const [noteSelectionOpen, setNoteSelectionOpen] = useState(false);
+  const [quizModeOpen, setQuizModeOpen] = useState(false);
+  
   // Toggle note selection
   const toggleNote = (note: Note): void => {
     if (selectedNotes.includes(note)) {
@@ -124,6 +129,13 @@ const NotesPage = () => {
     setScore(0);
     setUserAnswers([]);
     setSelectedNoteAnswer(null);
+    // Clear selected notes from before quiz
+    setSelectedNotes([]);
+    setAllSelected(false);
+    // Close other panels and open quiz mode
+    setFretboardSettingsOpen(false);
+    setNoteSelectionOpen(false);
+    setQuizModeOpen(true);
     const question = generateQuizQuestion();
     setCurrentQuestion(question);
   };
@@ -219,6 +231,10 @@ const NotesPage = () => {
     setShowFeedback(false);
     setLastAnswerCorrect(false);
     setIncorrectPositions([]);
+    // Clear selected notes and close quiz mode
+    setSelectedNotes([]);
+    setAllSelected(false);
+    setQuizModeOpen(false);
   };
 
   const restartQuiz = () => {
@@ -232,6 +248,10 @@ const NotesPage = () => {
     setShowFeedback(false);
     setLastAnswerCorrect(false);
     setIncorrectPositions([]);
+    // Clear selected notes and close quiz mode
+    setSelectedNotes([]);
+    setAllSelected(false);
+    setQuizModeOpen(false);
   };
 
   // Import the getNoteAtPosition function
@@ -325,14 +345,24 @@ const NotesPage = () => {
               </button>
             </div>
             
-            <CollapsiblePanel title="Fretboard Settings" defaultOpen={true}>
+            <CollapsiblePanel 
+              title="Fretboard Settings" 
+              defaultOpen={false}
+              isOpen={fretboardSettingsOpen}
+              onToggle={() => setFretboardSettingsOpen(!fretboardSettingsOpen)}
+            >
               <FretboardSettings 
                 numFrets={numFrets}
                 onFretsChange={handleFretsChange}
               />
             </CollapsiblePanel>
             
-            <CollapsiblePanel title="Note Selection" defaultOpen={true}>
+            <CollapsiblePanel 
+              title="Note Selection" 
+              defaultOpen={false}
+              isOpen={noteSelectionOpen}
+              onToggle={() => setNoteSelectionOpen(!noteSelectionOpen)}
+            >
               <NoteSelector 
                 selectedNotes={selectedNotes}
                 useFlats={useFlats}
@@ -344,7 +374,12 @@ const NotesPage = () => {
               />
             </CollapsiblePanel>
             
-            <CollapsiblePanel title="Quiz Mode" defaultOpen={true}>
+            <CollapsiblePanel 
+              title="Quiz Mode" 
+              defaultOpen={false}
+              isOpen={quizModeOpen}
+              onToggle={() => setQuizModeOpen(!quizModeOpen)}
+            >
               <div className="space-y-4">
                 {quizState === 'active' && currentQuestion && !showFeedback && (
                   <>

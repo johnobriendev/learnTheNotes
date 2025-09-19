@@ -4,15 +4,23 @@ import React, { useState } from 'react';
 interface CollapsiblePanelProps {
   title: string;
   defaultOpen?: boolean;
+  isOpen?: boolean;
+  onToggle?: () => void;
   children: React.ReactNode;
 }
 
 const CollapsiblePanel: React.FC<CollapsiblePanelProps> = ({ 
   title, 
   defaultOpen = true, 
+  isOpen: externalIsOpen,
+  onToggle,
   children 
 }) => {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [internalIsOpen, setInternalIsOpen] = useState(defaultOpen);
+  
+  // Use external state if provided, otherwise use internal state
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen;
+  const setIsOpen = onToggle || setInternalIsOpen;
   
   
 
