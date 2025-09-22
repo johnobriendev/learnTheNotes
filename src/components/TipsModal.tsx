@@ -54,24 +54,19 @@ const TipsModal: React.FC<TipsModalProps> = ({
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              Learning the fretboard takes time but doesn't need to be difficult. Every guitar player views the fretboard in a different way, and this page is meant to be used as a tool to help learning guitarists learn all the notes on the guitar and develop their own vision of the fretboard.
+              Many students ask, "Do I need to learn the notes on the guitar?" I don't know the answer but I like to say "You CAN learn the notes!" Each person learns the fretboard in their own way and this page is meant to be a tool to help you do that. 
             </p>
-            <p>
-              Learning the notes on the fretboard with no other context can be tedious, therefore aimlessly memorizing the notes isn't recommended for new players.
-            </p>
-            <p>
-              Soon this guide will include more tips for studying and how a guitarist can use scales and triads to help them visualize the fretboard. For now use it as an opportunity to explore the fretboard and see the visual relationships between the notes.
-            </p>
+            
 
             <h3 className="text-lg font-semibold">Some recommendations</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li className='pl-1'>Start with C. Learn what fret it is on for all 6 strings.</li>
-              <li className='pl-1'>After that pick another note like G or D. The idea is to start forming spacial relationships between notes. Don't overwhelm youself.</li>
-              <li className='pl-1'>Pay attention to how many frets you need to move up or down to find the same note when you move to the next string.</li>
-              <li className='pl-1'>Look at the relationship between where a note is and where it is two strings away.</li>
-              <li className='pl-1'>A great exersice is to take the notes from the C major scale and learn them on one of the top strings (B or E).</li>
-              <li className='pl-1'>Learn all the notes from a scale on two adjacent strings and examine how playing the same note on two different strings could open up more possibilities in your playing.</li>
+              <li className='pl-1'>After that learn all the notes on the lowest string (6th, E) and then the next lowest string (5th, A) </li>
+              <li className='pl-1'>Take mental notes of the difference in fret number between the same note on different strings</li>
+              <li className='pl-1'>Learning the notes on the lowest strings is good for playing chords in all keys</li>
+              <li className="pl-1">The notes on the lowest string are the same as the notes on the highest string</li>
               <li className='pl-1'>Use the dots on the fretboard to help you. They are there to act as another reference point while you learn.</li>
+              <li className='pl-1'>Don't try to learn everything at once. Have fun with it!</li>
             </ul>
           </div>
         );
@@ -80,7 +75,7 @@ const TipsModal: React.FC<TipsModalProps> = ({
 
   return (
     <div
-      className="fixed inset-0 bg-gray-500 bg-opacity-30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center p-4 z-50"
+      className="fixed inset-0 bg-neutral-100 bg-opacity-30 backdrop-blur-sm bg-opacity-50 flex items-center justify-center p-4 z-50"
       onClick={onClose}
     >
       <div

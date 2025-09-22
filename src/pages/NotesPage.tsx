@@ -3,7 +3,7 @@ import { useState } from 'react';
 import FretboardSettings from '../components/FretboardSettings';
 import Fretboard from '../components/Fretboard';
 import NoteSelector from '../components/NoteSelector';
-// import HowToUse from '../components/HowToUse';
+import HowToUse from '../components/HowToUse';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
 import { Note, QuizMode, QuizState, QuizQuestion } from '../types';
@@ -502,12 +502,12 @@ const NotesPage = () => {
               </div>
             </CollapsiblePanel>
             
-            {/* <CollapsiblePanel title="How to Use" defaultOpen={true}>
+            <CollapsiblePanel title="How to Use" defaultOpen={true}>
               <HowToUse 
                 onShowTips={() => setShowTipsModal(true)} 
                 tipType="notes"
               />
-            </CollapsiblePanel> */}
+            </CollapsiblePanel>
           </div>
         )}
       </div>
@@ -520,8 +520,8 @@ const NotesPage = () => {
       
       {/* Score Modal */}
       {showScoreModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div className="fixed inset-0 bg-neutral-100 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4 shadow-2xl">
             <h2 className="text-2xl font-bold text-center mb-4">Quiz Complete!</h2>
             <div className="text-center mb-6">
               <div className="text-4xl font-bold text-indigo-600 mb-2">

@@ -37,11 +37,11 @@ const HowToUse: React.FC<HowToUseProps> = ({
           <>
             <h3 className="text-lg font-bold mb-4">How to Use</h3>
             <ul className="list-disc list-inside space-y-2 text-sm text-gray-700">
-              <li>Click on any note button to see where it appears on the fretboard</li>
+              <li>Click on any note button in "Note Selection" to see where it appears on the fretboard</li>
               <li>Use "Select All" to see all note positions at once</li>
-              <li>The colored dots show the selected notes on each string and fret</li>
-              <li>Open string positions appear above the fretboard</li>
+              <li>Select the number of frets in "Fretboard Settings" depending on the guitar you have</li>
               <li>Toggle between sharps (♯) and flats (♭) notation using the button in settings</li>
+              <li>Try out a quiz to test your knowledge</li>
             </ul>
           </>
         );
