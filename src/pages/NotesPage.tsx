@@ -3,6 +3,7 @@ import { useState } from 'react';
 import FretboardSettings from '../components/FretboardSettings';
 import Fretboard from '../components/Fretboard';
 import NoteSelector from '../components/NoteSelector';
+import StringSelector from '../components/StringSelector';
 import HowToUse from '../components/HowToUse';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
@@ -37,6 +38,7 @@ const NotesPage = () => {
   const [showFeedback, setShowFeedback] = useState(false);
   const [lastAnswerCorrect, setLastAnswerCorrect] = useState(false);
   const [incorrectPositions, setIncorrectPositions] = useState<{ string: number; fret: number }[]>([]);
+  const [selectedQuizStrings, setSelectedQuizStrings] = useState<number[]>([]);
   
   // Panel states
   const [fretboardSettingsOpen, setFretboardSettingsOpen] = useState(false);
@@ -89,36 +91,58 @@ const NotesPage = () => {
     localStorage.setItem('notes_sidebarOpen', newState.toString());
   };
 
+  // String selection handlers
+  const toggleQuizString = (stringIndex: number) => {
+    if (selectedQuizStrings.includes(stringIndex)) {
+      setSelectedQuizStrings(selectedQuizStrings.filter(s => s !== stringIndex));
+    } else {
+      setSelectedQuizStrings([...selectedQuizStrings, stringIndex]);
+    }
+  };
+
+  const selectAllQuizStrings = () => {
+    setSelectedQuizStrings([0, 1, 2, 3, 4, 5]);
+  };
+
+  const clearAllQuizStrings = () => {
+    setSelectedQuizStrings([]);
+  };
+
   // Quiz functions
   const generateQuizQuestion = (): QuizQuestion => {
     const randomNote = allNotes[Math.floor(Math.random() * allNotes.length)];
-    
+
+    // Use selected strings if any are selected, otherwise use all strings
+    const stringsToUse = selectedQuizStrings.length > 0 ? selectedQuizStrings : [0, 1, 2, 3, 4, 5];
+
     if (quizMode === 'find-note') {
-      // Find all positions where this note appears
+      // Find all positions where this note appears on selected strings
       const correctPositions: { string: number; fret: number }[] = [];
-      standardTuning.forEach((stringNote, stringIndex) => {
+      stringsToUse.forEach((stringIndex) => {
         for (let fret = 0; fret <= numFrets; fret++) {
-          if (getNoteAtPosition(stringNote, fret) === randomNote) {
+          if (getNoteAtPosition(standardTuning[stringIndex], fret) === randomNote) {
             correctPositions.push({ string: stringIndex, fret });
           }
         }
       });
-      
+
       return {
         note: randomNote,
-        mode: 'find-note',
-        correctPositions
+        mode: quizMode,
+        correctPositions,
+        selectedStrings: selectedQuizStrings.length > 0 ? selectedQuizStrings : undefined
       };
     } else {
-      // Pick a random position and find what note it is
-      const stringIndex = Math.floor(Math.random() * standardTuning.length);
+      // Pick a random position from selected strings and find what note it is
+      const randomStringIndex = stringsToUse[Math.floor(Math.random() * stringsToUse.length)];
       const fret = Math.floor(Math.random() * (numFrets + 1));
-      const note = getNoteAtPosition(standardTuning[stringIndex], fret);
-      
+      const note = getNoteAtPosition(standardTuning[randomStringIndex], fret);
+
       return {
         note,
-        mode: 'name-note',
-        targetPosition: { string: stringIndex, fret }
+        mode: quizMode,
+        targetPosition: { string: randomStringIndex, fret },
+        selectedStrings: selectedQuizStrings.length > 0 ? selectedQuizStrings : undefined
       };
     }
   };
@@ -160,12 +184,12 @@ const NotesPage = () => {
 
   const handleFretboardClick = (stringIndex: number, fret: number) => {
     if (quizState !== 'active' || !currentQuestion) return;
-    
-    if (quizMode === 'find-note') {
+
+    if (currentQuestion.mode === 'find-note') {
       const position = { string: stringIndex, fret };
       if (userAnswers.some(answer => answer.string === stringIndex && answer.fret === fret)) {
         // Remove if already selected
-        setUserAnswers(userAnswers.filter(answer => 
+        setUserAnswers(userAnswers.filter(answer =>
           !(answer.string === stringIndex && answer.fret === fret)
         ));
       } else {
@@ -177,39 +201,39 @@ const NotesPage = () => {
 
   const submitAnswer = () => {
     if (!currentQuestion) return;
-    
+
     let isCorrect = false;
-    
-    if (quizMode === 'find-note') {
+
+    if (currentQuestion.mode === 'find-note') {
       // Check if all correct positions are selected and no incorrect ones
       const questionCorrectPositions = currentQuestion.correctPositions || [];
-      
+
       // Find positions that are correct (user selected and are actually correct)
-      const userCorrectSelections = userAnswers.filter(answer => 
+      const userCorrectSelections = userAnswers.filter(answer =>
         questionCorrectPositions.some(pos => pos.string === answer.string && pos.fret === answer.fret)
       );
-      
+
       // Find positions that are incorrect (user selected but are not correct)
-      const userIncorrectSelections = userAnswers.filter(answer => 
+      const userIncorrectSelections = userAnswers.filter(answer =>
         !questionCorrectPositions.some(pos => pos.string === answer.string && pos.fret === answer.fret)
       );
-      
+
       // For feedback display, we want to show:
       // - All correct positions (both selected and missed) in green
       // - User's incorrect selections in red
       setIncorrectPositions(userIncorrectSelections); // Only user's incorrect selections
-      
+
       // Answer is correct only if all correct positions are selected and no incorrect ones
       isCorrect = userCorrectSelections.length === questionCorrectPositions.length && userIncorrectSelections.length === 0;
-    } else if (quizMode === 'name-note') {
+    } else if (currentQuestion.mode === 'name-note') {
       // Check if the selected note matches the target note
       isCorrect = selectedNoteAnswer === currentQuestion.note;
       setIncorrectPositions([]);
     }
-    
+
     setLastAnswerCorrect(isCorrect);
     setShowFeedback(true);
-    
+
     if (isCorrect) {
       setScore(score + 1);
     }
@@ -266,6 +290,18 @@ const NotesPage = () => {
     const sharp = note;
     const flat = displayNote(note, true);
     return sharp === flat ? sharp : `${sharp}/${flat}`;
+  };
+
+  // Function to format selected strings display
+  const formatSelectedStrings = (stringIndices: number[]): string => {
+    if (stringIndices.length === 0) return '';
+
+    const stringLabels = stringIndices
+      .sort((a, b) => a - b) // Sort by string index (6, 5, 4, 3, 2, 1)
+      .map(index => `${6 - index}(${standardTuning[index]})`)
+      .join(', ');
+
+    return `: ${stringLabels}`;
   };
 
   return (
@@ -388,9 +424,17 @@ const NotesPage = () => {
                         Question {questionNumber} of 12
                       </div>
                       <div className="text-lg font-semibold text-gray-800">
-                        {quizMode === 'find-note' 
-                          ? `Find all ${displayNote(currentQuestion.note, useFlats)} positions`
-                          : `What note is highlighted on the fretboard?`
+                        {quizMode === 'find-note'
+                          ? `Find all ${displayNote(currentQuestion.note, useFlats)} positions${
+                              selectedQuizStrings.length > 0
+                                ? ` on selected strings${formatSelectedStrings(selectedQuizStrings)}`
+                                : ''
+                            }`
+                          : `What note is highlighted on the fretboard?${
+                              selectedQuizStrings.length > 0
+                                ? ` (selected strings${formatSelectedStrings(selectedQuizStrings)})`
+                                : ''
+                            }`
                         }
                       </div>
                     </div>
@@ -490,7 +534,17 @@ const NotesPage = () => {
                         </label>
                       </div>
                     </div>
-                    
+
+                    <div>
+                      <StringSelector
+                        selectedStrings={selectedQuizStrings}
+                        onToggleString={toggleQuizString}
+                        onSelectAll={selectAllQuizStrings}
+                        onClearAll={clearAllQuizStrings}
+                        strings={standardTuning}
+                      />
+                    </div>
+
                     <button
                       onClick={startQuiz}
                       className="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md font-medium"

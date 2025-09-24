@@ -85,4 +85,18 @@ export interface QuizQuestion {
   mode: QuizMode;
   targetPosition?: { string: number; fret: number }; // For name-note mode
   correctPositions?: { string: number; fret: number }[]; // For find-note mode
+  selectedStrings?: number[]; // For string-specific modes
+}
+
+export interface QuizSettings {
+  selectedStrings: number[];
+  noteSequence: Note[];
+}
+
+export interface StringSelectorProps {
+  selectedStrings: number[];
+  onToggleString: (stringIndex: number) => void;
+  onSelectAll: () => void;
+  onClearAll: () => void;
+  strings: string[];
 }
