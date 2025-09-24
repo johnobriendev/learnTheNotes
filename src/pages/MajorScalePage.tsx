@@ -20,7 +20,7 @@ const MajorScalePage = () => {
 
   // Major scale specific state
   const [selectedKey, setSelectedKey] = useState<MajorScaleKey>('C');
-  const [displayMode, setDisplayMode] = useState<DisplayMode>('intervals');
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('notes');
   const [selectedStrings, setSelectedStrings] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [minFret, setMinFret] = useState<number>(0);
   const [maxFret, setMaxFret] = useState<number>(12);
