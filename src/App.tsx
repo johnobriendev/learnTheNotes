@@ -124,12 +124,12 @@ const ErrorPage = () => {
 };
 
 // Coming Soon page placeholder
-const ComingSoonPage = () => (
-  <div className="flex flex-col items-center justify-center h-64">
-    <h2 className="text-2xl font-bold text-gray-800 mb-4">Coming Soon</h2>
-    <p className="text-lg text-gray-600">This feature is under development and will be available soon!</p>
-  </div>
-);
+// const ComingSoonPage = () => (
+//   <div className="flex flex-col items-center justify-center h-64">
+//     <h2 className="text-2xl font-bold text-gray-800 mb-4">Coming Soon</h2>
+//     <p className="text-lg text-gray-600">This feature is under development and will be available soon!</p>
+//   </div>
+// );
 
 // Create the router with routes
 const router = createBrowserRouter([
