@@ -30,7 +30,7 @@ const TitleWithNavigation = () => {
   // Get current page type based on URL
   const getCurrentPage = () => {
     if (location.pathname === '/triads') return 'Triads';
-    if (location.pathname === '/scales') return 'Scales';
+    if (location.pathname === '/majorscale') return 'Major Scale';
     return 'Notes';
   };
 
@@ -71,9 +71,9 @@ const TitleWithNavigation = () => {
             <button
               className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/scales' ? 'text-indigo-600 font-medium' : 'text-gray-700'
                 }`}
-              onClick={() => handleNavigate('/scales')}
+              onClick={() => handleNavigate('/majorscale')}
             >
-              Learn the Scales
+              Learn the Major Scale
             </button>
           </div>
         </div>
@@ -147,7 +147,7 @@ const router = createBrowserRouter([
         element: <TriadsPage />
       },
       {
-        path: 'scales',
+        path: 'majorscale',
         element: <MajorScalePage />
       }
     ]

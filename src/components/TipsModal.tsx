@@ -44,8 +44,30 @@ const TipsModal: React.FC<TipsModalProps> = ({
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              Coming soon: Tips for learning scales on the guitar fretboard.
+              The major scale is the foundation of Western music theory and consists of seven notes with a specific pattern of whole and half steps.
             </p>
+            <p>
+              Pattern: <strong>W-W-H-W-W-W-H</strong> (Whole-Whole-Half-Whole-Whole-Whole-Half)
+            </p>
+
+            <h3 className="text-lg font-semibold">Tips for Learning Major Scales</h3>
+            <ul className="list-disc pl-5 space-y-2">
+              <li className='pl-1'>Start with the C major scale (all natural notes: C-D-E-F-G-A-B)</li>
+              <li className='pl-1'>Learn one position at a time - focus on a specific fret range</li>
+              <li className='pl-1'>Practice saying the scale degrees (1-2-3-4-5-6-7) as you play</li>
+              <li className='pl-1'>Use string filtering to focus on specific string groups</li>
+              <li className='pl-1'>Learn the patterns by their fingering shapes, not just note names</li>
+              <li className='pl-1'>Practice ascending and descending patterns</li>
+              <li className='pl-1'>Once comfortable, try playing melodies and songs using scale notes</li>
+              <li className='pl-1'>Remember: the same pattern works for all keys, just starting from different frets</li>
+            </ul>
+
+            <h3 className="text-lg font-semibold">Key Signatures</h3>
+            <ul className="list-disc pl-5 space-y-2">
+              <li className='pl-1'><strong>Sharp keys:</strong> C, G, D, A, E, B, F# (follow the circle of fifths)</li>
+              <li className='pl-1'><strong>Flat keys:</strong> F, Bb, Eb, Ab, Db, Gb (reverse order)</li>
+              <li className='pl-1'>Each key has its own set of accidentals (sharps or flats)</li>
+            </ul>
           </div>
         );
       

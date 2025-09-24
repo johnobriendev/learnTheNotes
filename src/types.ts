@@ -2,6 +2,8 @@
 export type Note = 'C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B';
 export type ChordQuality = 'major' | 'minor' | 'diminished' | 'augmented';
 export type IntervalName = 'R' | '3' | '♭3' | '5' | '♭5' | '♯5';
+export type ScaleIntervalName = '1' | '2' | '3' | '4' | '5' | '6' | '7';
+export type MajorScaleKey = 'C' | 'G' | 'D' | 'A' | 'E' | 'B' | 'F#' | 'F' | 'Bb' | 'Eb' | 'Ab' | 'Db' | 'Gb';
 export type StringSet = 'All' | '1-2-3' | '2-3-4' | '3-4-5' | '4-5-6';
 export type DisplayMode = 'notes' | 'intervals';
 
@@ -10,6 +12,13 @@ export interface Triad {
   quality: ChordQuality;
   notes: Note[];
   intervals: Record<Note, IntervalName>; // Maps each note to its interval name
+}
+
+export interface MajorScale {
+  key: MajorScaleKey;
+  notes: Note[];
+  displayNotes: string[]; // Proper sharp/flat notation for the key
+  intervals: Record<Note, ScaleIntervalName>; // Maps each note to its scale degree
 }
 
 export interface ChordTone {
@@ -33,9 +42,11 @@ export interface FretboardProps {
   selectedNotes: Note[];
   useFlats: boolean;
   noteColors: Record<Note, string>;
-  displayMode?: 'notes' | 'intervals'; 
+  displayMode?: 'notes' | 'intervals';
   intervals?: Record<Note, string>;
   selectedStringSet?: StringSet;
+  // Custom highlighting function for major scale filtering
+  shouldHighlight?: (stringIndex: number, fret: number) => boolean;
   // Quiz props
   quizState?: QuizState;
   currentQuestion?: QuizQuestion | null;

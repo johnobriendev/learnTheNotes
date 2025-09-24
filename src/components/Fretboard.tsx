@@ -8,9 +8,10 @@ const Fretboard: React.FC<FretboardProps> = ({
   selectedNotes,
   useFlats,
   noteColors,
-  displayMode = 'notes', 
+  displayMode = 'notes',
   intervals,
   selectedStringSet = 'All',
+  shouldHighlight,
   quizState = 'idle',
   currentQuestion,
   userAnswers = [],
@@ -243,8 +244,9 @@ const Fretboard: React.FC<FretboardProps> = ({
             {/* Notes on strings */}
             {frets.map((fret) => (
               strings.map((string, stringIndex) => {
-
-                if (!visibleStringIndices.includes(stringIndex)) return null;
+                // Use custom string visibility if shouldHighlight is provided, otherwise use stringSet
+                const isStringVisible = shouldHighlight ? true : visibleStringIndices.includes(stringIndex);
+                if (!isStringVisible) return null;
                 
                 // Use quiz highlighting if in quiz mode, otherwise use normal highlighting
                 let highlightInfo;
@@ -274,10 +276,24 @@ const Fretboard: React.FC<FretboardProps> = ({
                     }
                   }
                 } else {
-                  const normalInfo = getHighlightInfo(string, fret, selectedNotes, noteColors, intervals);
-                  if (normalInfo.highlighted) {
-                    highlightInfo = normalInfo;
-                    shouldRender = true;
+                  // Use custom highlighting function if provided
+                  if (shouldHighlight) {
+                    const isHighlighted = shouldHighlight(stringIndex, fret);
+                    if (isHighlighted) {
+                      const note = getNoteAtPosition(string, fret);
+                      highlightInfo = {
+                        highlighted: true,
+                        color: noteColors[note] || 'bg-gray-400',
+                        note
+                      };
+                      shouldRender = true;
+                    }
+                  } else {
+                    const normalInfo = getHighlightInfo(string, fret, selectedNotes, noteColors, intervals);
+                    if (normalInfo.highlighted) {
+                      highlightInfo = normalInfo;
+                      shouldRender = true;
+                    }
                   }
                 }
 
