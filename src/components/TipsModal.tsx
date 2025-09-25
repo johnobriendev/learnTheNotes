@@ -2,9 +2,9 @@
 import React from 'react';
 import { TipsModalProps } from '../types'; // If defined in types.ts
 
-const TipsModal: React.FC<TipsModalProps> = ({ 
-  isOpen, 
-  onClose, 
+const TipsModal: React.FC<TipsModalProps> = ({
+  isOpen,
+  onClose,
   tipType = 'notes' // Default to 'notes' if not provided
 }) => {
   if (!isOpen) return null;
@@ -27,7 +27,7 @@ const TipsModal: React.FC<TipsModalProps> = ({
               <li className='pl-1'><strong>Diminished</strong>: R, b3, b5</li>
               <li className='pl-1'><strong>Augmented</strong>: R, 3, #5</li>
             </ul>
-            
+
             <h3 className="text-lg font-semibold">Tips for Learning Triads</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li className='pl-1'>Start by learning a few triads of notes you know like C, G, D on the top group of strings (1, 2, 3)</li>
@@ -35,50 +35,33 @@ const TipsModal: React.FC<TipsModalProps> = ({
               <li className='pl-1'>Learn the notes of the triad on a single string</li>
               <li className='pl-1'>The inversions always follow the order of R, 3, 5 (Root position) 3, 5, R (First Inversion) or 5, R, 3 (Second Inversion)</li>
               <li className='pl-1'>Pick a song you know and replace the chords with triads</li>
-              
+
             </ul>
           </div>
         );
-      
+
       case 'scales':
         return (
           <div className="text-gray-700 space-y-4">
-            <p>
-              The major scale is the foundation of Western music theory and consists of seven notes with a specific pattern of whole and half steps.
-            </p>
-            <p>
-              Pattern: <strong>W-W-H-W-W-W-H</strong> (Whole-Whole-Half-Whole-Whole-Whole-Half)
-            </p>
+            <p>There are many different ways to play a given scale on the guitar. Learning a scale over the entire fretboard takes time. </p>
+            <p>Try learning a scale on one string and pay attention to the space between notes. A whole step is two frets, a half step is one</p>
 
-            <h3 className="text-lg font-semibold">Tips for Learning Major Scales</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>Start with the C major scale (all natural notes: C-D-E-F-G-A-B)</li>
-              <li className='pl-1'>Learn one position at a time - focus on a specific fret range</li>
-              <li className='pl-1'>Practice saying the scale degrees (1-2-3-4-5-6-7) as you play</li>
-              <li className='pl-1'>Use string filtering to focus on specific string groups</li>
-              <li className='pl-1'>Learn the patterns by their fingering shapes, not just note names</li>
-              <li className='pl-1'>Practice ascending and descending patterns</li>
-              <li className='pl-1'>Once comfortable, try playing melodies and songs using scale notes</li>
-              <li className='pl-1'>Remember: the same pattern works for all keys, just starting from different frets</li>
-            </ul>
-
-            <h3 className="text-lg font-semibold">Key Signatures</h3>
-            <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'><strong>Sharp keys:</strong> C, G, D, A, E, B, F# (follow the circle of fifths)</li>
-              <li className='pl-1'><strong>Flat keys:</strong> F, Bb, Eb, Ab, Db, Gb (reverse order)</li>
-              <li className='pl-1'>Each key has its own set of accidentals (sharps or flats)</li>
-            </ul>
+            <h3 className='text-xl font-bold'>Major Scale</h3>
+            <p>The major scale follows the pattern of W, W, H, W, W, W, H. W means whole step and H means half step. </p>
+            <p>Notice that there are only two half steps in the scale, between the 3rd and 4th note, and between the 7th and 8th note (the octave)</p>
+            <p>Learn the C major scale on the 2(B) string. Play it up and down to get the sound of the scale in your ear </p>
+            <p>Once you can play it up and down on a few strings, try playing it on all the strings but staying in one position. Check out some popular scales patterns like CAGED or 3 notes per string (more on this later.)</p>
           </div>
         );
-      
+
       case 'notes':
       default:
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              Many students ask, "Do I need to learn the notes on the guitar?" I don't know the answer but I like to say "You CAN learn the notes!" Each person learns the fretboard in their own way and this page is meant to be a tool to help you do that. 
+              Many students ask, "Do I need to learn the notes on the guitar?" I don't know the answer but I like to say "You CAN learn the notes!" Each person learns the fretboard in their own way and this page is meant to be a tool to help you do that.
             </p>
-            
+
 
             <h3 className="text-lg font-semibold">Some recommendations</h3>
             <ul className="list-disc pl-5 space-y-2">
@@ -107,9 +90,9 @@ const TipsModal: React.FC<TipsModalProps> = ({
         <div className="p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-2xl font-bold text-gray-800">
-              {tipType === 'triads' ? 'Tips for Learning Triads' : 
-               tipType === 'scales' ? 'Tips for Learning Scales' : 
-               'Tips for Learning the Fretboard'}
+              {tipType === 'triads' ? 'Tips for Learning Triads' :
+                tipType === 'scales' ? 'Tips for Learning Scales' :
+                  'Tips for Learning the Fretboard'}
             </h2>
             <button
               onClick={onClose}
