@@ -9,7 +9,7 @@ import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
 import { Note, MajorScaleKey, DisplayMode } from '../types';
 import { noteColors, standardTuning } from '../constants';
-import { createMajorScale, getScaleNotesOnFretboard, shouldHighlightNote } from '../utils/majorScaleUtils';
+import { createMajorScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/majorScaleUtils';
 
 const SIDEBAR_STORAGE_KEY = 'majorscale_sidebarOpen';
 
@@ -48,6 +48,11 @@ const MajorScalePage = () => {
   // Create the current major scale
   const currentScale = useMemo(() => {
     return createMajorScale(selectedKey);
+  }, [selectedKey]);
+
+  // Create custom note display for proper sharp/flat notation
+  const customNoteDisplay = useMemo(() => {
+    return createCustomNoteDisplay(selectedKey);
   }, [selectedKey]);
 
   // Update notes effect
@@ -156,6 +161,7 @@ const MajorScalePage = () => {
               noteColors={noteColors}
               displayMode={displayMode}
               intervals={currentScale.intervals}
+              customNoteDisplay={customNoteDisplay}
               shouldHighlight={(stringIndex, fret) =>
                 shouldHighlightNote(
                   currentScale,

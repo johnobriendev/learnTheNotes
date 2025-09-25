@@ -47,6 +47,8 @@ export interface FretboardProps {
   selectedStringSet?: StringSet;
   // Custom highlighting function for major scale filtering
   shouldHighlight?: (stringIndex: number, fret: number) => boolean;
+  // Custom note display mapping for proper sharp/flat notation
+  customNoteDisplay?: Record<Note, string>;
   // Quiz props
   quizState?: QuizState;
   currentQuestion?: QuizQuestion | null;

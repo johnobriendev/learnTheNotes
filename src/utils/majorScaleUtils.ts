@@ -96,6 +96,21 @@ export const shouldHighlightNote = (
   return scale.notes.includes(note);
 };
 
+// Create a mapping from Note to proper display name for the given key
+export const createCustomNoteDisplay = (key: MajorScaleKey): Record<Note, string> => {
+  const scale = createMajorScale(key);
+  const customDisplay: Record<Note, string> = {} as Record<Note, string>;
+
+  // Map each scale note to its proper display name
+  for (let i = 0; i < scale.notes.length; i++) {
+    const note = scale.notes[i];
+    const displayName = scale.displayNotes[i];
+    customDisplay[note] = displayName;
+  }
+
+  return customDisplay;
+};
+
 // Get all notes in a major scale across the fretboard within specified strings and fret range
 export const getScaleNotesOnFretboard = (
   scale: MajorScale,

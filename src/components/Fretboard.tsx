@@ -12,6 +12,7 @@ const Fretboard: React.FC<FretboardProps> = ({
   intervals,
   selectedStringSet = 'All',
   shouldHighlight,
+  customNoteDisplay,
   quizState = 'idle',
   currentQuestion,
   userAnswers = [],
@@ -32,7 +33,12 @@ const Fretboard: React.FC<FretboardProps> = ({
     if (displayMode === 'intervals' && intervals && note in intervals) {
       return intervals[note];
     }
-    
+
+    // Use custom note display if provided (for proper key notation)
+    if (customNoteDisplay && note in customNoteDisplay) {
+      return customNoteDisplay[note];
+    }
+
     // Default to regular note display
     return displayNote(note, useFlats);
   };
