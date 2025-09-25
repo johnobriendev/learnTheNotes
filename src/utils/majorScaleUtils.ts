@@ -1,9 +1,11 @@
 // src/utils/majorScaleUtils.ts
-import { Note, MajorScale, MajorScaleKey, ScaleIntervalName } from '../types';
+import { Note, MajorScale, MajorScaleKey, ScaleIntervalName, ScaleType } from '../types';
 import { allNotes } from '../constants';
 
 // Major scale pattern: W-W-H-W-W-W-H (whole and half steps)
 const majorScalePattern = [2, 2, 1, 2, 2, 2, 1]; // semitones
+// Melodic minor pattern: W-H-W-W-W-W-H (same as major but with flat 3rd)
+const melodicMinorPattern = [2, 1, 2, 2, 2, 2, 1]; // semitones
 
 // Key signatures with proper naming (sharps and flats)
 export const majorScaleKeys: MajorScaleKey[] = [
@@ -16,8 +18,8 @@ const keyToRootNote: Record<MajorScaleKey, Note> = {
   'F': 'F', 'Bb': 'A#', 'Eb': 'D#', 'Ab': 'G#', 'Db': 'C#', 'Gb': 'F#'
 };
 
-// Proper note names for each key (using correct sharps/flats)
-const keyNoteNames: Record<MajorScaleKey, string[]> = {
+// Proper note names for major scales (using correct sharps/flats)
+const majorKeyNoteNames: Record<MajorScaleKey, string[]> = {
   'C': ['C', 'D', 'E', 'F', 'G', 'A', 'B'],
   'G': ['G', 'A', 'B', 'C', 'D', 'E', 'F#'],
   'D': ['D', 'E', 'F#', 'G', 'A', 'B', 'C#'],
@@ -33,16 +35,36 @@ const keyNoteNames: Record<MajorScaleKey, string[]> = {
   'Gb': ['Gb', 'Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F']
 };
 
-export const createMajorScale = (key: MajorScaleKey): MajorScale => {
+// Proper note names for melodic minor scales (flat 3rd degree)
+const melodicMinorKeyNoteNames: Record<MajorScaleKey, string[]> = {
+  'C': ['C', 'D', 'Eb', 'F', 'G', 'A', 'B'],
+  'G': ['G', 'A', 'Bb', 'C', 'D', 'E', 'F#'],
+  'D': ['D', 'E', 'F', 'G', 'A', 'B', 'C#'],
+  'A': ['A', 'B', 'C', 'D', 'E', 'F#', 'G#'],
+  'E': ['E', 'F#', 'G', 'A', 'B', 'C#', 'D#'],
+  'B': ['B', 'C#', 'D', 'E', 'F#', 'G#', 'A#'],
+  'F#': ['F#', 'G#', 'A', 'B', 'C#', 'D#', 'E#'],
+  'F': ['F', 'G', 'Ab', 'Bb', 'C', 'D', 'E'],
+  'Bb': ['Bb', 'C', 'Db', 'Eb', 'F', 'G', 'A'],
+  'Eb': ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'C', 'D'],
+  'Ab': ['Ab', 'Bb', 'Cb', 'Db', 'Eb', 'F', 'G'],
+  'Db': ['Db', 'Eb', 'Fb', 'Gb', 'Ab', 'Bb', 'C'],
+  'Gb': ['Gb', 'Ab', 'Bbb', 'Cb', 'Db', 'Eb', 'F']
+};
+
+export const createScale = (key: MajorScaleKey, type: ScaleType = 'major'): MajorScale => {
   const rootNote = keyToRootNote[key];
   const rootIndex = allNotes.indexOf(rootNote);
 
   const notes: Note[] = [];
-  const displayNotes = keyNoteNames[key];
+  const displayNotes = type === 'major' ? majorKeyNoteNames[key] : melodicMinorKeyNoteNames[key];
   const intervals: Record<Note, ScaleIntervalName> = {} as Record<Note, ScaleIntervalName>;
 
   let currentIndex = rootIndex;
-  const scaleIntervals: ScaleIntervalName[] = ['1', '2', '3', '4', '5', '6', '7'];
+  const pattern = type === 'major' ? majorScalePattern : melodicMinorPattern;
+  const scaleIntervals: ScaleIntervalName[] = type === 'major'
+    ? ['1', '2', '3', '4', '5', '6', '7']
+    : ['1', '2', '♭3', '4', '5', '6', '7'];
 
   for (let i = 0; i < 7; i++) {
     const note = allNotes[currentIndex % 12];
@@ -50,16 +72,22 @@ export const createMajorScale = (key: MajorScaleKey): MajorScale => {
     intervals[note] = scaleIntervals[i];
 
     if (i < 6) { // Don't advance after the 7th note
-      currentIndex += majorScalePattern[i];
+      currentIndex += pattern[i];
     }
   }
 
   return {
     key,
+    type,
     notes,
     displayNotes,
     intervals
   };
+};
+
+// Keep backward compatibility
+export const createMajorScale = (key: MajorScaleKey): MajorScale => {
+  return createScale(key, 'major');
 };
 
 // Check if a specific note position should be highlighted based on filters
@@ -96,9 +124,9 @@ export const shouldHighlightNote = (
   return scale.notes.includes(note);
 };
 
-// Create a mapping from Note to proper display name for the given key
-export const createCustomNoteDisplay = (key: MajorScaleKey): Record<Note, string> => {
-  const scale = createMajorScale(key);
+// Create a mapping from Note to proper display name for the given key and scale type
+export const createCustomNoteDisplay = (key: MajorScaleKey, type: ScaleType = 'major'): Record<Note, string> => {
+  const scale = createScale(key, type);
   const customDisplay: Record<Note, string> = {} as Record<Note, string>;
 
   // Map each scale note to its proper display name

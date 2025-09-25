@@ -1,11 +1,13 @@
 // src/components/MajorScaleSelector.tsx
 import { useState } from 'react';
-import { MajorScaleKey, DisplayMode, MajorScale } from '../types';
+import { MajorScaleKey, DisplayMode, MajorScale, ScaleType } from '../types';
 import { majorScaleKeys } from '../utils/majorScaleUtils';
 
 interface MajorScaleSelectorProps {
   selectedKey: MajorScaleKey;
   onSelectKey: (key: MajorScaleKey) => void;
+  selectedScaleType: ScaleType;
+  onSelectScaleType: (type: ScaleType) => void;
   displayMode: DisplayMode;
   onToggleDisplayMode: () => void;
   scale: MajorScale;
@@ -15,6 +17,8 @@ interface MajorScaleSelectorProps {
 const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
   selectedKey,
   onSelectKey,
+  selectedScaleType,
+  onSelectScaleType,
   displayMode,
   onToggleDisplayMode,
   scale,
@@ -61,6 +65,35 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
         </div>
       </div>
 
+      {/* Scale Type Selector */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Scale Type
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => onSelectScaleType('major')}
+            className={`py-2 px-3 rounded-md border font-medium transition-colors text-sm ${
+              selectedScaleType === 'major'
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Major
+          </button>
+          <button
+            onClick={() => onSelectScaleType('melodic-minor')}
+            className={`py-2 px-3 rounded-md border font-medium transition-colors text-sm ${
+              selectedScaleType === 'melodic-minor'
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Melodic Minor
+          </button>
+        </div>
+      </div>
+
       {/* Display Mode Toggle */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -81,11 +114,15 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
 
       {/* Scale Information */}
       <div className="bg-gray-50 p-3 rounded-md">
-        <h4 className="font-medium text-gray-900 mb-2">{selectedKey} Major Scale</h4>
+        <h4 className="font-medium text-gray-900 mb-2">
+          {selectedKey} {selectedScaleType === 'major' ? 'Major' : 'Melodic Minor'} Scale
+        </h4>
         <p className="text-sm text-gray-600 mb-1">
           <span className="font-medium">Notes:</span> {scale.displayNotes.join(' - ')}
         </p>
-        
+        <p className="text-sm text-gray-600">
+          <span className="font-medium">Pattern:</span> {selectedScaleType === 'major' ? 'W-W-H-W-W-W-H' : 'W-H-W-W-W-W-H'}
+        </p>
       </div>
 
       {/* Tips Button */}

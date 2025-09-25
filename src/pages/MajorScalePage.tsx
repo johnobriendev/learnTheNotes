@@ -7,9 +7,9 @@ import StringSelector from '../components/StringSelector';
 import FretRangeSelector from '../components/FretRangeSelector';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
-import { Note, MajorScaleKey, DisplayMode } from '../types';
+import { Note, MajorScaleKey, DisplayMode, ScaleType } from '../types';
 import { noteColors, standardTuning } from '../constants';
-import { createMajorScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/majorScaleUtils';
+import { createScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/majorScaleUtils';
 
 const SIDEBAR_STORAGE_KEY = 'majorscale_sidebarOpen';
 
@@ -20,6 +20,7 @@ const MajorScalePage = () => {
 
   // Major scale specific state
   const [selectedKey, setSelectedKey] = useState<MajorScaleKey>('C');
+  const [selectedScaleType, setSelectedScaleType] = useState<ScaleType>('major');
   const [displayMode, setDisplayMode] = useState<DisplayMode>('notes');
   const [selectedStrings, setSelectedStrings] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [minFret, setMinFret] = useState<number>(0);
@@ -45,15 +46,15 @@ const MajorScalePage = () => {
     }
   }, [sidebarOpen]);
 
-  // Create the current major scale
+  // Create the current scale
   const currentScale = useMemo(() => {
-    return createMajorScale(selectedKey);
-  }, [selectedKey]);
+    return createScale(selectedKey, selectedScaleType);
+  }, [selectedKey, selectedScaleType]);
 
   // Create custom note display for proper sharp/flat notation
   const customNoteDisplay = useMemo(() => {
-    return createCustomNoteDisplay(selectedKey);
-  }, [selectedKey]);
+    return createCustomNoteDisplay(selectedKey, selectedScaleType);
+  }, [selectedKey, selectedScaleType]);
 
   // Update notes effect
   useEffect(() => {
@@ -217,10 +218,12 @@ const MajorScalePage = () => {
               />
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="Major Scale Selector" defaultOpen={true}>
+            <CollapsiblePanel title="Scale Selector" defaultOpen={true}>
               <MajorScaleSelector
                 selectedKey={selectedKey}
                 onSelectKey={setSelectedKey}
+                selectedScaleType={selectedScaleType}
+                onSelectScaleType={setSelectedScaleType}
                 displayMode={displayMode}
                 onToggleDisplayMode={toggleDisplayMode}
                 scale={currentScale}
