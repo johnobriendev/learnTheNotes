@@ -1,20 +1,20 @@
-// src/components/MajorScaleSelector.tsx
+// src/components/ScaleSelector.tsx
 import { useState } from 'react';
-import { MajorScaleKey, DisplayMode, MajorScale, ScaleType } from '../types';
-import { majorScaleKeys } from '../utils/majorScaleUtils';
+import { MajorScaleKey, DisplayMode, Scale, ScaleType } from '../types';
+import { scaleKeys } from '../utils/scaleUtils';
 
-interface MajorScaleSelectorProps {
+interface ScaleSelectorProps {
   selectedKey: MajorScaleKey;
   onSelectKey: (key: MajorScaleKey) => void;
   selectedScaleType: ScaleType;
   onSelectScaleType: (type: ScaleType) => void;
   displayMode: DisplayMode;
   onToggleDisplayMode: () => void;
-  scale: MajorScale;
+  scale: Scale;
   onShowTips: () => void;
 }
 
-const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
+const ScaleSelector: React.FC<ScaleSelectorProps> = ({
   selectedKey,
   onSelectKey,
   selectedScaleType,
@@ -38,7 +38,7 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
             onClick={() => setIsOpen(!isOpen)}
             className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
           >
-            <span className="font-medium">{selectedKey} Major</span>
+            <span className="font-medium">{selectedKey}</span>
             <span className="float-right">
               {isOpen ? '▲' : '▼'}
             </span>
@@ -46,7 +46,7 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
 
           {isOpen && (
             <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto">
-              {majorScaleKeys.map((key) => (
+              {scaleKeys.map((key) => (
                 <button
                   key={key}
                   onClick={() => {
@@ -57,7 +57,7 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
                     key === selectedKey ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
                   }`}
                 >
-                  {key} Major
+                  {key}
                 </button>
               ))}
             </div>
@@ -115,7 +115,7 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
       {/* Scale Information */}
       <div className="bg-gray-50 p-3 rounded-md">
         <h4 className="font-medium text-gray-900 mb-2">
-          {selectedKey} {selectedScaleType === 'major' ? 'Major' : 'Melodic Minor'} Scale
+          {selectedKey} {selectedScaleType === 'major' ? 'Major' : 'Melodic Minor'}
         </h4>
         <p className="text-sm text-gray-600 mb-1">
           <span className="font-medium">Notes:</span> {scale.displayNotes.join(' - ')}
@@ -130,10 +130,10 @@ const MajorScaleSelector: React.FC<MajorScaleSelectorProps> = ({
         onClick={onShowTips}
         className="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-4 rounded-md transition-colors text-sm font-medium"
       >
-        💡 Tips for Learning Major Scales
+        💡 Tips for Learning Scales
       </button>
     </div>
   );
 };
 
-export default MajorScaleSelector;
+export default ScaleSelector;

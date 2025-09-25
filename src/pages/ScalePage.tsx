@@ -1,24 +1,24 @@
-// src/pages/MajorScalePage.tsx
+// src/pages/ScalePage.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import FretboardSettings from '../components/FretboardSettings';
 import Fretboard from '../components/Fretboard';
-import MajorScaleSelector from '../components/MajorScaleSelector';
+import ScaleSelector from '../components/ScaleSelector';
 import StringSelector from '../components/StringSelector';
 import FretRangeSelector from '../components/FretRangeSelector';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
 import { Note, MajorScaleKey, DisplayMode, ScaleType } from '../types';
 import { noteColors, standardTuning } from '../constants';
-import { createScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/majorScaleUtils';
+import { createScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/scaleUtils';
 
-const SIDEBAR_STORAGE_KEY = 'majorscale_sidebarOpen';
+const SIDEBAR_STORAGE_KEY = 'scales_sidebarOpen';
 
-const MajorScalePage = () => {
+const ScalePage = () => {
   // Basic settings
   const [numFrets, setNumFrets] = useState<number>(12);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
 
-  // Major scale specific state
+  // Scale specific state
   const [selectedKey, setSelectedKey] = useState<MajorScaleKey>('C');
   const [selectedScaleType, setSelectedScaleType] = useState<ScaleType>('major');
   const [displayMode, setDisplayMode] = useState<DisplayMode>('notes');
@@ -76,7 +76,6 @@ const MajorScalePage = () => {
       setMaxFret(count);
     }
   }, [maxFret]);
-
 
   const toggleDisplayMode = useCallback(() => {
     setDisplayMode(mode => mode === 'notes' ? 'intervals' : 'notes');
@@ -219,7 +218,7 @@ const MajorScalePage = () => {
             </CollapsiblePanel>
 
             <CollapsiblePanel title="Scale Selector" defaultOpen={true}>
-              <MajorScaleSelector
+              <ScaleSelector
                 selectedKey={selectedKey}
                 onSelectKey={setSelectedKey}
                 selectedScaleType={selectedScaleType}
@@ -265,4 +264,4 @@ const MajorScalePage = () => {
   );
 };
 
-export default MajorScalePage;
+export default ScalePage;

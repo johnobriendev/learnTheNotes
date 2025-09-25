@@ -1,5 +1,5 @@
-// src/utils/majorScaleUtils.ts
-import { Note, MajorScale, MajorScaleKey, ScaleIntervalName, ScaleType } from '../types';
+// src/utils/scaleUtils.ts
+import { Note, Scale, MajorScaleKey, ScaleIntervalName, ScaleType } from '../types';
 import { allNotes } from '../constants';
 
 // Major scale pattern: W-W-H-W-W-W-H (whole and half steps)
@@ -7,8 +7,8 @@ const majorScalePattern = [2, 2, 1, 2, 2, 2, 1]; // semitones
 // Melodic minor pattern: W-H-W-W-W-W-H (same as major but with flat 3rd)
 const melodicMinorPattern = [2, 1, 2, 2, 2, 2, 1]; // semitones
 
-// Key signatures with proper naming (sharps and flats)
-export const majorScaleKeys: MajorScaleKey[] = [
+// Available scale keys (sharps and flats)
+export const scaleKeys: MajorScaleKey[] = [
   'C', 'G', 'D', 'A', 'E', 'B', 'F#', 'F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb'
 ];
 
@@ -52,7 +52,7 @@ const melodicMinorKeyNoteNames: Record<MajorScaleKey, string[]> = {
   'Gb': ['Gb', 'Ab', 'Bbb', 'Cb', 'Db', 'Eb', 'F']
 };
 
-export const createScale = (key: MajorScaleKey, type: ScaleType = 'major'): MajorScale => {
+export const createScale = (key: MajorScaleKey, type: ScaleType = 'major'): Scale => {
   const rootNote = keyToRootNote[key];
   const rootIndex = allNotes.indexOf(rootNote);
 
@@ -86,13 +86,13 @@ export const createScale = (key: MajorScaleKey, type: ScaleType = 'major'): Majo
 };
 
 // Keep backward compatibility
-export const createMajorScale = (key: MajorScaleKey): MajorScale => {
+export const createMajorScale = (key: MajorScaleKey): Scale => {
   return createScale(key, 'major');
 };
 
 // Check if a specific note position should be highlighted based on filters
 export const shouldHighlightNote = (
-  scale: MajorScale,
+  scale: Scale,
   strings: string[],
   selectedStrings: number[],
   minFret: number,
@@ -141,7 +141,7 @@ export const createCustomNoteDisplay = (key: MajorScaleKey, type: ScaleType = 'm
 
 // Get all notes in a major scale across the fretboard within specified strings and fret range
 export const getScaleNotesOnFretboard = (
-  scale: MajorScale,
+  scale: Scale,
   strings: string[],
   selectedStrings: number[],
   minFret: number,

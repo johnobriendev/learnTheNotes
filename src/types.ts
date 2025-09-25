@@ -15,7 +15,7 @@ export interface Triad {
   intervals: Record<Note, IntervalName>; // Maps each note to its interval name
 }
 
-export interface MajorScale {
+export interface Scale {
   key: MajorScaleKey;
   type: ScaleType;
   notes: Note[];

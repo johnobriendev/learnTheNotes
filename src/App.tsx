@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
-import MajorScalePage from './pages/MajorScalePage';
+import ScalePage from './pages/ScalePage';
 
 // Title with dropdown navigation
 const TitleWithNavigation = () => {
@@ -148,7 +148,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'scales',
-        element: <MajorScalePage />
+        element: <ScalePage />
       }
     ]
   }
