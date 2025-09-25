@@ -5,6 +5,9 @@ export type IntervalName = 'R' | '3' | '♭3' | '5' | '♭5' | '♯5';
 export type ScaleIntervalName = '1' | '2' | '♭3' | '3' | '4' | '5' | '6' | '7';
 export type MajorScaleKey = 'C' | 'G' | 'D' | 'A' | 'E' | 'B' | 'F#' | 'F' | 'Bb' | 'Eb' | 'Ab' | 'Db' | 'Gb';
 export type ScaleType = 'major' | 'melodic-minor';
+export type KeyType = 'major' | 'minor';
+export type KeyQuizMode = 'name-key' | 'identify-signature';
+export type KeyQuizState = 'idle' | 'active' | 'completed';
 export type StringSet = 'All' | '1-2-3' | '2-3-4' | '3-4-5' | '4-5-6';
 export type DisplayMode = 'notes' | 'intervals';
 
@@ -83,12 +86,12 @@ export interface TriadSelectorProps {
 export interface TipsModalProps {
   isOpen: boolean;
   onClose: () => void;
-  tipType?: 'notes' | 'triads' | 'scales'; // Add this property with appropriate types
+  tipType?: 'notes' | 'triads' | 'scales' | 'keys'; // Add this property with appropriate types
 }
 
 export interface HowToUseProps {
   onShowTips: () => void;
-  tipType?: 'notes' | 'triads' | 'scales';
+  tipType?: 'notes' | 'triads' | 'scales' | 'keys';
 }
 
 // Quiz types - minimal and simple
@@ -114,4 +117,28 @@ export interface StringSelectorProps {
   onSelectAll: () => void;
   onClearAll: () => void;
   strings: string[];
+}
+
+export interface KeyInfo {
+  key: MajorScaleKey;
+  type: KeyType;
+  sharpsFlats: number; // positive for sharps, negative for flats
+  signature: string[]; // array of sharp/flat symbols in order
+  notes: string[]; // notes in the key with proper notation
+  relativeMajor?: MajorScaleKey;
+  relativeMinor?: MajorScaleKey;
+}
+
+export interface KeyQuizQuestion {
+  key: MajorScaleKey;
+  type: KeyType;
+  mode: KeyQuizMode;
+  signature?: string[]; // For name-key mode
+  correctAnswer: string | number;
+}
+
+export interface CircleOfFifthsProps {
+  selectedKey: MajorScaleKey | null;
+  selectedType: KeyType;
+  onKeySelect: (key: MajorScaleKey, type: KeyType) => void;
 }

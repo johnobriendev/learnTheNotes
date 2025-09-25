@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLoca
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
+import KeysPage from './pages/KeysPage';
 
 // Title with dropdown navigation
 const TitleWithNavigation = () => {
@@ -31,6 +32,7 @@ const TitleWithNavigation = () => {
   const getCurrentPage = () => {
     if (location.pathname === '/triads') return 'Triads';
     if (location.pathname === '/scales') return 'Scales';
+    if (location.pathname === '/keys') return 'Keys';
     return 'Notes';
   };
 
@@ -74,6 +76,13 @@ const TitleWithNavigation = () => {
               onClick={() => handleNavigate('/scales')}
             >
               Learn the Scales
+            </button>
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/keys' ? 'text-indigo-600 font-medium' : 'text-gray-700'
+                }`}
+              onClick={() => handleNavigate('/keys')}
+            >
+              Learn the Keys
             </button>
           </div>
         </div>
@@ -149,6 +158,10 @@ const router = createBrowserRouter([
       {
         path: 'scales',
         element: <ScalePage />
+      },
+      {
+        path: 'keys',
+        element: <KeysPage />
       }
     ]
   }
