@@ -127,7 +127,7 @@ Object.values(majorKeyData).forEach(majorKey => {
       sharpsFlats: majorKey.sharpsFlats,
       signature: majorKey.signature,
       notes: generateMinorScaleNotes(minorKey, majorKey.sharpsFlats),
-      relativeMajor: majorKey.key
+      relativeMajor: majorKey.key as MajorScaleKey
     };
   }
 });
@@ -262,8 +262,8 @@ export const getCirclePosition = (key: KeyName, isMinor: boolean = false): { x: 
   const centerX = 200;
   const centerY = 200;
 
-  // Use different radii for major and minor keys
-  const radius = isMinor ? 110 : 160; // Inner circle for minor, outer for major
+  // Use different radii with safe margins to prevent cutoff
+  const radius = isMinor ? 110 : 165; // Safe size with good separation
 
   const radian = (angle * Math.PI) / 180;
   const x = centerX + radius * Math.cos(radian);

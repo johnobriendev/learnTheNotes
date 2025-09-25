@@ -101,8 +101,8 @@ const KeysPage = () => {
       <div className="hidden lg:flex flex-col h-full min-h-screen">
         {/* Top Row - Circle of Fifths and Key Information */}
         <div className="flex flex-row flex-1">
-          {/* Circle of Fifths - Fixed Width */}
-          <div className="w-1/2 bg-gray-50 p-6 min-h-full">
+          {/* Circle of Fifths - Flexible Width */}
+          <div className={`bg-gray-50 p-4 min-h-full flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
             {/* Toggle button for desktop when controls are hidden */}
             {!sidebarOpen && (
               <div className="absolute top-4 right-4 z-10">
@@ -127,9 +127,9 @@ const KeysPage = () => {
             </div>
           </div>
 
-          {/* Key Information - Fixed Width */}
+          {/* Key Information - Flexible Width */}
           {sidebarOpen && (
-            <div className="w-1/2 bg-white border-l border-gray-200 p-6">
+            <div className="flex-1 min-w-[40%] bg-white border-l border-gray-200 p-6">
               {/* Desktop toggle button */}
               <div className="mb-4">
                 <button
