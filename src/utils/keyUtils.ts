@@ -132,6 +132,16 @@ Object.values(majorKeyData).forEach(majorKey => {
   }
 });
 
+// Add enharmonic equivalents manually
+minorKeyData['Eb'] = {
+  key: 'Eb' as KeyName,
+  type: 'minor',
+  sharpsFlats: 6, // Same as D# minor (enharmonic equivalent)
+  signature: ['F#', 'C#', 'G#', 'D#', 'A#', 'E#'],
+  notes: ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db'],
+  relativeMajor: 'F#'
+};
+
 // Generate natural minor scale notes for a given key
 function generateMinorScaleNotes(key: KeyName, accidentals: number): string[] {
   const noteOrder = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
@@ -205,10 +215,33 @@ export const getKeyDisplayName = (key: KeyName, type: KeyType): string => {
   if (key === 'F#' && type === 'major') {
     return 'F#/Gb';
   }
+  if (key === 'Gb' && type === 'major') {
+    return 'F#/Gb';
+  }
   if (key === 'D#' && type === 'minor') {
     return 'D#/Eb';
   }
+  if (key === 'Eb' && type === 'minor') {
+    return 'D#/Eb';
+  }
   return key;
+};
+
+// Check if a key has an enharmonic equivalent
+export const hasEnharmonicEquivalent = (key: KeyName, type: KeyType): boolean => {
+  return (key === 'F#' && type === 'major') ||
+         (key === 'Gb' && type === 'major') ||
+         (key === 'D#' && type === 'minor') ||
+         (key === 'Eb' && type === 'minor');
+};
+
+// Get the enharmonic equivalent of a key
+export const getEnharmonicEquivalent = (key: KeyName, type: KeyType): KeyName | null => {
+  if (key === 'F#' && type === 'major') return 'Gb';
+  if (key === 'Gb' && type === 'major') return 'F#';
+  if (key === 'D#' && type === 'minor') return 'Eb';
+  if (key === 'Eb' && type === 'minor') return 'D#';
+  return null;
 };
 
 // Get circle position for SVG
@@ -231,6 +264,7 @@ export const getCirclePosition = (key: KeyName, isMinor: boolean = false): { x: 
 
   // Use different radii for major and minor keys
   const radius = isMinor ? 110 : 160; // Inner circle for minor, outer for major
+
   const radian = (angle * Math.PI) / 180;
   const x = centerX + radius * Math.cos(radian);
   const y = centerY + radius * Math.sin(radian);

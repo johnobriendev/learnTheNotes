@@ -17,9 +17,13 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({
 
   const renderKeySegment = (key: KeyName, type: KeyType) => {
     const position = getCirclePosition(key, type === 'minor');
-    const isSelected = selectedKey === key && selectedType === type;
+    const isSelected = (selectedKey === key ||
+                       (selectedKey === 'Gb' && key === 'F#' && type === 'major') ||
+                       (selectedKey === 'F#' && key === 'Gb' && type === 'major') ||
+                       (selectedKey === 'Eb' && key === 'D#' && type === 'minor') ||
+                       (selectedKey === 'D#' && key === 'Eb' && type === 'minor')) &&
+                      selectedType === type;
     const displayName = getKeyDisplayName(key, type);
-    const isEnharmonic = displayName.includes('/');
 
     return (
       <g key={`${key}-${type}`}>
@@ -28,7 +32,7 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({
           <circle
             cx={position.x}
             cy={position.y}
-            r={type === 'minor' ? (isEnharmonic ? 24 : 18) : (isEnharmonic ? 28 : 22)}
+            r={type === 'minor' ? 24 : 28}
             fill={isSelected ? '#4f46e5' : type === 'minor' ? '#f3f4f6' : 'white'}
             stroke={isSelected ? '#4f46e5' : '#d1d5db'}
             strokeWidth="2"
@@ -39,7 +43,7 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({
             y={position.y}
             textAnchor="middle"
             dominantBaseline="middle"
-            fontSize={isEnharmonic ? (type === 'minor' ? '9' : '10') : (type === 'minor' ? '11' : '13')}
+            fontSize={displayName.includes('/') ? (type === 'minor' ? '11' : '12') : (type === 'minor' ? '14' : '16')}
             fontWeight={isSelected ? 'bold' : 'normal'}
             fill={isSelected ? 'white' : type === 'minor' ? '#6b7280' : '#374151'}
             className="pointer-events-none select-none"
@@ -49,7 +53,7 @@ const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({
           {type === 'minor' && (
             <text
               x={position.x}
-              y={position.y + (isEnharmonic ? 15 : 12)}
+              y={position.y + (displayName.includes('/') ? 15 : 12)}
               textAnchor="middle"
               dominantBaseline="middle"
               fontSize="8"
