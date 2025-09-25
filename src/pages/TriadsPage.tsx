@@ -15,7 +15,7 @@ const SIDEBAR_STORAGE_KEY = 'triads_sidebarOpen';
 
 const TriadsPage = () => {
   // Basic settings
-  const [numFrets, setNumFrets] = useState<number>(15);
+  const [numFrets, setNumFrets] = useState<number>(12);
   const [useFlats, setUseFlats] = useState<boolean>(false);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
 
