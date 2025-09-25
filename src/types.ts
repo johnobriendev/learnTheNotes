@@ -4,6 +4,7 @@ export type ChordQuality = 'major' | 'minor' | 'diminished' | 'augmented';
 export type IntervalName = 'R' | '3' | '♭3' | '5' | '♭5' | '♯5';
 export type ScaleIntervalName = '1' | '2' | '♭3' | '3' | '4' | '5' | '6' | '7';
 export type MajorScaleKey = 'C' | 'G' | 'D' | 'A' | 'E' | 'B' | 'F#' | 'F' | 'Bb' | 'Eb' | 'Ab' | 'Db' | 'Gb';
+export type KeyName = MajorScaleKey | 'C#' | 'G#' | 'D#';
 export type ScaleType = 'major' | 'melodic-minor';
 export type KeyType = 'major' | 'minor';
 export type KeyQuizMode = 'name-key' | 'identify-signature';
@@ -120,17 +121,17 @@ export interface StringSelectorProps {
 }
 
 export interface KeyInfo {
-  key: MajorScaleKey;
+  key: KeyName;
   type: KeyType;
   sharpsFlats: number; // positive for sharps, negative for flats
   signature: string[]; // array of sharp/flat symbols in order
   notes: string[]; // notes in the key with proper notation
   relativeMajor?: MajorScaleKey;
-  relativeMinor?: MajorScaleKey;
+  relativeMinor?: KeyName;
 }
 
 export interface KeyQuizQuestion {
-  key: MajorScaleKey;
+  key: KeyName;
   type: KeyType;
   mode: KeyQuizMode;
   signature?: string[]; // For name-key mode
@@ -138,7 +139,7 @@ export interface KeyQuizQuestion {
 }
 
 export interface CircleOfFifthsProps {
-  selectedKey: MajorScaleKey | null;
+  selectedKey: KeyName | null;
   selectedType: KeyType;
-  onKeySelect: (key: MajorScaleKey, type: KeyType) => void;
+  onKeySelect: (key: KeyName, type: KeyType) => void;
 }

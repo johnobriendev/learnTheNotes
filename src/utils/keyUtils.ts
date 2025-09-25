@@ -1,11 +1,5 @@
 // src/utils/keyUtils.ts
-import { MajorScaleKey, KeyInfo, KeyType } from '../types';
-
-// Order of sharps: F# C# G# D# A# E# B#
-const sharpOrder = ['F#', 'C#', 'G#', 'D#', 'A#', 'E#', 'B#'];
-
-// Order of flats: Bb Eb Ab Db Gb Cb Fb
-const flatOrder = ['Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb', 'Fb'];
+import { MajorScaleKey, KeyName, KeyInfo, KeyType } from '../types';
 
 // Circle of fifths order (clockwise starting from C)
 export const circleOfFifthsOrder: MajorScaleKey[] = [
@@ -52,7 +46,7 @@ export const majorKeyData: Record<MajorScaleKey, KeyInfo> = {
     sharpsFlats: 4,
     signature: ['F#', 'C#', 'G#', 'D#'],
     notes: ['E', 'F#', 'G#', 'A', 'B', 'C#', 'D#'],
-    relativeMinor: 'Db'
+    relativeMinor: 'C#'
   },
   'B': {
     key: 'B',
@@ -60,7 +54,7 @@ export const majorKeyData: Record<MajorScaleKey, KeyInfo> = {
     sharpsFlats: 5,
     signature: ['F#', 'C#', 'G#', 'D#', 'A#'],
     notes: ['B', 'C#', 'D#', 'E', 'F#', 'G#', 'A#'],
-    relativeMinor: 'Ab'
+    relativeMinor: 'G#'
   },
   'F#': {
     key: 'F#',
@@ -68,7 +62,7 @@ export const majorKeyData: Record<MajorScaleKey, KeyInfo> = {
     sharpsFlats: 6,
     signature: ['F#', 'C#', 'G#', 'D#', 'A#', 'E#'],
     notes: ['F#', 'G#', 'A#', 'B', 'C#', 'D#', 'E#'],
-    relativeMinor: 'Eb'
+    relativeMinor: 'D#'
   },
   'F': {
     key: 'F',
@@ -121,7 +115,7 @@ export const majorKeyData: Record<MajorScaleKey, KeyInfo> = {
 };
 
 // Generate minor key data based on major keys
-export const minorKeyData: Record<MajorScaleKey, KeyInfo> = {};
+export const minorKeyData: Record<KeyName, KeyInfo> = {} as Record<KeyName, KeyInfo>;
 
 // Initialize minor key data
 Object.values(majorKeyData).forEach(majorKey => {
@@ -139,7 +133,7 @@ Object.values(majorKeyData).forEach(majorKey => {
 });
 
 // Generate natural minor scale notes for a given key
-function generateMinorScaleNotes(key: MajorScaleKey, accidentals: number): string[] {
+function generateMinorScaleNotes(key: KeyName, accidentals: number): string[] {
   const noteOrder = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   const keyIndex = noteOrder.findIndex(note => key.startsWith(note));
 
@@ -170,19 +164,22 @@ function generateMinorScaleNotes(key: MajorScaleKey, accidentals: number): strin
 }
 
 // Get key info for any key (major or minor)
-export const getKeyInfo = (key: MajorScaleKey, type: KeyType): KeyInfo | null => {
-  const data = type === 'major' ? majorKeyData : minorKeyData;
-  return data[key] || null;
+export const getKeyInfo = (key: KeyName, type: KeyType): KeyInfo | null => {
+  if (type === 'major') {
+    return majorKeyData[key as MajorScaleKey] || null;
+  } else {
+    return minorKeyData[key] || null;
+  }
 };
 
 // Get all keys of a specific type
-export const getKeysOfType = (type: KeyType): MajorScaleKey[] => {
+export const getKeysOfType = (type: KeyType): KeyName[] => {
   const data = type === 'major' ? majorKeyData : minorKeyData;
-  return Object.keys(data) as MajorScaleKey[];
+  return Object.keys(data) as KeyName[];
 };
 
 // Get a random key for quiz purposes
-export const getRandomKey = (type?: KeyType): { key: MajorScaleKey, type: KeyType } => {
+export const getRandomKey = (type?: KeyType): { key: KeyName, type: KeyType } => {
   const selectedType = type || (Math.random() > 0.5 ? 'major' : 'minor');
   const keys = getKeysOfType(selectedType);
   const randomKey = keys[Math.floor(Math.random() * keys.length)];
@@ -203,14 +200,37 @@ export const formatKeySignature = (keyInfo: KeyInfo): string => {
   return `${count} ${type}${plural}`;
 };
 
-// Get circle position for SVG
-export const getCirclePosition = (key: MajorScaleKey, isMinor: boolean = false): { x: number, y: number, angle: number } => {
-  const index = circleOfFifthsOrder.indexOf(key);
-  const angle = (index * 30) - 90; // 30 degrees per position, start at top
-  const radius = isMinor ? 80 : 120; // Inner circle for minor, outer for major
-  const centerX = 150;
-  const centerY = 150;
+// Get display name for keys (showing enharmonic equivalents)
+export const getKeyDisplayName = (key: KeyName, type: KeyType): string => {
+  if (key === 'F#' && type === 'major') {
+    return 'F#/Gb';
+  }
+  if (key === 'D#' && type === 'minor') {
+    return 'D#/Eb';
+  }
+  return key;
+};
 
+// Get circle position for SVG
+export const getCirclePosition = (key: KeyName, isMinor: boolean = false): { x: number, y: number, angle: number } => {
+  let targetKey = key;
+
+  // If it's a minor key, find its relative major to get the base position
+  if (isMinor) {
+    // Find the relative major key for this minor key
+    const majorKeyEntry = Object.values(majorKeyData).find(majorKey => majorKey.relativeMinor === key);
+    if (majorKeyEntry) {
+      targetKey = majorKeyEntry.key;
+    }
+  }
+
+  const index = circleOfFifthsOrder.indexOf(targetKey as MajorScaleKey);
+  const angle = (index * 30) - 90; // 30 degrees per position, start at top
+  const centerX = 200;
+  const centerY = 200;
+
+  // Use different radii for major and minor keys
+  const radius = isMinor ? 110 : 160; // Inner circle for minor, outer for major
   const radian = (angle * Math.PI) / 180;
   const x = centerX + radius * Math.cos(radian);
   const y = centerY + radius * Math.sin(radian);

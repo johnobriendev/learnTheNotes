@@ -96,7 +96,7 @@ const RootLayout = () => {
 
   const location = useLocation();
   return (
-    <div className="flex flex-col min-h-screen w-full bg-gray-100">
+    <div className="flex flex-col min-h-screen w-ful">
       <header className="py-1 border-b border-gray-200 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
           <TitleWithNavigation />

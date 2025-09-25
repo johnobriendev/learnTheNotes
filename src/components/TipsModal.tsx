@@ -58,32 +58,28 @@ const TipsModal: React.FC<TipsModalProps> = ({
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              Key signatures tell us which sharps or flats to play throughout a piece of music. Understanding key signatures is essential for reading music and understanding harmony.
+              This is placeholder content for tips on learning keys. The user will rewrite this section later.
             </p>
 
-            <h3 className="text-lg font-semibold">Understanding the Circle of Fifths</h3>
+            <h3 className="text-lg font-semibold">Placeholder Section 1</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>Each step clockwise adds one sharp: C(0) → G(1♯) → D(2♯) → A(3♯) → E(4♯) → B(5♯) → F♯(6♯)</li>
-              <li className='pl-1'>Each step counter-clockwise adds one flat: C(0) → F(1♭) → B♭(2♭) → E♭(3♭) → A♭(4♭) → D♭(5♭) → G♭(6♭)</li>
-              <li className='pl-1'>Minor keys are on the inner circle, sharing the same key signature as their relative major</li>
-              <li className='pl-1'>The relative minor is a minor third (3 semitones) below the major key</li>
+              <li className='pl-1'>This is placeholder text for learning tips</li>
+              <li className='pl-1'>Another placeholder tip goes here</li>
+              <li className='pl-1'>More filler content to be replaced later</li>
             </ul>
 
-            <h3 className="text-lg font-semibold">Tips for Memorizing Key Signatures</h3>
+            <h3 className="text-lg font-semibold">Placeholder Section 2</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>For sharp keys: Remember "Father Charles Goes Down And Ends Battle" (F♯ C♯ G♯ D♯ A♯ E♯ B♯)</li>
-              <li className='pl-1'>For flat keys: Remember "Battle Ends And Down Goes Charles's Father" (B♭ E♭ A♭ D♭ G♭ C♭ F♭)</li>
-              <li className='pl-1'>The last sharp in a key signature is the leading tone (7th degree) of the scale</li>
-              <li className='pl-1'>The second-to-last flat in a key signature is the tonic (1st degree) of the scale</li>
-              <li className='pl-1'>Practice with the circle - it shows the pattern clearly!</li>
+              <li className='pl-1'>Temporary content for key learning strategies</li>
+              <li className='pl-1'>This will be updated with actual tips</li>
+              <li className='pl-1'>Filler text for now</li>
             </ul>
 
-            <h3 className="text-lg font-semibold">Relative Major/Minor</h3>
+            <h3 className="text-lg font-semibold">Placeholder Section 3</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>Every major key has a relative minor that shares the same key signature</li>
-              <li className='pl-1'>A minor is the relative minor of C major (both have no sharps/flats)</li>
-              <li className='pl-1'>The relative minor starts on the 6th degree of the major scale</li>
-              <li className='pl-1'>Example: G major (F♯) and E minor (F♯) are relatives</li>
+              <li className='pl-1'>Additional placeholder content</li>
+              <li className='pl-1'>To be written by the user</li>
+              <li className='pl-1'>Temporary filler material</li>
             </ul>
           </div>
         );

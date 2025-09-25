@@ -1,7 +1,7 @@
 // src/components/KeyQuiz.tsx
-import { useState, useCallback, useMemo } from 'react';
-import { KeyQuizState, KeyQuizMode, KeyQuizQuestion, MajorScaleKey, KeyType } from '../types';
-import { getRandomKey, getKeyInfo, formatKeySignature } from '../utils/keyUtils';
+import { useState, useCallback } from 'react';
+import { KeyQuizState, KeyQuizMode, KeyQuizQuestion } from '../types';
+import { getRandomKey, getKeyInfo } from '../utils/keyUtils';
 
 interface KeyQuizProps {
   onShowTips: () => void;
@@ -13,6 +13,7 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
   const [userAnswer, setUserAnswer] = useState<string>('');
   const [score, setScore] = useState(0);
   const [totalQuestions, setTotalQuestions] = useState(0);
+  const [quizLength, setQuizLength] = useState(10);
   const [showFeedback, setShowFeedback] = useState(false);
   const [isCorrect, setIsCorrect] = useState(false);
   const [quizMode, setQuizMode] = useState<KeyQuizMode>('name-key');
@@ -60,6 +61,13 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
   const nextQuestion = () => {
     setShowFeedback(false);
     setUserAnswer('');
+
+    // Check if quiz is complete
+    if (totalQuestions >= quizLength) {
+      setQuizState('completed');
+      return;
+    }
+
     setCurrentQuestion(generateQuestion());
   };
 
@@ -86,12 +94,35 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
       const keyName = question.key.toLowerCase();
       const typeName = question.type.toLowerCase();
 
-      return normalizedAnswer === normalizedCorrect ||
-             normalizedAnswer === keyName ||
-             normalizedAnswer === `${keyName} ${typeName}` ||
-             normalizedAnswer === `${keyName} ${typeName.substring(0, 3)}` ||
-             normalizedAnswer === `${keyName}${typeName}` ||
-             normalizedAnswer === `${keyName}${typeName.substring(0, 3)}`;
+      // Check for enharmonic equivalents
+      let enharmonicKey = '';
+      if (question.key === 'F#' && question.type === 'major') {
+        enharmonicKey = 'gb';
+      } else if (question.key === 'D#' && question.type === 'minor') {
+        enharmonicKey = 'eb';
+      }
+
+      const acceptedAnswers = [
+        normalizedCorrect,
+        keyName,
+        `${keyName} ${typeName}`,
+        `${keyName} ${typeName.substring(0, 3)}`,
+        `${keyName}${typeName}`,
+        `${keyName}${typeName.substring(0, 3)}`
+      ];
+
+      // Add enharmonic equivalents if they exist
+      if (enharmonicKey) {
+        acceptedAnswers.push(
+          enharmonicKey,
+          `${enharmonicKey} ${typeName}`,
+          `${enharmonicKey} ${typeName.substring(0, 3)}`,
+          `${enharmonicKey}${typeName}`,
+          `${enharmonicKey}${typeName.substring(0, 3)}`
+        );
+      }
+
+      return acceptedAnswers.includes(normalizedAnswer);
     } else {
       const userNumber = parseInt(answer);
       return userNumber === question.correctAnswer;
@@ -139,6 +170,23 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
           <div className="text-4xl mb-3">🎯</div>
           <h3 className="text-lg font-semibold text-gray-800 mb-2">Key Signature Quiz</h3>
           <p className="text-gray-600 text-sm">Test your knowledge of key signatures!</p>
+        </div>
+
+        {/* Quiz Length Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Quiz Length
+          </label>
+          <select
+            value={quizLength}
+            onChange={(e) => setQuizLength(Number(e.target.value))}
+            className="w-full px-3 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
+          >
+            <option value={5}>5 questions</option>
+            <option value={10}>10 questions</option>
+            <option value={15}>15 questions</option>
+            <option value={20}>20 questions</option>
+          </select>
         </div>
 
         {/* Quiz Mode Selection */}
@@ -190,13 +238,62 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
     );
   }
 
+  if (quizState === 'completed') {
+    const percentage = totalQuestions > 0 ? Math.round((score / totalQuestions) * 100) : 0;
+
+    return (
+      <div className="space-y-4 text-center">
+        <div className="text-4xl mb-3">🎉</div>
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">Quiz Complete!</h3>
+
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <div className="text-3xl font-bold mb-2" style={{ color: percentage >= 80 ? '#059669' : percentage >= 60 ? '#d97706' : '#dc2626' }}>
+            {score}/{totalQuestions}
+          </div>
+          <div className="text-sm text-gray-600 mb-2">
+            {percentage}% correct
+          </div>
+          <div className="text-xs text-gray-500">
+            {percentage >= 90 ? 'Excellent work! 🌟' :
+             percentage >= 80 ? 'Great job! 👏' :
+             percentage >= 70 ? 'Good effort! 👍' :
+             percentage >= 60 ? 'Keep practicing! 📚' : 'More practice needed 💪'}
+          </div>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              setQuizState('idle');
+              setScore(0);
+              setTotalQuestions(0);
+              setCurrentQuestion(null);
+              setShowFeedback(false);
+              setUserAnswer('');
+            }}
+            className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
+          >
+            New Quiz
+          </button>
+
+          <button
+            onClick={onShowTips}
+            className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 px-4 rounded-md transition-colors text-sm font-medium"
+          >
+            💡 Tips
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* Score Display */}
       <div className="flex justify-between items-center bg-gray-50 p-3 rounded-md">
-        <span className="text-sm font-medium text-gray-700">Score</span>
+        <span className="text-sm font-medium text-gray-700">Progress</span>
         <span className={`font-bold ${getScoreColor()}`}>
-          {score}/{totalQuestions}
+          {score}/{totalQuestions} ({quizLength} questions total)
         </span>
       </div>
 
@@ -205,7 +302,10 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
         <div className="bg-white border-2 border-gray-200 rounded-lg p-4">
           <div className="text-center mb-4">
             <h4 className="font-semibold text-gray-800 mb-2">
-              {currentQuestion.mode === 'name-key' ? 'What key is this?' : 'How many accidentals?'}
+              {currentQuestion.mode === 'name-key'
+                ? `What ${currentQuestion.type} key is this?`
+                : `How many accidentals does ${currentQuestion.key} ${currentQuestion.type} have?`
+              }
             </h4>
 
             {currentQuestion.mode === 'name-key' ? (
@@ -224,8 +324,11 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
                 type="text"
                 value={userAnswer}
                 onChange={(e) => setUserAnswer(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && submitAnswer()}
-                placeholder={currentQuestion.mode === 'name-key' ? 'e.g., C major or G minor' : 'e.g., 2'}
+                onKeyDown={(e) => e.key === 'Enter' && submitAnswer()}
+                placeholder={currentQuestion.mode === 'name-key'
+                  ? (currentQuestion.type === 'major' ? 'e.g., C, G, F#' : 'e.g., A, E, B')
+                  : 'e.g., 2'
+                }
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
                 autoFocus
               />
@@ -269,14 +372,18 @@ const KeyQuiz: React.FC<KeyQuizProps> = ({ onShowTips }) => {
       <div className="flex gap-2">
         <button
           onClick={() => {
-            setQuizState('idle');
-            setCurrentQuestion(null);
-            setShowFeedback(false);
-            setUserAnswer('');
+            if (totalQuestions > 0) {
+              setQuizState('completed');
+            } else {
+              setQuizState('idle');
+              setCurrentQuestion(null);
+              setShowFeedback(false);
+              setUserAnswer('');
+            }
           }}
           className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md transition-colors text-sm"
         >
-          End Quiz
+          {totalQuestions > 0 ? 'Quit Quiz' : 'End Quiz'}
         </button>
       </div>
     </div>
