@@ -1,10 +1,10 @@
-import { useState, useEffect, } from 'react';
+import { useState, } from 'react';
 import * as Tone from 'tone';
 import CollapsiblePanel from '../components/CollapsiblePanel';
 
 // Types
 type IntervalName = 'Unison' | 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Tritone' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
-type Direction = 'ascending' | 'descending' | 'ascending-both' | 'descending-both';
+type Direction = 'ascending' | 'descending' | 'ascending-both' | 'descending-both' | 'mixed-single' | 'mixed-both';
 type Mode = 'practice' | 'quiz';
 
 interface Interval {
@@ -29,18 +29,8 @@ interface QuizState {
   isCorrect: boolean;
 }
 
-const STORAGE_KEY = 'interval_trainer_sidebar';
-
 const IntervalTrainerPage = () => {
   // State
-  const [sidebarOpen, setSidebarOpen] = useState(() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      return stored === null ? true : stored === 'true';
-    } catch (e) {
-      return true;
-    }
-  });
 
   const [mode, setMode] = useState<Mode>('practice');
   const [selectedInterval, setSelectedInterval] = useState<Interval | null>(null);
@@ -77,15 +67,6 @@ const IntervalTrainerPage = () => {
   ];
 
   const rootNotes = ['C4', 'C#4', 'D4', 'D#4', 'E4', 'F4', 'F#4', 'G4', 'G#4', 'A4', 'A#4', 'B4'];
-
-  // Save sidebar state
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, sidebarOpen.toString());
-    } catch (e) {
-      console.error('Failed to save sidebar state:', e);
-    }
-  }, [sidebarOpen]);
 
   // Audio functions
   // const noteToFrequency = (note: string): number => {
@@ -163,7 +144,7 @@ const IntervalTrainerPage = () => {
   // Practice mode functions
   const handleIntervalPlay = (interval: Interval) => {
     setSelectedInterval(interval);
-    playInterval(interval, rootNote, direction);
+    playInterval(interval, rootNote, direction as 'ascending' | 'descending' | 'ascending-both' | 'descending-both');
   };
 
   // Quiz functions
@@ -176,7 +157,18 @@ const IntervalTrainerPage = () => {
     // Create one question for each interval
     shuffledIntervals.forEach(interval => {
       const randomRoot = rootNotes[Math.floor(Math.random() * rootNotes.length)];
-      const questionDirection = quizDirection;
+
+      let questionDirection: 'ascending' | 'descending' | 'ascending-both' | 'descending-both';
+
+      if (quizDirection === 'mixed-single') {
+        // Randomly choose between ascending and descending
+        questionDirection = Math.random() < 0.5 ? 'ascending' : 'descending';
+      } else if (quizDirection === 'mixed-both') {
+        // Randomly choose between ascending-both and descending-both
+        questionDirection = Math.random() < 0.5 ? 'ascending-both' : 'descending-both';
+      } else {
+        questionDirection = quizDirection as 'ascending' | 'descending' | 'ascending-both' | 'descending-both';
+      }
 
       let secondNote: string;
       if (questionDirection === 'ascending' || questionDirection === 'ascending-both') {
@@ -259,11 +251,9 @@ const IntervalTrainerPage = () => {
       showFeedback: false,
       isCorrect: false
     });
-    setMode('practice');
     setCurrentAnswer('');
   };
 
-  const toggleSidebar = () => setSidebarOpen(prev => !prev);
 
 
   const getDisplayedNotes = (interval: Interval, root: string, dir: Direction) => {
@@ -345,12 +335,6 @@ const IntervalTrainerPage = () => {
           ))}
         </div>
 
-        <button
-          onClick={() => setMode('quiz')}
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-4 rounded-md transition-colors font-medium"
-        >
-          Start Quiz
-        </button>
       </div>
     </CollapsiblePanel>
   );
@@ -372,8 +356,10 @@ const IntervalTrainerPage = () => {
           >
             <option value="ascending">Ascending Only</option>
             <option value="descending">Descending Only</option>
-            <option value="ascending-both">Ascending Both Only</option>
-            <option value="descending-both">Descending Both Only</option>
+            <option value="ascending-both">Ascending Both</option>
+            <option value="descending-both">Descending Both</option>
+            <option value="mixed-single">Mixed (Ascending + Descending)</option>
+            <option value="mixed-both">Mixed Both (Ascending Both + Descending Both)</option>
           </select>
         </div>
 
@@ -422,7 +408,7 @@ const IntervalTrainerPage = () => {
                 onClick={resetQuiz}
                 className="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
               >
-                Back to Practice
+                Back to Quiz Setup
               </button>
               <button
                 onClick={startQuiz}
@@ -472,9 +458,9 @@ const IntervalTrainerPage = () => {
               <div className="space-y-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
                   {intervals.map((interval) => (
-                    <label
-                      key={interval.name}
-                      className={`flex items-center p-2 border rounded-md cursor-pointer transition-colors text-sm ${
+                    <div
+                      key={`${interval.name}-${quizState.currentIndex}`}
+                      className={`flex items-center p-2 border rounded-md transition-colors text-sm ${
                         currentAnswer === interval.name
                           ? 'border-indigo-500 bg-indigo-50'
                           : 'border-gray-300 hover:border-gray-400'
@@ -482,14 +468,20 @@ const IntervalTrainerPage = () => {
                     >
                       <input
                         type="radio"
-                        name="interval"
+                        id={`interval-${interval.name}-${quizState.currentIndex}`}
+                        name={`interval-${quizState.currentIndex}`}
                         value={interval.name}
                         checked={currentAnswer === interval.name}
                         onChange={(e) => setCurrentAnswer(e.target.value)}
-                        className="mr-2 text-indigo-600 focus:ring-indigo-500"
+                        className="mr-2"
                       />
-                      <span className="text-gray-800">{interval.name}</span>
-                    </label>
+                      <label
+                        htmlFor={`interval-${interval.name}-${quizState.currentIndex}`}
+                        className="text-gray-800 cursor-pointer"
+                      >
+                        {interval.name}
+                      </label>
+                    </div>
                   ))}
                 </div>
                 <button
@@ -531,7 +523,7 @@ const IntervalTrainerPage = () => {
 
           <button
             onClick={resetQuiz}
-            className="w-full bg-gray-200 hover:bg-gray-300 text-gray-700 py-2 px-4 rounded-md transition-colors text-sm"
+            className="w-full bg-gray-200 hover:bg-red-300 text-gray-700 py-2 px-4 rounded-md transition-colors text-sm"
           >
             End Quiz
           </button>
@@ -541,84 +533,40 @@ const IntervalTrainerPage = () => {
   };
 
   return (
-    <div className="rounded-lg shadow-md h-full">
-      {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col relative h-full min-h-screen">
-        <div className="bg-gray-50 p-4">
-          <div className="text-center mb-4">
-            <h1 className="text-2xl font-bold text-gray-800 mb-2">Interval Trainer</h1>
-            <p className="text-gray-600 text-sm">Train your ear to recognize musical intervals</p>
-          </div>
-          
-          <div className="w-full flex justify-center">
-            <button
-              onClick={toggleSidebar}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-4 py-2 rounded-md shadow-md transition-all flex items-center gap-1 w-full justify-center"
-            >
-              {sidebarOpen ? 'Hide Controls' : 'Show Controls'}
-            </button>
-          </div>
-        </div>
-
-        {sidebarOpen && (
-          <div className="bg-white border-t border-gray-200 p-4 flex flex-col gap-4 overflow-y-auto">
-            {mode === 'practice' ? renderPracticeMode() : renderQuizMode()}
-          </div>
-        )}
+    <div className="max-w-6xl mx-auto p-6">
+      <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold text-gray-800 mb-2">Interval Trainer</h1>
+        <p className="text-gray-600">Train your ear to recognize musical intervals</p>
       </div>
 
-      {/* Desktop Layout */}
-      <div className="hidden lg:flex flex-col h-full min-h-screen">
-        <div className="flex flex-row min-h-[60vh] flex-shrink-0">
-          <div className={`bg-gray-50 p-4 min-h-full flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
-            {!sidebarOpen && (
-              <div className="absolute top-4 right-4 z-10">
-                <button
-                  onClick={toggleSidebar}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1.5 rounded-md shadow-md transition-all flex items-center gap-1"
-                >
-                  <span className="text-lg leading-none">←</span> Show Controls
-                </button>
-              </div>
-            )}
-
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <div className="text-6xl mb-4">🎵</div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Interval Trainer</h1>
-                <p className="text-gray-600">Train your ear to recognize musical intervals</p>
-                {mode === 'quiz' && !quizState.isComplete && quizState.questions.length > 0 && (
-                  <div className="mt-4 p-4 bg-white rounded-lg shadow-md">
-                    <div className="text-lg font-semibold text-gray-800 mb-2">Current Question</div>
-                    <button
-                      onClick={playCurrentQuestion}
-                      disabled={isPlaying}
-                      className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-3 px-6 rounded-md transition-colors font-medium text-lg"
-                    >
-                      {isPlaying ? 'Playing...' : 'Play Interval'}
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          {sidebarOpen && (
-            <div className="flex-1 min-w-[40%] bg-white border-l border-gray-200 p-6">
-              <div className="mb-4">
-                <button
-                  onClick={toggleSidebar}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1.5 rounded-md shadow-md transition-all flex items-center gap-1"
-                >
-                  Hide Controls <span className="text-lg leading-none">→</span>
-                </button>
-              </div>
-
-              {mode === 'practice' ? renderPracticeMode() : renderQuizMode()}
-            </div>
-          )}
+      {/* Mode Toggle */}
+      <div className="flex justify-center mb-6">
+        <div className="bg-gray-100 p-1 rounded-lg">
+          <button
+            onClick={() => setMode('practice')}
+            className={`px-4 py-2 rounded-md transition-colors font-medium ${
+              mode === 'practice'
+                ? 'bg-white text-indigo-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            Practice Mode
+          </button>
+          <button
+            onClick={() => setMode('quiz')}
+            className={`px-4 py-2 rounded-md transition-colors font-medium ${
+              mode === 'quiz'
+                ? 'bg-white text-indigo-600 shadow-sm'
+                : 'text-gray-600 hover:text-gray-800'
+            }`}
+          >
+            Quiz Mode
+          </button>
         </div>
       </div>
+
+      {/* Content */}
+      {mode === 'practice' ? renderPracticeMode() : renderQuizMode()}
     </div>
   );
 };
