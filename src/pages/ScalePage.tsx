@@ -230,24 +230,25 @@ const ScalePage = () => {
               />
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="String Filter" defaultOpen={true}>
-              <StringSelector
-                selectedStrings={selectedStrings}
-                onToggleString={handleToggleString}
-                onSelectAll={handleSelectAllStrings}
-                onClearAll={handleClearAllStrings}
-                strings={standardTuning}
-              />
-            </CollapsiblePanel>
-
-            <CollapsiblePanel title="Fret Range" defaultOpen={true}>
-              <FretRangeSelector
-                minFret={minFret}
-                maxFret={maxFret}
-                totalFrets={numFrets}
-                onMinFretChange={handleMinFretChange}
-                onMaxFretChange={handleMaxFretChange}
-              />
+            <CollapsiblePanel title="String & Fret Filter" defaultOpen={true}>
+              <div className="space-y-4">
+                <StringSelector
+                  selectedStrings={selectedStrings}
+                  onToggleString={handleToggleString}
+                  onSelectAll={handleSelectAllStrings}
+                  onClearAll={handleClearAllStrings}
+                  strings={standardTuning}
+                />
+                <div className="border-t border-gray-200 pt-3">
+                  <FretRangeSelector
+                    minFret={minFret}
+                    maxFret={maxFret}
+                    totalFrets={numFrets}
+                    onMinFretChange={handleMinFretChange}
+                    onMaxFretChange={handleMaxFretChange}
+                  />
+                </div>
+              </div>
             </CollapsiblePanel>
           </div>
         )}

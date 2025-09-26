@@ -18,10 +18,6 @@ const FretRangeSelector: React.FC<FretRangeSelectorProps> = ({
 
   return (
     <div className="space-y-3">
-      <div className="text-sm font-medium text-gray-700">
-        Fret Range ({minFret} - {maxFret})
-      </div>
-
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label className="block text-xs font-medium text-gray-600 mb-1">
@@ -56,10 +52,6 @@ const FretRangeSelector: React.FC<FretRangeSelectorProps> = ({
             ))}
           </select>
         </div>
-      </div>
-
-      <div className="text-xs text-gray-500">
-        Only notes within frets {minFret}-{maxFret} will be highlighted
       </div>
     </div>
   );

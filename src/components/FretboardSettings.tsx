@@ -14,15 +14,15 @@ const FretboardSettings = ({
       
       <div className="space-y-3">
         {/* Fret count selector */}
-        <div>
-          <label className="text-sm text-gray-700 block mb-1">Frets:</label>
+        <div className="flex items-center gap-2">
+          <label className="text-sm text-gray-700 flex-shrink-0">Frets:</label>
           <div className="flex flex-wrap gap-1">
             {fretCountOptions.map(option => (
               <button
                 key={`fret-option-${option}`}
                 className={`px-2 py-1 rounded-md text-xs ${
-                  numFrets === option 
-                    ? 'bg-indigo-600 text-white' 
+                  numFrets === option
+                    ? 'bg-indigo-600 text-white'
                     : 'bg-gray-200 hover:bg-gray-300'
                 }`}
                 onClick={() => onFretsChange(option)}

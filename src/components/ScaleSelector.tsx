@@ -27,88 +27,88 @@ const ScaleSelector: React.FC<ScaleSelectorProps> = ({
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="space-y-4">
-      {/* Key Selector */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Select Key
-        </label>
-        <div className="relative">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-left shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500"
-          >
-            <span className="font-medium">{selectedKey}</span>
-            <span className="float-right">
-              {isOpen ? '▲' : '▼'}
-            </span>
-          </button>
+    <div className="space-y-3">
+      {/* Key and Scale Type Selectors - Compact Layout */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3 flex-wrap">
+          {/* Key Selector */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm font-medium text-gray-700 flex-shrink-0">
+              Key:
+            </label>
+            <div className="relative">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="bg-white border border-gray-300 rounded-md px-2 py-1.5 text-sm font-medium shadow-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 min-w-[80px]"
+              >
+                <span className="font-medium">{selectedKey}</span>
+                <span className="ml-1 text-xs">
+                  {isOpen ? '▲' : '▼'}
+                </span>
+              </button>
 
-          {isOpen && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto">
-              {scaleKeys.map((key) => (
-                <button
-                  key={key}
-                  onClick={() => {
-                    onSelectKey(key);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-3 py-2 hover:bg-gray-50 ${
-                    key === selectedKey ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
-                  }`}
-                >
-                  {key}
-                </button>
-              ))}
+              {isOpen && (
+                <div className="absolute z-10 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-48 overflow-y-auto min-w-[80px]">
+                  {scaleKeys.map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        onSelectKey(key);
+                        setIsOpen(false);
+                      }}
+                      className={`w-full text-left px-2 py-1 text-sm hover:bg-gray-50 ${
+                        key === selectedKey ? 'bg-indigo-50 text-indigo-700' : 'text-gray-700'
+                      }`}
+                    >
+                      {key}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-      </div>
+          </div>
 
-      {/* Scale Type Selector */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Scale Type
-        </label>
-        <div className="grid grid-cols-2 gap-2">
+          {/* Display Mode Toggle */}
           <button
-            onClick={() => onSelectScaleType('major')}
-            className={`py-2 px-3 rounded-md border font-medium transition-colors text-sm ${
-              selectedScaleType === 'major'
+            onClick={onToggleDisplayMode}
+            className={`py-1.5 px-2 rounded-md border font-medium transition-colors min-w-[80px] text-sm ${
+              displayMode === 'notes'
                 ? 'bg-indigo-600 text-white border-indigo-600'
                 : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
             }`}
           >
-            Major
-          </button>
-          <button
-            onClick={() => onSelectScaleType('melodic-minor')}
-            className={`py-2 px-3 rounded-md border font-medium transition-colors text-sm ${
-              selectedScaleType === 'melodic-minor'
-                ? 'bg-indigo-600 text-white border-indigo-600'
-                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            Melodic Minor
+            {displayMode === 'notes' ? 'Notes' : 'Intervals'}
           </button>
         </div>
-      </div>
 
-      {/* Display Mode Toggle */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Display Mode
-        </label>
-        <button
-          onClick={onToggleDisplayMode}
-          className={`w-full py-2 px-4 rounded-md border font-medium transition-colors ${
-            displayMode === 'notes'
-              ? 'bg-indigo-600 text-white border-indigo-600'
-              : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-          }`}
-        >
-          {displayMode === 'notes' ? 'Showing Notes' : 'Showing Intervals (1-7)'}
-        </button>
+        {/* Scale Type Selector */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Scale Type
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => onSelectScaleType('major')}
+              className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+                selectedScaleType === 'major'
+                  ? 'bg-indigo-600 text-white border-indigo-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              Major
+            </button>
+            <button
+              onClick={() => onSelectScaleType('melodic-minor')}
+              className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+                selectedScaleType === 'melodic-minor'
+                  ? 'bg-indigo-600 text-white border-indigo-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              Melodic Minor
+            </button>
+          </div>
+        </div>
       </div>
 
 
