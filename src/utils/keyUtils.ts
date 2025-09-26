@@ -136,10 +136,10 @@ Object.values(majorKeyData).forEach(majorKey => {
 minorKeyData['Eb'] = {
   key: 'Eb' as KeyName,
   type: 'minor',
-  sharpsFlats: 6, // Same as D# minor (enharmonic equivalent)
-  signature: ['F#', 'C#', 'G#', 'D#', 'A#', 'E#'],
+  sharpsFlats: -6, // Gb major has 6 flats
+  signature: ['Bb', 'Eb', 'Ab', 'Db', 'Gb', 'Cb'],
   notes: ['Eb', 'F', 'Gb', 'Ab', 'Bb', 'Cb', 'Db'],
-  relativeMajor: 'F#'
+  relativeMajor: 'Gb'
 };
 
 // Generate natural minor scale notes for a given key
