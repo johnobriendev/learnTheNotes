@@ -100,7 +100,7 @@ const KeysPage = () => {
       {/* Desktop Layout */}
       <div className="hidden lg:flex flex-col h-full min-h-screen">
         {/* Top Row - Circle of Fifths and Key Information */}
-        <div className="flex flex-row flex-1">
+        <div className="flex flex-row min-h-[60vh] flex-shrink-0">
           {/* Circle of Fifths - Flexible Width */}
           <div className={`bg-gray-50 p-4 min-h-full flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
             {/* Toggle button for desktop when controls are hidden */}
@@ -156,7 +156,7 @@ const KeysPage = () => {
         {/* Bottom Row - Quiz (full width) */}
         {sidebarOpen && (
           <div className="bg-white border-t border-gray-200 p-6">
-            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={false}>
+            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={true}>
               <KeyQuiz
                 onShowTips={() => setShowTipsModal(true)}
               />
