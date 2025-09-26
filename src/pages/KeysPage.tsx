@@ -88,7 +88,7 @@ const KeysPage = () => {
               />
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={false}>
+            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={true}>
               <KeyQuiz
                 onShowTips={() => setShowTipsModal(true)}
               />
