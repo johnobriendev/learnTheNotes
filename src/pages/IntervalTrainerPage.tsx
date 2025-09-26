@@ -39,6 +39,7 @@ const IntervalTrainerPage = () => {
   const [quizDirection, setQuizDirection] = useState<Direction>('ascending');
   const [currentAnswer, setCurrentAnswer] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showHelpModal, setShowHelpModal] = useState(false);
   const [quizState, setQuizState] = useState<QuizState>({
     questions: [],
     currentIndex: 0,
@@ -274,6 +275,73 @@ const IntervalTrainerPage = () => {
   };
 
   // Render functions
+  const renderHelpModal = () => (
+    showHelpModal && (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="bg-white rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-bold text-gray-800">Direction Options Explained</h3>
+              <button
+                onClick={() => setShowHelpModal(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ×
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div className="border-l-4 border-blue-500 pl-4">
+                <h4 className="font-semibold text-blue-700 mb-1">Ascending Only</h4>
+                <p className="text-gray-600 text-sm mb-2">Plays the root note, then the interval note going up.</p>
+                <p className="text-gray-500 text-xs">Example: C → E (Major 3rd ascending)</p>
+              </div>
+
+              <div className="border-l-4 border-green-500 pl-4">
+                <h4 className="font-semibold text-green-700 mb-1">Descending Only</h4>
+                <p className="text-gray-600 text-sm mb-2">Plays the root note, then the interval note going down.</p>
+                <p className="text-gray-500 text-xs">Example: C → A♭ (Major 3rd descending)</p>
+              </div>
+
+              <div className="border-l-4 border-purple-500 pl-4">
+                <h4 className="font-semibold text-purple-700 mb-1">Ascending Both</h4>
+                <p className="text-gray-600 text-sm mb-2">Plays ascending (root → interval), pauses, then plays back down (interval → root).</p>
+                <p className="text-gray-500 text-xs">Example: C → E → [pause] → E → C</p>
+              </div>
+
+              <div className="border-l-4 border-orange-500 pl-4">
+                <h4 className="font-semibold text-orange-700 mb-1">Descending Both</h4>
+                <p className="text-gray-600 text-sm mb-2">Plays descending (root → interval), pauses, then plays back up (interval → root).</p>
+                <p className="text-gray-500 text-xs">Example: C → A♭ → [pause] → A♭ → C</p>
+              </div>
+
+              <div className="border-l-4 border-red-500 pl-4">
+                <h4 className="font-semibold text-red-700 mb-1">Mixed (Ascending + Descending)</h4>
+                <p className="text-gray-600 text-sm mb-2">Randomly alternates between ascending only and descending only for each question.</p>
+                <p className="text-gray-500 text-xs">Combines the challenge of both directions</p>
+              </div>
+
+              <div className="border-l-4 border-indigo-500 pl-4">
+                <h4 className="font-semibold text-indigo-700 mb-1">Mixed Both (Ascending Both + Descending Both)</h4>
+                <p className="text-gray-600 text-sm mb-2">Randomly alternates between ascending both and descending both for each question.</p>
+                <p className="text-gray-500 text-xs">Combines both bidirectional formats</p>
+              </div>
+            </div>
+
+            <div className="mt-6 text-center">
+              <button
+                onClick={() => setShowHelpModal(false)}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-md transition-colors font-medium"
+              >
+                Got it!
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  );
+
   const renderPracticeMode = () => (
     <CollapsiblePanel title="Practice Mode" defaultOpen={true}>
       <div className="space-y-4">
@@ -348,7 +416,15 @@ const IntervalTrainerPage = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Direction</label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-sm font-medium text-gray-700">Direction</label>
+            <button
+              onClick={() => setShowHelpModal(true)}
+              className="text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center gap-1"
+            >
+              <span className="text-xs">?</span> Help
+            </button>
+          </div>
           <select
             value={quizDirection}
             onChange={(e) => setQuizDirection(e.target.value as Direction)}
@@ -567,6 +643,9 @@ const IntervalTrainerPage = () => {
 
       {/* Content */}
       {mode === 'practice' ? renderPracticeMode() : renderQuizMode()}
+
+      {/* Help Modal */}
+      {renderHelpModal()}
     </div>
   );
 };
