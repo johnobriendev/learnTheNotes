@@ -50,7 +50,7 @@ const TitleWithNavigation = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xl font-medium text-indigo-700 hover:text-indigo-800 transition-colors"
       >
-        You CAN Learn the {getCurrentPage()}
+        You Can Learn the {getCurrentPage()}
         <span className={`transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}>
           ▼
         </span>
