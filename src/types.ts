@@ -14,6 +14,7 @@ export type DisplayMode = 'notes' | 'intervals';
 export type ViewMode = 'fretboard' | 'patterns';
 export type PatternSystemType = '3nps' | 'caged';
 export type PatternNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+export type CAGEDPattern = 'C' | 'A' | 'G' | 'E' | 'D';
 
 export interface Triad {
   root: Note;
@@ -38,7 +39,8 @@ export interface PatternNote {
 }
 
 export interface ScalePattern {
-  patternNumber: PatternNumber;
+  patternNumber?: PatternNumber;
+  cagedPattern?: CAGEDPattern;
   startFret: number;
   strings: PatternNote[][]; // Array of 6 strings, each containing notes for that string
 }

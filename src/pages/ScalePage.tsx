@@ -183,6 +183,7 @@ const ScalePage = () => {
                 selectedKey={selectedKey}
                 scaleType={selectedScaleType}
                 displayMode={displayMode}
+                patternSystem={patternSystem}
               />
             )}
           </div>

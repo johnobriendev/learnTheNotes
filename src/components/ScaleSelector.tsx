@@ -167,8 +167,11 @@ const ScaleSelector: React.FC<ScaleSelectorProps> = ({
             </button>
             <button
               onClick={() => onSelectPatternSystem?.('caged')}
-              disabled
-              className="py-1.5 px-2 rounded-md border font-medium transition-colors text-sm bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed"
+              className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+                patternSystem === 'caged'
+                  ? 'bg-indigo-600 text-white border-indigo-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
             >
               CAGED
             </button>
