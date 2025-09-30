@@ -52,9 +52,9 @@ const KeysPage = () => {
   }, []);
 
   return (
-    <div className="rounded-lg shadow-md h-full">
+    <div className="rounded-lg shadow-md">
       {/* Mobile Layout */}
-      <div className="lg:hidden flex flex-col relative h-full min-h-screen">
+      <div className="lg:hidden flex flex-col relative">
         {/* Circle of Fifths */}
         <div className="bg-gray-50 p-4">
           <div className="flex items-center justify-center">
@@ -124,7 +124,7 @@ const KeysPage = () => {
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex flex-row h-full min-h-screen">
+      <div className="hidden lg:flex flex-row">
         {/* Circle of Fifths - Flexible Width */}
         <div className={`bg-gray-50 p-4 flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
           {/* Toggle button for desktop when controls are hidden */}
