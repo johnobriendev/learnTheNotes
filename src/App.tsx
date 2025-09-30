@@ -57,7 +57,7 @@ const TitleWithNavigation = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 z-10 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <div className="absolute left-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <button
               className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/' ? 'text-indigo-600 font-medium' : 'text-gray-700'
