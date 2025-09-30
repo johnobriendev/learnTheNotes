@@ -176,10 +176,10 @@ export const getCAGEDPattern = (
     for (let stringIndex = 0; stringIndex < 6; stringIndex++) {
       const degrees = patternDegrees[stringIndex];
       const openNote = standardTuning[stringIndex] as Note;
-      const openNoteIndex = allNotes.indexOf(openNote);
+      //const openNoteIndex = allNotes.indexOf(openNote);
 
       const searchStartFret = Math.max(1, startFret - 2);
-      const searchEndFret = startFret + 7;
+      //const searchEndFret = startFret + 7;
 
       for (const degree of degrees) {
         const scaleDegree = degree - 1;
