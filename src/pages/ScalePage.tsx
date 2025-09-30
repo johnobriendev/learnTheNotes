@@ -7,7 +7,8 @@ import StringSelector from '../components/StringSelector';
 import FretRangeSelector from '../components/FretRangeSelector';
 import TipsModal from '../components/TipsModal';
 import CollapsiblePanel from '../components/CollapsiblePanel';
-import { Note, MajorScaleKey, DisplayMode, ScaleType } from '../types';
+import PatternGrid from '../components/PatternGrid';
+import { Note, MajorScaleKey, DisplayMode, ScaleType, ViewMode, PatternSystemType } from '../types';
 import { noteColors, standardTuning } from '../constants';
 import { createScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/scaleUtils';
 
@@ -22,6 +23,8 @@ const ScalePage = () => {
   const [selectedKey, setSelectedKey] = useState<MajorScaleKey>('C');
   const [selectedScaleType, setSelectedScaleType] = useState<ScaleType>('major');
   const [displayMode, setDisplayMode] = useState<DisplayMode>('notes');
+  const [viewMode, setViewMode] = useState<ViewMode>('fretboard');
+  const [patternSystem, setPatternSystem] = useState<PatternSystemType>('3nps');
   const [selectedStrings, setSelectedStrings] = useState<number[]>([0, 1, 2, 3, 4, 5]);
   const [minFret, setMinFret] = useState<number>(0);
   const [maxFret, setMaxFret] = useState<number>(12);
@@ -153,27 +156,35 @@ const ScalePage = () => {
           )}
 
           <div className="h-full flex items-center justify-center mb-4">
-            <Fretboard
-              numFrets={numFrets}
-              strings={standardTuning}
-              selectedNotes={notesToHighlight}
-              useFlats={false}
-              noteColors={noteColors}
-              displayMode={displayMode}
-              intervals={currentScale.intervals}
-              customNoteDisplay={customNoteDisplay}
-              shouldHighlight={(stringIndex, fret) =>
-                shouldHighlightNote(
-                  currentScale,
-                  standardTuning,
-                  selectedStrings,
-                  minFret,
-                  maxFret,
-                  stringIndex,
-                  fret
-                )
-              }
-            />
+            {viewMode === 'fretboard' ? (
+              <Fretboard
+                numFrets={numFrets}
+                strings={standardTuning}
+                selectedNotes={notesToHighlight}
+                useFlats={false}
+                noteColors={noteColors}
+                displayMode={displayMode}
+                intervals={currentScale.intervals}
+                customNoteDisplay={customNoteDisplay}
+                shouldHighlight={(stringIndex, fret) =>
+                  shouldHighlightNote(
+                    currentScale,
+                    standardTuning,
+                    selectedStrings,
+                    minFret,
+                    maxFret,
+                    stringIndex,
+                    fret
+                  )
+                }
+              />
+            ) : (
+              <PatternGrid
+                selectedKey={selectedKey}
+                scaleType={selectedScaleType}
+                displayMode={displayMode}
+              />
+            )}
           </div>
 
           {/* Mobile-only toggle button */}
@@ -210,12 +221,14 @@ const ScalePage = () => {
               </button>
             </div>
 
-            <CollapsiblePanel title="Fretboard Settings" defaultOpen={true}>
-              <FretboardSettings
-                numFrets={numFrets}
-                onFretsChange={handleFretsChange}
-              />
-            </CollapsiblePanel>
+            {viewMode === 'fretboard' && (
+              <CollapsiblePanel title="Fretboard Settings" defaultOpen={true}>
+                <FretboardSettings
+                  numFrets={numFrets}
+                  onFretsChange={handleFretsChange}
+                />
+              </CollapsiblePanel>
+            )}
 
             <CollapsiblePanel title="Scale Selector" defaultOpen={true}>
               <ScaleSelector
@@ -227,29 +240,35 @@ const ScalePage = () => {
                 onToggleDisplayMode={toggleDisplayMode}
                 scale={currentScale}
                 onShowTips={() => setShowTipsModal(true)}
+                viewMode={viewMode}
+                onSelectViewMode={setViewMode}
+                patternSystem={patternSystem}
+                onSelectPatternSystem={setPatternSystem}
               />
             </CollapsiblePanel>
 
-            <CollapsiblePanel title="String & Fret Filter" defaultOpen={true}>
-              <div className="space-y-4">
-                <StringSelector
-                  selectedStrings={selectedStrings}
-                  onToggleString={handleToggleString}
-                  onSelectAll={handleSelectAllStrings}
-                  onClearAll={handleClearAllStrings}
-                  strings={standardTuning}
-                />
-                <div className="border-t border-gray-200 pt-3">
-                  <FretRangeSelector
-                    minFret={minFret}
-                    maxFret={maxFret}
-                    totalFrets={numFrets}
-                    onMinFretChange={handleMinFretChange}
-                    onMaxFretChange={handleMaxFretChange}
+            {viewMode === 'fretboard' && (
+              <CollapsiblePanel title="String & Fret Filter" defaultOpen={true}>
+                <div className="space-y-4">
+                  <StringSelector
+                    selectedStrings={selectedStrings}
+                    onToggleString={handleToggleString}
+                    onSelectAll={handleSelectAllStrings}
+                    onClearAll={handleClearAllStrings}
+                    strings={standardTuning}
                   />
+                  <div className="border-t border-gray-200 pt-3">
+                    <FretRangeSelector
+                      minFret={minFret}
+                      maxFret={maxFret}
+                      totalFrets={numFrets}
+                      onMinFretChange={handleMinFretChange}
+                      onMaxFretChange={handleMaxFretChange}
+                    />
+                  </div>
                 </div>
-              </div>
-            </CollapsiblePanel>
+              </CollapsiblePanel>
+            )}
           </div>
         )}
       </div>

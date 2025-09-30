@@ -1,6 +1,6 @@
 // src/components/ScaleSelector.tsx
 import { useState } from 'react';
-import { MajorScaleKey, DisplayMode, Scale, ScaleType } from '../types';
+import { MajorScaleKey, DisplayMode, Scale, ScaleType, ViewMode, PatternSystemType } from '../types';
 import { scaleKeys } from '../utils/scaleUtils';
 
 interface ScaleSelectorProps {
@@ -12,6 +12,10 @@ interface ScaleSelectorProps {
   onToggleDisplayMode: () => void;
   scale: Scale;
   onShowTips: () => void;
+  viewMode: ViewMode;
+  onSelectViewMode: (mode: ViewMode) => void;
+  patternSystem?: PatternSystemType;
+  onSelectPatternSystem?: (system: PatternSystemType) => void;
 }
 
 const ScaleSelector: React.FC<ScaleSelectorProps> = ({
@@ -22,12 +26,45 @@ const ScaleSelector: React.FC<ScaleSelectorProps> = ({
   displayMode,
   onToggleDisplayMode,
   scale,
-  onShowTips
+  onShowTips,
+  viewMode,
+  onSelectViewMode,
+  patternSystem,
+  onSelectPatternSystem
 }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div className="space-y-3">
+      {/* View Mode Selector */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          View Mode
+        </label>
+        <div className="grid grid-cols-2 gap-2">
+          <button
+            onClick={() => onSelectViewMode('fretboard')}
+            className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+              viewMode === 'fretboard'
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Fretboard
+          </button>
+          <button
+            onClick={() => onSelectViewMode('patterns')}
+            className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+              viewMode === 'patterns'
+                ? 'bg-indigo-600 text-white border-indigo-600'
+                : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+            }`}
+          >
+            Patterns
+          </button>
+        </div>
+      </div>
+
       {/* Key and Scale Type Selectors - Compact Layout */}
       <div className="space-y-2">
         <div className="flex items-center gap-3 flex-wrap">
@@ -110,6 +147,34 @@ const ScaleSelector: React.FC<ScaleSelectorProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Pattern System Selector - Only show in patterns view */}
+      {viewMode === 'patterns' && (
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Pattern System
+          </label>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => onSelectPatternSystem?.('3nps')}
+              className={`py-1.5 px-2 rounded-md border font-medium transition-colors text-sm ${
+                patternSystem === '3nps'
+                  ? 'bg-indigo-600 text-white border-indigo-600'
+                  : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+              }`}
+            >
+              3 Notes/String
+            </button>
+            <button
+              onClick={() => onSelectPatternSystem?.('caged')}
+              disabled
+              className="py-1.5 px-2 rounded-md border font-medium transition-colors text-sm bg-gray-100 text-gray-400 border-gray-300 cursor-not-allowed"
+            >
+              CAGED
+            </button>
+          </div>
+        </div>
+      )}
 
 
       {/* Scale Information */}

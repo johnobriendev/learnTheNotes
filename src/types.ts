@@ -11,6 +11,9 @@ export type KeyQuizMode = 'name-key' | 'identify-signature';
 export type KeyQuizState = 'idle' | 'active' | 'completed';
 export type StringSet = 'All' | '1-2-3' | '2-3-4' | '3-4-5' | '4-5-6';
 export type DisplayMode = 'notes' | 'intervals';
+export type ViewMode = 'fretboard' | 'patterns';
+export type PatternSystemType = '3nps' | 'caged';
+export type PatternNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 export interface Triad {
   root: Note;
@@ -25,6 +28,19 @@ export interface Scale {
   notes: Note[];
   displayNotes: string[]; // Proper sharp/flat notation for the key
   intervals: Record<Note, ScaleIntervalName>; // Maps each note to its scale degree
+}
+
+export interface PatternNote {
+  note: Note;
+  displayNote: string;
+  interval: ScaleIntervalName;
+  fret: number;
+}
+
+export interface ScalePattern {
+  patternNumber: PatternNumber;
+  startFret: number;
+  strings: PatternNote[][]; // Array of 6 strings, each containing notes for that string
 }
 
 export interface ChordTone {
