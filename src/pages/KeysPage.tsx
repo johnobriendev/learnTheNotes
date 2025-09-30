@@ -4,7 +4,7 @@ import CircleOfFifths from '../components/CircleOfFifths';
 import KeyInfo from '../components/KeyInfo';
 import KeyQuiz from '../components/KeyQuiz';
 import TipsModal from '../components/TipsModal';
-import CollapsiblePanel from '../components/CollapsiblePanel';
+//import CollapsiblePanel from '../components/CollapsiblePanel';
 import { KeyName, KeyType } from '../types';
 
 const SIDEBAR_STORAGE_KEY = 'keys_sidebarOpen';
@@ -13,6 +13,7 @@ const KeysPage = () => {
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
   const [selectedKey, setSelectedKey] = useState<KeyName | null>('C');
   const [selectedType, setSelectedType] = useState<KeyType>('major');
+  const [mode, setMode] = useState<'info' | 'quiz'>('info');
 
   // Sidebar state with localStorage persistence
   const [sidebarOpen, setSidebarOpen] = useState(() => {
@@ -80,87 +81,129 @@ const KeysPage = () => {
 
         {/* Mobile Controls */}
         {sidebarOpen && (
-          <div className="bg-white border-t border-gray-200 p-4 flex flex-col gap-4 overflow-y-auto">
-            <CollapsiblePanel title="Key Information" defaultOpen={true}>
+          <div className="bg-white border-t border-gray-200 p-4 overflow-y-auto">
+            {/* Mode Toggle */}
+            <div className="flex justify-center mb-4">
+              <div className="bg-gray-100 p-1 rounded-lg">
+                <button
+                  onClick={() => setMode('info')}
+                  className={`px-4 py-2 rounded-md transition-colors font-medium ${
+                    mode === 'info'
+                      ? 'bg-white text-indigo-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Key Information
+                </button>
+                <button
+                  onClick={() => setMode('quiz')}
+                  className={`px-4 py-2 rounded-md transition-colors font-medium ${
+                    mode === 'quiz'
+                      ? 'bg-white text-indigo-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Quiz
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            {mode === 'info' ? (
               <KeyInfo
                 selectedKey={selectedKey}
                 selectedType={selectedType}
               />
-            </CollapsiblePanel>
-
-            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={true}>
+            ) : (
               <KeyQuiz
                 onShowTips={() => setShowTipsModal(true)}
               />
-            </CollapsiblePanel>
+            )}
           </div>
         )}
       </div>
 
       {/* Desktop Layout */}
-      <div className="hidden lg:flex flex-col h-full min-h-screen">
-        {/* Top Row - Circle of Fifths and Key Information */}
-        <div className="flex flex-row min-h-[60vh] flex-shrink-0">
-          {/* Circle of Fifths - Flexible Width */}
-          <div className={`bg-gray-50 p-4 min-h-full flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
-            {/* Toggle button for desktop when controls are hidden */}
-            {!sidebarOpen && (
-              <div className="absolute top-4 right-4 z-10">
-                <button
-                  onClick={toggleSidebar}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
-                             px-3 py-1.5 rounded-md shadow-md transition-all
-                             flex items-center gap-1"
-                  aria-label="Show Controls"
-                >
-                  <span className="text-lg leading-none">←</span> Show Controls
-                </button>
-              </div>
-            )}
-
-            <div className="h-full flex items-center justify-center">
-              <CircleOfFifths
-                selectedKey={selectedKey}
-                selectedType={selectedType}
-                onKeySelect={handleKeySelect}
-              />
-            </div>
-          </div>
-
-          {/* Key Information - Flexible Width */}
-          {sidebarOpen && (
-            <div className="flex-1 min-w-[40%] bg-white border-l border-gray-200 p-6">
-              {/* Desktop toggle button */}
-              <div className="mb-4">
-                <button
-                  onClick={toggleSidebar}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
-                             px-3 py-1.5 rounded-md shadow-md z-10 transition-all
-                             flex items-center gap-1"
-                  aria-label="Hide Controls"
-                >
-                  Hide Controls <span className="text-lg leading-none">→</span>
-                </button>
-              </div>
-
-              <CollapsiblePanel title="Key Information" defaultOpen={true}>
-                <KeyInfo
-                  selectedKey={selectedKey}
-                  selectedType={selectedType}
-                />
-              </CollapsiblePanel>
+      <div className="hidden lg:flex flex-row h-full min-h-screen">
+        {/* Circle of Fifths - Flexible Width */}
+        <div className={`bg-gray-50 p-4 flex-1 ${sidebarOpen ? 'max-w-[60%]' : ''}`}>
+          {/* Toggle button for desktop when controls are hidden */}
+          {!sidebarOpen && (
+            <div className="absolute top-4 right-4 z-10">
+              <button
+                onClick={toggleSidebar}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
+                           px-3 py-1.5 rounded-md shadow-md transition-all
+                           flex items-center gap-1"
+                aria-label="Show Controls"
+              >
+                <span className="text-lg leading-none">←</span> Show Controls
+              </button>
             </div>
           )}
+
+          <div className="flex items-center justify-center">
+            <CircleOfFifths
+              selectedKey={selectedKey}
+              selectedType={selectedType}
+              onKeySelect={handleKeySelect}
+            />
+          </div>
         </div>
 
-        {/* Bottom Row - Quiz (full width) */}
+        {/* Right Panel - Key Information and Quiz */}
         {sidebarOpen && (
-          <div className="bg-white border-t border-gray-200 p-6">
-            <CollapsiblePanel title="Key Signature Quiz" defaultOpen={true}>
+          <div className="flex-1 min-w-[40%] bg-white border-l border-gray-200 p-6">
+            {/* Desktop toggle button */}
+            <div className="mb-4">
+              <button
+                onClick={toggleSidebar}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
+                           px-3 py-1.5 rounded-md shadow-md z-10 transition-all
+                           flex items-center gap-1"
+                aria-label="Hide Controls"
+              >
+                Hide Controls <span className="text-lg leading-none">→</span>
+              </button>
+            </div>
+
+            {/* Mode Toggle */}
+            <div className="flex justify-center mb-6">
+              <div className="bg-gray-100 p-1 rounded-lg">
+                <button
+                  onClick={() => setMode('info')}
+                  className={`px-4 py-2 rounded-md transition-colors font-medium ${
+                    mode === 'info'
+                      ? 'bg-white text-indigo-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Key Information
+                </button>
+                <button
+                  onClick={() => setMode('quiz')}
+                  className={`px-4 py-2 rounded-md transition-colors font-medium ${
+                    mode === 'quiz'
+                      ? 'bg-white text-indigo-600 shadow-sm'
+                      : 'text-gray-600 hover:text-gray-800'
+                  }`}
+                >
+                  Quiz
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            {mode === 'info' ? (
+              <KeyInfo
+                selectedKey={selectedKey}
+                selectedType={selectedType}
+              />
+            ) : (
               <KeyQuiz
                 onShowTips={() => setShowTipsModal(true)}
               />
-            </CollapsiblePanel>
+            )}
           </div>
         )}
       </div>
