@@ -58,29 +58,31 @@ const TipsModal: React.FC<TipsModalProps> = ({
         return (
           <div className="text-gray-700 space-y-4">
             <p>
-              This is placeholder content for tips on learning keys. The user will rewrite this section later.
+              Each key will have 7 letters, A, B, C, D, E, F, G. Depending on the key it may have a number of sharps or flats, but not both.
             </p>
 
-            <h3 className="text-lg font-semibold">Placeholder Section 1</h3>
+            <h3 className="text-lg font-semibold">Sharps</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>This is placeholder text for learning tips</li>
-              <li className='pl-1'>Another placeholder tip goes here</li>
-              <li className='pl-1'>More filler content to be replaced later</li>
+              <li className='pl-1'>Sharp keys add sharps in the following order: F#, C#, G#, D#, A#, E#.</li>
+              <li className='pl-1'>The new sharp added to the key will always be the 7th degree, ie: key of G adds F#, key of D adds C#.</li>
+              <li className='pl-1'>The next sharp key is a fifth up from the previous key, ie G is the fifth of C, D is the fifth of G.</li>
             </ul>
 
-            <h3 className="text-lg font-semibold">Placeholder Section 2</h3>
+            <h3 className="text-lg font-semibold">Flats</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>Temporary content for key learning strategies</li>
-              <li className='pl-1'>This will be updated with actual tips</li>
-              <li className='pl-1'>Filler text for now</li>
+              <li className='pl-1'>Flats keys add flats in the following order, Bb, Eb, Ab, Db, Gb, Cb</li>
+              <li className='pl-1'>The new flat added is always the 4th, ie Bb is the 4th of F</li>
+              <li className='pl-1'>The next flat key is up a fourth (or down a fifth) from the current key. It's also the flat you just added! ie in F you add the Bb, the next flat key is Bb.</li>
             </ul>
 
-            <h3 className="text-lg font-semibold">Placeholder Section 3</h3>
+            <h3 className="text-lg font-semibold">Minor Keys</h3>
             <ul className="list-disc pl-5 space-y-2">
-              <li className='pl-1'>Additional placeholder content</li>
-              <li className='pl-1'>To be written by the user</li>
-              <li className='pl-1'>Temporary filler material</li>
+              <li className='pl-1'>Every key has a relative minor that has the same key signature. The relative minor is found on the 6th degree, ie C major's relative key is A minor.</li>
+              <li className='pl-1'>A minor key's relative major can be found on the (flat) third.</li>
+              <li className='pl-1'>When learning a major key take note of what its relative minor is.</li>
             </ul>
+
+            
           </div>
         );
 
