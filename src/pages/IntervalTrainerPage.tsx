@@ -1,6 +1,5 @@
 import { useState, } from 'react';
 import * as Tone from 'tone';
-import CollapsiblePanel from '../components/CollapsiblePanel';
 
 // Types
 type IntervalName = 'Unison' | 'Minor 2nd' | 'Major 2nd' | 'Minor 3rd' | 'Major 3rd' | 'Perfect 4th' | 'Tritone' | 'Perfect 5th' | 'Minor 6th' | 'Major 6th' | 'Minor 7th' | 'Major 7th' | 'Octave';
@@ -343,8 +342,7 @@ const IntervalTrainerPage = () => {
   );
 
   const renderPracticeMode = () => (
-    <CollapsiblePanel title="Practice Mode" defaultOpen={true}>
-      <div className="space-y-4">
+    <div className="space-y-4">
         {/* Controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
@@ -392,7 +390,7 @@ const IntervalTrainerPage = () => {
               key={interval.name}
               onClick={() => handleIntervalPlay(interval)}
               disabled={isPlaying}
-              className={`p-3 rounded-md text-sm font-medium transition-colors ${
+              className={`p-2 md:p-3 rounded-md text-xs md:text-sm font-medium transition-colors ${
                 selectedInterval?.name === interval.name
                   ? 'bg-indigo-600 text-white'
                   : 'bg-gray-100 hover:bg-gray-200 text-gray-700'
@@ -404,12 +402,10 @@ const IntervalTrainerPage = () => {
         </div>
 
       </div>
-    </CollapsiblePanel>
   );
 
   const renderQuizSetup = () => (
-    <CollapsiblePanel title="Quiz Setup" defaultOpen={true}>
-      <div className="space-y-4">
+    <div className="space-y-4">
         <div className="bg-blue-50 p-3 rounded-md">
           <div className="text-sm font-medium text-blue-800">Quiz Format</div>
           <div className="text-blue-700 text-sm">12 questions - one for each interval</div>
@@ -446,7 +442,6 @@ const IntervalTrainerPage = () => {
           Start Quiz
         </button>
       </div>
-    </CollapsiblePanel>
   );
 
   const renderQuizMode = () => {
@@ -457,10 +452,9 @@ const IntervalTrainerPage = () => {
 
     if (quizState.isComplete) {
       const percentage = Math.round((quizState.score / quizState.questions.length) * 100);
-      
+
       return (
-        <CollapsiblePanel title="Quiz Results" defaultOpen={true}>
-          <div className="space-y-4 text-center">
+        <div className="space-y-4 text-center">
             <div className="text-4xl mb-3">🎉</div>
             <h3 className="text-lg font-semibold text-gray-800">Quiz Complete!</h3>
             
@@ -494,7 +488,6 @@ const IntervalTrainerPage = () => {
               </button>
             </div>
           </div>
-        </CollapsiblePanel>
       );
     }
 
@@ -502,8 +495,7 @@ const IntervalTrainerPage = () => {
     if (!currentQuestion) return null;
 
     return (
-      <CollapsiblePanel title="Quiz Mode" defaultOpen={true}>
-        <div className="space-y-4">
+      <div className="space-y-4">
           {/* Progress */}
           <div className="flex justify-between items-center bg-gray-50 p-3 rounded-md">
             <span className="text-sm font-medium text-gray-700">Progress</span>
@@ -523,7 +515,7 @@ const IntervalTrainerPage = () => {
               <button
                 onClick={playCurrentQuestion}
                 disabled={isPlaying}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-2 px-6 rounded-md transition-colors font-medium"
+                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white py-1.5 md:py-2 px-4 md:px-6 rounded-md transition-colors font-medium text-sm md:text-base"
               >
                 {isPlaying ? 'Playing...' : 'Play Interval'}
               </button>
@@ -532,11 +524,11 @@ const IntervalTrainerPage = () => {
             {/* Answer Selection */}
             {!quizState.showFeedback && (
               <div className="space-y-3">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
                   {intervals.map((interval) => (
                     <div
                       key={`${interval.name}-${quizState.currentIndex}`}
-                      className={`flex items-center p-2 border rounded-md transition-colors text-sm ${
+                      className={`flex items-center p-1.5 md:p-2 border rounded-md transition-colors text-xs md:text-sm ${
                         currentAnswer === interval.name
                           ? 'border-indigo-500 bg-indigo-50'
                           : 'border-gray-300 hover:border-gray-400'
@@ -563,7 +555,7 @@ const IntervalTrainerPage = () => {
                 <button
                   onClick={submitAnswer}
                   disabled={!currentAnswer.trim()}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white py-2 px-4 rounded-md transition-colors font-medium"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-gray-400 text-white py-1.5 md:py-2 px-4 rounded-md transition-colors font-medium text-sm md:text-base"
                 >
                   Submit Answer
                 </button>
@@ -589,7 +581,7 @@ const IntervalTrainerPage = () => {
 
                 <button
                   onClick={nextQuestion}
-                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md transition-colors font-medium"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-1.5 md:py-2 px-4 rounded-md transition-colors font-medium text-sm md:text-base"
                 >
                   {quizState.currentIndex + 1 >= quizState.questions.length ? 'View Results' : 'Next Question'}
                 </button>
@@ -599,28 +591,27 @@ const IntervalTrainerPage = () => {
 
           <button
             onClick={resetQuiz}
-            className="w-full bg-gray-200 hover:bg-red-300 text-gray-700 py-2 px-4 rounded-md transition-colors text-sm"
+            className="w-full bg-gray-200 hover:bg-red-300 text-gray-700 py-1.5 md:py-2 px-4 rounded-md transition-colors text-xs md:text-sm"
           >
             End Quiz
           </button>
         </div>
-      </CollapsiblePanel>
     );
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold text-gray-800 mb-2">Interval Trainer</h1>
-        <p className="text-gray-600">Train your ear to recognize musical intervals</p>
+    <div className="max-w-6xl mx-auto px-3 pt-2 pb-3 md:p-6">
+      <div className="text-center mb-2">
+        <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-0.5">Interval Trainer</h1>
+        <p className="text-xs md:text-base text-gray-600">Train your ear to recognize musical intervals</p>
       </div>
 
       {/* Mode Toggle */}
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center mb-4">
         <div className="bg-gray-100 p-1 rounded-lg">
           <button
             onClick={() => setMode('practice')}
-            className={`px-4 py-2 rounded-md transition-colors font-medium ${
+            className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md transition-colors font-medium text-sm md:text-base ${
               mode === 'practice'
                 ? 'bg-white text-indigo-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-800'
@@ -630,7 +621,7 @@ const IntervalTrainerPage = () => {
           </button>
           <button
             onClick={() => setMode('quiz')}
-            className={`px-4 py-2 rounded-md transition-colors font-medium ${
+            className={`px-3 py-1.5 md:px-4 md:py-2 rounded-md transition-colors font-medium text-sm md:text-base ${
               mode === 'quiz'
                 ? 'bg-white text-indigo-600 shadow-sm'
                 : 'text-gray-600 hover:text-gray-800'
