@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import * as Tone from 'tone';
 
 // Types
@@ -48,27 +48,6 @@ const IntervalTrainerPage = () => {
     showFeedback: false,
     isCorrect: false
   });
-
-  // Configure audio context for iOS playback on mount
-  useEffect(() => {
-    const configureAudioContext = async () => {
-      try {
-        // Check if the Audio Session API is available (Safari/iOS)
-        if ((navigator as any).audioSession) {
-          try {
-            (navigator as any).audioSession.type = 'playback';
-            console.log('Audio session type set to playback');
-          } catch (e) {
-            console.warn('Could not set audio session type:', e);
-          }
-        }
-      } catch (error) {
-        console.warn('Audio context configuration failed:', error);
-      }
-    };
-
-    configureAudioContext();
-  }, []);
 
   // Intervals data
   const intervals: Interval[] = [
@@ -625,6 +604,9 @@ const IntervalTrainerPage = () => {
       <div className="text-center mb-2">
         <h1 className="text-xl md:text-3xl font-bold text-gray-800 mb-0.5">Interval Trainer</h1>
         <p className="text-xs md:text-base text-gray-600">Train your ear to recognize musical intervals</p>
+        {/iPhone|iPad|iPod/.test(navigator.userAgent) && (
+          <p className="text-xs text-amber-600 mt-1">📱 Turn off silent mode to hear sounds</p>
+        )}
       </div>
 
       {/* Mode Toggle */}
