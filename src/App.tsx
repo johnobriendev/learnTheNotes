@@ -1,6 +1,7 @@
 // src/App.tsx
 import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -31,12 +32,13 @@ const TitleWithNavigation = () => {
 
   // Get current page type based on URL
   const getCurrentPage = () => {
+    if (location.pathname === '/notes') return 'Notes';
     if (location.pathname === '/triads') return 'Triads';
     if (location.pathname === '/scales') return 'Scales';
     if (location.pathname === '/keys') return 'Keys';
     if (location.pathname === '/intervals') return 'Intervals';
 
-    return 'Notes';
+    return 'Guitar';
   };
 
   const handleNavigate = (path: string) => {
@@ -60,9 +62,9 @@ const TitleWithNavigation = () => {
         <div className="absolute left-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/' ? 'text-indigo-600 font-medium' : 'text-gray-700'
+              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/notes' ? 'text-indigo-600 font-medium' : 'text-gray-700'
                 }`}
-              onClick={() => handleNavigate('/')}
+              onClick={() => handleNavigate('/notes')}
             >
               Learn the Notes
             </button>
@@ -103,17 +105,21 @@ const TitleWithNavigation = () => {
 
 // Root layout component
 const RootLayout = () => {
-
   const location = useLocation();
+  const shouldShowHeader = location.pathname !== '/';
+  const isLandingPage = location.pathname === '/';
+
   return (
     <div className="flex flex-col min-h-screen w-ful">
-      <header className="py-1 border-b border-gray-200 bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
-          <TitleWithNavigation />
-        </div>
-      </header>
+      {shouldShowHeader && (
+        <header className="py-1 border-b border-gray-200 bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+            <TitleWithNavigation />
+          </div>
+        </header>
+      )}
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-4 sm:px-6 lg:px-8">
+      <main className={`flex-1 w-full mx-auto ${!isLandingPage ? 'max-w-7xl px-4 py-4 sm:px-6 lg:px-8' : ''}`}>
         <Outlet key={location.key} />
       </main>
 
@@ -159,6 +165,10 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
+        element: <LandingPage />
+      },
+      {
+        path: 'notes',
         element: <NotesPage />
       },
       {
