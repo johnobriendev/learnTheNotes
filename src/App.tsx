@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
+import LessonsPage from './pages/LessonsPage';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -32,6 +33,8 @@ const TitleWithNavigation = () => {
 
   // Get current page type based on URL
   const getCurrentPage = () => {
+    if (location.pathname === '/') return 'Guitar';
+    if (location.pathname === '/lessons') return 'Lessons';
     if (location.pathname === '/notes') return 'Notes';
     if (location.pathname === '/triads') return 'Triads';
     if (location.pathname === '/scales') return 'Scales';
@@ -46,13 +49,16 @@ const TitleWithNavigation = () => {
     setIsOpen(false);
   };
 
+  const currentPage = getCurrentPage();
+  const headerTitle = currentPage === 'Lessons' ? 'Lessons' : `You Can Learn the ${currentPage}`;
+
   return (
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xl font-medium text-indigo-700 hover:text-indigo-800 transition-colors"
       >
-        You Can Learn the {getCurrentPage()}
+        {headerTitle}
         <span className={`transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}>
           ▼
         </span>
@@ -61,6 +67,21 @@ const TitleWithNavigation = () => {
       {isOpen && (
         <div className="absolute left-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/' ? 'text-indigo-600 font-medium' : 'text-gray-700'
+                }`}
+              onClick={() => handleNavigate('/')}
+            >
+              Home
+            </button>
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/lessons' ? 'text-indigo-600 font-medium' : 'text-gray-700'
+                }`}
+              onClick={() => handleNavigate('/lessons')}
+            >
+              Lessons
+            </button>
+            <div className="border-t border-gray-100 my-1"></div>
             <button
               className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/notes' ? 'text-indigo-600 font-medium' : 'text-gray-700'
                 }`}
@@ -166,6 +187,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <LandingPage />
+      },
+      {
+        path: 'lessons',
+        element: <LessonsPage />
       },
       {
         path: 'notes',

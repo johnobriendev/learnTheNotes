@@ -68,7 +68,7 @@ const LandingPage = () => {
             the fretboard with built-in quizzes and exercises.
           </p>
           <button
-            onClick={() => navigate('/notes')}
+            onClick={() => navigate('/lessons')}
             className="inline-block bg-indigo-600 hover:bg-indigo-700 text-white font-semibold
                      px-8 py-3 rounded-lg text-lg transition-all transform hover:scale-105
                      shadow-lg hover:shadow-xl"
