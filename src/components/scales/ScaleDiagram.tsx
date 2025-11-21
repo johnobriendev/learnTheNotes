@@ -1,6 +1,6 @@
 // src/components/ScaleDiagram.tsx
-import { ScalePattern, DisplayMode } from '../types';
-import { standardTuning } from '../constants';
+import { ScalePattern, DisplayMode } from '../../types';
+import { standardTuning } from '../../constants';
 
 interface ScaleDiagramProps {
   pattern: ScalePattern;

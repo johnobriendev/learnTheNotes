@@ -1,5 +1,5 @@
 import React from 'react';
-import { StringSet } from '../types';
+import { StringSet } from '../../types';
 
 interface StringSetSelectorProps {
   selectedSet: StringSet;

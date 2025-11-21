@@ -1,5 +1,5 @@
 // src/components/HowToUse.tsx
-import { HowToUseProps } from "../types";
+import { HowToUseProps } from "../../types";
 
 const HowToUse: React.FC<HowToUseProps> = ({ 
   onShowTips,

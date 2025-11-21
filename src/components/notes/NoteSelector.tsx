@@ -1,8 +1,8 @@
 // src/components/NoteSelector.tsx
 import React from 'react';
-import { Note } from '../types';
-import { allNotes, noteColors } from '../constants';
-import { displayNote } from '../utils/utils';
+import { Note } from '../../types';
+import { allNotes, noteColors } from '../../constants';
+import { displayNote } from '../../utils/utils';
 
 interface NoteSelectorProps {
   selectedNotes: Note[];

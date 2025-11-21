@@ -1,5 +1,5 @@
-import { FretboardSettingsProps } from '../types';
-import { fretCountOptions } from '../constants';
+import { FretboardSettingsProps } from '../../types';
+import { fretCountOptions } from '../../constants';
 
 
 const FretboardSettings = ({ 

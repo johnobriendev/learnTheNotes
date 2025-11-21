@@ -1,13 +1,13 @@
 // src/pages/ScalePage.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import FretboardSettings from '../components/FretboardSettings';
-import Fretboard from '../components/Fretboard';
-import ScaleSelector from '../components/ScaleSelector';
-import StringSelector from '../components/StringSelector';
-import FretRangeSelector from '../components/FretRangeSelector';
-import TipsModal from '../components/TipsModal';
-import CollapsiblePanel from '../components/CollapsiblePanel';
-import PatternGrid from '../components/PatternGrid';
+import FretboardSettings from '../components/shared/FretboardSettings';
+import Fretboard from '../components/shared/Fretboard';
+import ScaleSelector from '../components/scales/ScaleSelector';
+import StringSelector from '../components/shared/StringSelector';
+import FretRangeSelector from '../components/scales/FretRangeSelector';
+import TipsModal from '../components/shared/TipsModal';
+import CollapsiblePanel from '../components/shared/CollapsiblePanel';
+import PatternGrid from '../components/scales/PatternGrid';
 import { Note, MajorScaleKey, DisplayMode, ScaleType, ViewMode, PatternSystemType } from '../types';
 import { noteColors, standardTuning } from '../constants';
 import { createScale, getScaleNotesOnFretboard, shouldHighlightNote, createCustomNoteDisplay } from '../utils/scaleUtils';

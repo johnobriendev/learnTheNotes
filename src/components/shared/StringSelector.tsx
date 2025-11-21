@@ -1,4 +1,4 @@
-import { StringSelectorProps } from '../types';
+import { StringSelectorProps } from '../../types';
 
 // Use standardTuning for default strings
 const defaultStrings = ['E', 'A', 'D', 'G', 'B', 'E'];

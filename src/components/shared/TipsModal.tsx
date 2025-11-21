@@ -1,6 +1,6 @@
 // src/components/TipsModal.tsx
 import React from 'react';
-import { TipsModalProps } from '../types'; // If defined in types.ts
+import { TipsModalProps } from '../../types'; // If defined in types.ts
 
 const TipsModal: React.FC<TipsModalProps> = ({
   isOpen,

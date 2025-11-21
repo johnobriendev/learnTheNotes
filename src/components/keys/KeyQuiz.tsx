@@ -1,7 +1,7 @@
 // src/components/KeyQuiz.tsx
 import { useState, useCallback } from 'react';
-import { KeyQuizState, KeyQuizMode, KeyQuizQuestion } from '../types';
-import { getRandomKey, getKeyInfo } from '../utils/keyUtils';
+import { KeyQuizState, KeyQuizMode, KeyQuizQuestion } from '../../types';
+import { getRandomKey, getKeyInfo } from '../../utils/keyUtils';
 
 interface KeyQuizProps {
   onShowTips: () => void;

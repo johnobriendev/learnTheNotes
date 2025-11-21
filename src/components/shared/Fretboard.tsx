@@ -1,6 +1,6 @@
-import { Note, FretboardProps} from '../types';
-import { displayNote, getHighlightInfo, getNoteAtPosition } from '../utils/utils';
-import { stringSetToIndices } from '../utils/stringSetUtils';
+import { Note, FretboardProps} from '../../types';
+import { displayNote, getHighlightInfo, getNoteAtPosition } from '../../utils/utils';
+import { stringSetToIndices } from '../../utils/stringSetUtils';
 
 const Fretboard: React.FC<FretboardProps> = ({
   numFrets,
@@ -116,14 +116,14 @@ const Fretboard: React.FC<FretboardProps> = ({
 
 
   return (
-    <div className="bg-white rounded-md p-8 pr-16 shadow-lg h-full flex justify-center items-center">
+    <div className="bg-white rounded-md pl-4 pr-8 pt-4 pb-8 sm:pl-8 sm:pr-16 sm:py-6 shadow-lg h-full flex justify-center items-center">
       <div className="relative flex self-center">
         {/* Fret numbers column */}
-        <div className="w-10 mr-4 relative">
+        <div className="w-12 sm:w-10 mr-2 sm:mr-4 relative">
           {frets.map(fret => (
             <div
               key={`fret-num-${fret}`}
-              className="absolute right-4 text-gray-600 text-sm"
+              className="absolute right-0 text-gray-600 text-sm"
               style={{
                 top: `${((fret * 100) / frets.length) + (100 / (frets.length * 2))}%`,
                 transform: 'translateY(-50%)'
@@ -137,11 +137,11 @@ const Fretboard: React.FC<FretboardProps> = ({
         {/* Main fretboard area */}
         <div className="relative w-64">
           {/* String Labels - positioned above the fretboard */}
-          <div className="absolute w-full -top-6">
+          <div className="w-full pb-2">
             {strings.map((string, index) => (
               <div
                 key={`string-label-${index}`}
-                className="absolute font-bold text-gray-700"
+                className="absolute font-bold text-gray-700 "
                 style={{
                   left: `${(index * 100) / (strings.length - 1)}%`,
                   transform: 'translateX(-50%)'

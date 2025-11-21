@@ -1,7 +1,7 @@
 // src/components/ScaleSelector.tsx
 import { useState } from 'react';
-import { MajorScaleKey, DisplayMode, Scale, ScaleType, ViewMode, PatternSystemType } from '../types';
-import { scaleKeys } from '../utils/scaleUtils';
+import { MajorScaleKey, DisplayMode, Scale, ScaleType, ViewMode, PatternSystemType } from '../../types';
+import { scaleKeys } from '../../utils/scaleUtils';
 
 interface ScaleSelectorProps {
   selectedKey: MajorScaleKey;

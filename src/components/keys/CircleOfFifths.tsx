@@ -1,6 +1,6 @@
 // src/components/CircleOfFifths.tsx
-import { CircleOfFifthsProps, KeyName, KeyType } from '../types';
-import { circleOfFifthsOrder, getCirclePosition, getKeyDisplayName } from '../utils/keyUtils';
+import { CircleOfFifthsProps, KeyName, KeyType } from '../../types';
+import { circleOfFifthsOrder, getCirclePosition, getKeyDisplayName } from '../../utils/keyUtils';
 
 const CircleOfFifths: React.FC<CircleOfFifthsProps> = ({
   selectedKey,

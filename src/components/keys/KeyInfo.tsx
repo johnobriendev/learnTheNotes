@@ -1,7 +1,7 @@
 // src/components/KeyInfo.tsx
 import { useState, useEffect } from 'react';
-import { KeyName, KeyType } from '../types';
-import { getKeyInfo, formatKeySignature, hasEnharmonicEquivalent, getEnharmonicEquivalent } from '../utils/keyUtils';
+import { KeyName, KeyType } from '../../types';
+import { getKeyInfo, formatKeySignature, hasEnharmonicEquivalent, getEnharmonicEquivalent } from '../../utils/keyUtils';
 
 interface KeyInfoProps {
   selectedKey: KeyName | null;

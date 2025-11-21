@@ -1,10 +1,10 @@
 // src/pages/KeysPage.tsx
 import { useState, useEffect, useCallback } from 'react';
-import CircleOfFifths from '../components/CircleOfFifths';
-import KeyInfo from '../components/KeyInfo';
-import KeyQuiz from '../components/KeyQuiz';
-import TipsModal from '../components/TipsModal';
-//import CollapsiblePanel from '../components/CollapsiblePanel';
+import CircleOfFifths from '../components/keys/CircleOfFifths';
+import KeyInfo from '../components/keys/KeyInfo';
+import KeyQuiz from '../components/keys/KeyQuiz';
+import TipsModal from '../components/shared/TipsModal';
+//import CollapsiblePanel from '../components/shared/CollapsiblePanel';
 import { KeyName, KeyType } from '../types';
 
 const SIDEBAR_STORAGE_KEY = 'keys_sidebarOpen';

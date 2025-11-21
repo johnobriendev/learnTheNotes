@@ -1,8 +1,8 @@
 import React from 'react';
-import { Note, ChordQuality, DisplayMode, StringSet, Triad } from '../types';
-import { allNotes } from '../constants';
-import { displayNote } from '../utils/utils';
-import { getTriadDetails } from '../utils/triadUtils';
+import { Note, ChordQuality, DisplayMode, StringSet, Triad } from '../../types';
+import { allNotes } from '../../constants';
+import { displayNote } from '../../utils/utils';
+import { getTriadDetails } from '../../utils/triadUtils';
 
 
 interface TriadSelectorProps {

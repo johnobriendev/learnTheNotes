@@ -1,12 +1,12 @@
 // src/pages/NotesPage.tsx
 import { useState } from 'react';
-import FretboardSettings from '../components/FretboardSettings';
-import Fretboard from '../components/Fretboard';
-import NoteSelector from '../components/NoteSelector';
-import StringSelector from '../components/StringSelector';
-import HowToUse from '../components/HowToUse';
-import TipsModal from '../components/TipsModal';
-import CollapsiblePanel from '../components/CollapsiblePanel';
+import FretboardSettings from '../components/shared/FretboardSettings';
+import Fretboard from '../components/shared/Fretboard';
+import NoteSelector from '../components/notes/NoteSelector';
+import StringSelector from '../components/shared/StringSelector';
+import HowToUse from '../components/notes/HowToUse';
+import TipsModal from '../components/shared/TipsModal';
+import CollapsiblePanel from '../components/shared/CollapsiblePanel';
 import { Note, QuizMode, QuizState, QuizQuestion } from '../types';
 import { allNotes, noteColors, standardTuning } from '../constants';
 import { displayNote } from '../utils/utils';
@@ -42,7 +42,7 @@ const NotesPage = () => {
   
   // Panel states
   const [fretboardSettingsOpen, setFretboardSettingsOpen] = useState(false);
-  const [noteSelectionOpen, setNoteSelectionOpen] = useState(false);
+  const [noteSelectionOpen, setNoteSelectionOpen] = useState(true);
   const [quizModeOpen, setQuizModeOpen] = useState(false);
   
   // Toggle note selection
@@ -381,25 +381,13 @@ const NotesPage = () => {
               </button>
             </div>
             
-            <CollapsiblePanel 
-              title="Fretboard Settings" 
-              defaultOpen={false}
-              isOpen={fretboardSettingsOpen}
-              onToggle={() => setFretboardSettingsOpen(!fretboardSettingsOpen)}
-            >
-              <FretboardSettings 
-                numFrets={numFrets}
-                onFretsChange={handleFretsChange}
-              />
-            </CollapsiblePanel>
-            
-            <CollapsiblePanel 
-              title="Note Selection" 
-              defaultOpen={false}
+            <CollapsiblePanel
+              title="Note Selection"
+              defaultOpen={true}
               isOpen={noteSelectionOpen}
               onToggle={() => setNoteSelectionOpen(!noteSelectionOpen)}
             >
-              <NoteSelector 
+              <NoteSelector
                 selectedNotes={selectedNotes}
                 useFlats={useFlats}
                 allSelected={allSelected}
@@ -409,9 +397,9 @@ const NotesPage = () => {
                 onFlatsToggle={toggleFlats}
               />
             </CollapsiblePanel>
-            
-            <CollapsiblePanel 
-              title="Quiz Mode" 
+
+            <CollapsiblePanel
+              title="Quiz Mode"
               defaultOpen={false}
               isOpen={quizModeOpen}
               onToggle={() => setQuizModeOpen(!quizModeOpen)}
@@ -555,10 +543,22 @@ const NotesPage = () => {
                 )}
               </div>
             </CollapsiblePanel>
-            
-            <CollapsiblePanel title="How to Use" defaultOpen={true}>
-              <HowToUse 
-                onShowTips={() => setShowTipsModal(true)} 
+
+            <CollapsiblePanel
+              title="Fretboard Settings"
+              defaultOpen={false}
+              isOpen={fretboardSettingsOpen}
+              onToggle={() => setFretboardSettingsOpen(!fretboardSettingsOpen)}
+            >
+              <FretboardSettings
+                numFrets={numFrets}
+                onFretsChange={handleFretsChange}
+              />
+            </CollapsiblePanel>
+
+            <CollapsiblePanel title="How to Use" defaultOpen={false}>
+              <HowToUse
+                onShowTips={() => setShowTipsModal(true)}
                 tipType="notes"
               />
             </CollapsiblePanel>

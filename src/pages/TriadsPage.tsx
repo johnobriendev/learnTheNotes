@@ -1,10 +1,10 @@
 // src/pages/TriadsPage.tsx
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import FretboardSettings from '../components/FretboardSettings';
-import Fretboard from '../components/Fretboard';
-import TriadSelector from '../components/TriadSelector';
-import TipsModal from '../components/TipsModal';
-import CollapsiblePanel from '../components/CollapsiblePanel';
+import FretboardSettings from '../components/shared/FretboardSettings';
+import Fretboard from '../components/shared/Fretboard';
+import TriadSelector from '../components/triads/TriadSelector';
+import TipsModal from '../components/shared/TipsModal';
+import CollapsiblePanel from '../components/shared/CollapsiblePanel';
 import { Note, ChordQuality, StringSet, DisplayMode } from '../types';
 import { noteColors, standardTuning } from '../constants';
 import { createTriad } from '../utils/triadUtils';

@@ -1,7 +1,7 @@
 // src/components/TriadInfo.tsx
 import React from 'react';
-import { Triad } from '../types';
-import { getTriadDetails } from '../utils/triadUtils';
+import { Triad } from '../../types';
+import { getTriadDetails } from '../../utils/triadUtils';
 
 interface TriadInfoProps {
   triad: Triad;

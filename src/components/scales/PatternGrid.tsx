@@ -1,6 +1,6 @@
 // src/components/PatternGrid.tsx
-import { MajorScaleKey, ScaleType, DisplayMode, PatternSystemType } from '../types';
-import { getAllThreeNotesPerStringPatterns, getAllCAGEDPatterns } from '../utils/patternUtils';
+import { MajorScaleKey, ScaleType, DisplayMode, PatternSystemType } from '../../types';
+import { getAllThreeNotesPerStringPatterns, getAllCAGEDPatterns } from '../../utils/patternUtils';
 import ScaleDiagram from './ScaleDiagram';
 
 interface PatternGridProps {
