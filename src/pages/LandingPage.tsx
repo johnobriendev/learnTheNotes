@@ -49,9 +49,9 @@ const LandingPage = () => {
       title: 'Lessons',
       description: 'Structured lessons combining all concepts into a comprehensive learning path. Perfect for beginners and intermediate players.',
       icon: '📚',
-      path: '#',
+      path: '/lessons',
       color: 'from-cyan-500 to-blue-600',
-      comingSoon: true
+      comingSoon: false
     }
   ];
 

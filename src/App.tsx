@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LessonsPage from './pages/LessonsPage';
+import FirstThreeNotes from './pages/lessons/FirstThreeNotes';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -191,6 +192,10 @@ const router = createBrowserRouter([
       {
         path: 'lessons',
         element: <LessonsPage />
+      },
+      {
+        path: 'lessons/first-three-notes',
+        element: <FirstThreeNotes />
       },
       {
         path: 'notes',

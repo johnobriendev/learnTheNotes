@@ -15,17 +15,16 @@ const LessonsPage = () => {
   const navigate = useNavigate();
 
   const lessons: LessonCard[] = [
+    {
+      title: 'Learning Your First Three Notes',
+      description: 'Start by learning C, D, and E on all strings.',
+      icon: '🎸',
+      path: '/lessons/first-three-notes',
+      color: 'from-blue-500 to-indigo-600',
+      comingSoon: false,
+      difficulty: 'beginner'
+    }
     // Future lessons will be added here
-    // Example structure:
-    // {
-    //   title: 'Getting Started with the Fretboard',
-    //   description: 'Learn the basics of fretboard navigation and note positions.',
-    //   icon: '🎸',
-    //   path: '/lessons/fretboard-basics',
-    //   color: 'from-blue-500 to-indigo-600',
-    //   comingSoon: false,
-    //   difficulty: 'beginner'
-    // }
   ];
 
   return (
