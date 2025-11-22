@@ -23,12 +23,7 @@ const FirstThreeNotes = () => {
 
   const diagram = (
     <div>
-      <h3 className="text-lg font-semibold text-gray-900 mb-4">
-        Fretboard Diagram
-      </h3>
-      <p className="text-sm text-gray-600 mb-4">
-        The notes C, D, and E are highlighted on all strings. Blue = C, Green = D, Purple = E
-      </p>
+    
       <Fretboard
         numFrets={12}
         strings={strings}
@@ -48,10 +43,7 @@ const FirstThreeNotes = () => {
       </p>
 
 
-      <h3 className="text-xl font-semibold mb-3">Practice Exercise</h3>
-      <p className="mb-4">
-        Practice playing C, D, and E on each string. Start with the 6th string (low E) and work your way up.
-      </p>
+      <h3 className="text-xl font-semibold mb-3">Practice Exercises</h3>
 
       <h4>Exercise 1</h4>
       <p>Play all three notes on 1 string</p>
