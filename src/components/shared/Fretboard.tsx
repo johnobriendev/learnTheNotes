@@ -116,10 +116,10 @@ const Fretboard: React.FC<FretboardProps> = ({
 
 
   return (
-    <div className="bg-white rounded-md pl-4 pr-8 pt-4 pb-8 sm:pl-8 sm:pr-16 sm:py-6 shadow-lg h-full flex justify-center items-center">
-      <div className="relative flex self-center">
+    <div className="bg-white rounded-md shadow-lg w-full h-full flex justify-center items-center overflow-visible">
+      <div className="relative flex self-center px-1 py-4 sm:px-4 sm:py-6">
         {/* Fret numbers column */}
-        <div className="w-12 sm:w-10 mr-2 sm:mr-4 relative">
+        <div className="w-9 sm:w-10 mr-3 sm:mr-4 relative flex-shrink-0" style={{ height: `${3.5 * frets.length}rem` }}>
           {frets.map(fret => (
             <div
               key={`fret-num-${fret}`}
@@ -135,7 +135,7 @@ const Fretboard: React.FC<FretboardProps> = ({
         </div>
 
         {/* Main fretboard area */}
-        <div className="relative w-64">
+        <div className="relative w-60 sm:w-64 flex-shrink-0">
           {/* String Labels - positioned above the fretboard */}
           <div className="w-full pb-2">
             {strings.map((string, index) => (
@@ -310,7 +310,7 @@ const Fretboard: React.FC<FretboardProps> = ({
                     key={`note-${stringIndex}-${fret}`}
                     className={`absolute w-6 h-6 rounded-full flex items-center justify-center ${highlightInfo.color} text-white font-bold shadow-lg text-xs ${
                       quizState === 'active' && currentQuestion?.mode === 'find-note'
-                        ? 'cursor-pointer hover:opacity-80' 
+                        ? 'cursor-pointer hover:opacity-80'
                         : ''
                     }`}
                     style={{
@@ -318,7 +318,8 @@ const Fretboard: React.FC<FretboardProps> = ({
                       top: fret === 0
                         ? `${(50 / frets.length)}%`
                         : `${((fret * 100) / frets.length) + (100 / (frets.length * 2))}%`,
-                      transform: 'translate(-50%, -50%)'
+                      transform: 'translate(-50%, -50%)',
+                      zIndex: 10
                     }}
                     onClick={() => handlePositionClick(stringIndex, fret)}
                   >

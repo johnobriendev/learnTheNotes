@@ -38,7 +38,7 @@ const LessonLayout = ({
       {/* Header */}
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-3">
-          <h1 className="text-4xl font-bold text-gray-900">{title}</h1>
+          <h1 className=" text-xl md:text-4xl font-bold text-gray-900">{title}</h1>
           {difficulty && (
             <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getDifficultyColor()}`}>
               {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
@@ -101,7 +101,7 @@ const LessonLayout = ({
 
         {/* Diagram Section - Shows second on mobile */}
         <div className="order-1 lg:order-2">
-          <div className="bg-white rounded-xl shadow-md p-6 sticky top-4">
+          <div className="sticky top-4">
             {diagram}
           </div>
         </div>
