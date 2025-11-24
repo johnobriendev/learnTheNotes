@@ -16,7 +16,7 @@ const LessonLayout = ({
   diagram,
   textContent,
   videoUrl,
-  videoTitle
+  //videoTitle
 }: LessonLayoutProps) => {
   const [showVideo, setShowVideo] = useState(false);
 
@@ -86,13 +86,14 @@ const LessonLayout = ({
                 </div>
               ) : (
                 <div className="aspect-video">
-                  <iframe
+                  <video
                     className="w-full h-full rounded-lg"
-                    src={videoUrl}
-                    title={videoTitle || title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                    controls
+                    preload="metadata"
+                  >
+                    <source src={videoUrl} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
               )}
             </div>

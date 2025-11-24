@@ -94,6 +94,8 @@ E|-8----------------------------------------------|`}
       difficulty="beginner"
       diagram={diagram}
       textContent={textContent}
+      videoUrl="/FirstThreeNotes.mp4"
+      videoTitle="First Three Notes - C, D, E"
     />
   );
 };
