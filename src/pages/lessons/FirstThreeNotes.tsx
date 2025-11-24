@@ -22,17 +22,14 @@ const FirstThreeNotes = () => {
   };
 
   const diagram = (
-    <div>
-    
-      <Fretboard
-        numFrets={12}
-        strings={strings}
-        selectedNotes={selectedNotes}
-        useFlats={false}
-        noteColors={noteColors}
-        displayMode="notes"
-      />
-    </div>
+    <Fretboard
+      numFrets={12}
+      strings={strings}
+      selectedNotes={selectedNotes}
+      useFlats={false}
+      noteColors={noteColors}
+      displayMode="notes"
+    />
   );
 
   const textContent = (

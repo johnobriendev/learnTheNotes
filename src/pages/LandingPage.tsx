@@ -6,6 +6,14 @@ const LandingPage = () => {
 
   const features = [
     {
+      title: 'Lessons',
+      description: 'Structured lessons combining all concepts into a comprehensive learning path. Perfect for beginners and intermediate players.',
+      icon: '📚',
+      path: '/lessons',
+      color: 'from-cyan-500 to-blue-600',
+      comingSoon: false
+    },
+    {
       title: 'Notes',
       description: 'Master the fretboard by learning where every note lives. Interactive visualization and quiz modes to test your knowledge.',
       icon: '🎵',
@@ -43,14 +51,6 @@ const LandingPage = () => {
       icon: '🎹',
       path: '/intervals',
       color: 'from-yellow-500 to-orange-600',
-      comingSoon: false
-    },
-    {
-      title: 'Lessons',
-      description: 'Structured lessons combining all concepts into a comprehensive learning path. Perfect for beginners and intermediate players.',
-      icon: '📚',
-      path: '/lessons',
-      color: 'from-cyan-500 to-blue-600',
       comingSoon: false
     }
   ];

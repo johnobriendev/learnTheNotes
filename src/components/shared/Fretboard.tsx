@@ -117,9 +117,9 @@ const Fretboard: React.FC<FretboardProps> = ({
 
   return (
     <div className="bg-white rounded-md shadow-lg w-full h-full flex justify-center items-center overflow-visible">
-      <div className="relative flex self-center px-1 py-4 sm:px-4 sm:py-6">
-        {/* Fret numbers column */}
-        <div className="w-9 sm:w-10 mr-3 sm:mr-4 relative flex-shrink-0" style={{ height: `${3.5 * frets.length}rem` }}>
+      <div className="relative flex self-center py-4 sm:py-6">
+        {/* Fret numbers column - positioned absolutely to the left of the grid */}
+        <div className="absolute right-full mr-3 sm:mr-4 w-9 sm:w-10 flex-shrink-0" style={{ height: `${3.5 * frets.length}rem` }}>
           {frets.map(fret => (
             <div
               key={`fret-num-${fret}`}
@@ -134,7 +134,7 @@ const Fretboard: React.FC<FretboardProps> = ({
           ))}
         </div>
 
-        {/* Main fretboard area */}
+        {/* Main fretboard area - this is now the centered element */}
         <div className="relative w-60 sm:w-64 flex-shrink-0">
           {/* String Labels - positioned above the fretboard */}
           <div className="w-full pb-2">
