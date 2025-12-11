@@ -1,2 +1,10 @@
 
 @import "tailwindcss";
+
+/* Responsive fretboard heights */
+@media (min-width: 768px) {
+  .fretboard-height-column,
+  .fretboard-height-main {
+    height: var(--desktop-height) !important;
+  }
+}

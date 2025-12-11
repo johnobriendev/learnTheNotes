@@ -1,10 +1,8 @@
 // src/pages/NotesPage.tsx
 import { useState } from 'react';
-import FretboardSettings from '../components/shared/FretboardSettings';
 import Fretboard from '../components/shared/Fretboard';
 import NoteSelector from '../components/notes/NoteSelector';
 import StringSelector from '../components/shared/StringSelector';
-import HowToUse from '../components/notes/HowToUse';
 import TipsModal from '../components/shared/TipsModal';
 import CollapsiblePanel from '../components/shared/CollapsiblePanel';
 import { Note, QuizMode, QuizState, QuizQuestion } from '../types';
@@ -19,12 +17,6 @@ const NotesPage = () => {
   const [useFlats, setUseFlats] = useState<boolean>(false);
   const [showTipsModal, setShowTipsModal] = useState<boolean>(false);
 
-  // Sidebar state - with localStorage persistence
-  const [sidebarOpen, setSidebarOpen] = useState(() => {
-    // Get the stored value from localStorage, default to true if not found
-    const stored = localStorage.getItem('notes_sidebarOpen');
-    return stored === null ? true : stored === 'true';
-  });
 
   // Quiz state
   const [quizMode, setQuizMode] = useState<QuizMode>('find-note');
@@ -41,7 +33,6 @@ const NotesPage = () => {
   const [selectedQuizStrings, setSelectedQuizStrings] = useState<number[]>([]);
   
   // Panel states
-  const [fretboardSettingsOpen, setFretboardSettingsOpen] = useState(false);
   const [noteSelectionOpen, setNoteSelectionOpen] = useState(true);
   const [quizModeOpen, setQuizModeOpen] = useState(false);
   
@@ -85,11 +76,6 @@ const NotesPage = () => {
     setAllSelected(false);
   };
 
-  const toggleSidebar = () => {
-    const newState = !sidebarOpen;
-    setSidebarOpen(newState);
-    localStorage.setItem('notes_sidebarOpen', newState.toString());
-  };
 
   // String selection handlers
   const toggleQuizString = (stringIndex: number) => {
@@ -157,7 +143,6 @@ const NotesPage = () => {
     setSelectedNotes([]);
     setAllSelected(false);
     // Close other panels and open quiz mode
-    setFretboardSettingsOpen(false);
     setNoteSelectionOpen(false);
     setQuizModeOpen(true);
     const question = generateQuizQuestion();
@@ -308,29 +293,8 @@ const NotesPage = () => {
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="flex flex-col md:flex-row relative h-full">
         {/* Left Side - Fretboard */}
-        <div 
-          className={`
-            transition-all duration-300 ease-in-out bg-gray-50
-            flex-grow w-full h-full p-4 md:p-6 flex flex-col
-            ${sidebarOpen ? 'md:w-2/3' : 'md:w-full'}
-          `}
-        >
-          {/* Toggle button for desktop when controls are hidden */}
-          {!sidebarOpen && (
-            <div className="hidden md:block absolute top-4 right-4 z-10">
-              <button
-                onClick={toggleSidebar}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
-                           px-3 py-1.5 rounded-md shadow-md transition-all
-                           flex items-center gap-1"
-                aria-label="Show Controls"
-              >
-                <span className="text-lg leading-none">←</span> Show Controls
-              </button>
-            </div>
-          )}
-          
-          <div className="h-full flex items-center justify-center mb-4">
+        <div className="flex-grow md:w-2/3 bg-gray-50 p-2 md:p-4 flex flex-col">
+          <div className="h-full flex items-center justify-center">
             <Fretboard
               numFrets={numFrets}
               strings={standardTuning}
@@ -346,43 +310,17 @@ const NotesPage = () => {
               onFretboardClick={handleFretboardClick}
             />
           </div>
-          
-          {/* Mobile-only toggle button - below the fretboard */}
-          <div className="md:hidden w-full flex justify-center mt-4">
-            <button
-              onClick={toggleSidebar}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
-                         px-4 py-2 rounded-md shadow-md z-10 transition-all
-                         flex items-center gap-1 w-full justify-center"
-              aria-label={sidebarOpen ? 'Hide Controls' : 'Show Controls'}
-            >
-              {sidebarOpen ? 'Hide Controls' : 'Show Controls'}
-            </button>
-          </div>
         </div>
 
         {/* Right Side - Controls */}
-        {sidebarOpen && (
-          <div className="
-            w-full md:w-1/3 md:min-w-[320px] bg-white
-            border-t md:border-t-0 md:border-l border-gray-200 p-4 md:p-6 
-            flex flex-col gap-4 overflow-y-auto relative
-          ">
-            {/* Desktop toggle button - inside the sidebar */}
-            <div className="hidden md:block">
-              <button
-                onClick={toggleSidebar}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white text-sm
-                           px-3 py-1.5 rounded-md shadow-md z-10 transition-all
-                           flex items-center gap-1"
-                aria-label="Hide Controls"
-              >
-                Hide Controls <span className="text-lg leading-none">→</span>
-              </button>
-            </div>
+        <div className="
+          w-full md:w-1/3 md:min-w-[320px] bg-white
+          border-t md:border-t-0 md:border-l border-gray-200 p-4 md:p-6
+          flex flex-col gap-4 overflow-y-auto
+        ">
             
             <CollapsiblePanel
-              title="Note Selection"
+              title="Settings"
               defaultOpen={true}
               isOpen={noteSelectionOpen}
               onToggle={() => setNoteSelectionOpen(!noteSelectionOpen)}
@@ -395,6 +333,8 @@ const NotesPage = () => {
                 onToggleAllNotes={toggleAllNotes}
                 onClearSelection={clearSelection}
                 onFlatsToggle={toggleFlats}
+                numFrets={numFrets}
+                onFretsChange={handleFretsChange}
               />
             </CollapsiblePanel>
 
@@ -544,26 +484,7 @@ const NotesPage = () => {
               </div>
             </CollapsiblePanel>
 
-            <CollapsiblePanel
-              title="Fretboard Settings"
-              defaultOpen={false}
-              isOpen={fretboardSettingsOpen}
-              onToggle={() => setFretboardSettingsOpen(!fretboardSettingsOpen)}
-            >
-              <FretboardSettings
-                numFrets={numFrets}
-                onFretsChange={handleFretsChange}
-              />
-            </CollapsiblePanel>
-
-            <CollapsiblePanel title="How to Use" defaultOpen={false}>
-              <HowToUse
-                onShowTips={() => setShowTipsModal(true)}
-                tipType="notes"
-              />
-            </CollapsiblePanel>
           </div>
-        )}
       </div>
       
       <TipsModal 

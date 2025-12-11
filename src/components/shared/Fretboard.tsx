@@ -115,11 +115,22 @@ const Fretboard: React.FC<FretboardProps> = ({
 
 
 
+  // Calculate heights for mobile (2.7rem) and desktop (3.5rem)
+  const mobileHeight = 2.7 * frets.length;
+  const desktopHeight = 3.5 * frets.length;
+
   return (
     <div className="bg-white rounded-md shadow-lg w-full h-full flex justify-center items-center overflow-visible">
-      <div className="relative flex self-center py-4 sm:py-6">
+      <div className="relative flex self-center py-2 md:py-4">
         {/* Fret numbers column - positioned absolutely to the left of the grid */}
-        <div className="absolute right-full mr-3 sm:mr-4 w-9 sm:w-10 flex-shrink-0" style={{ height: `${3.5 * frets.length}rem` }}>
+        <div
+          className="absolute right-full mr-3 sm:mr-4 w-9 sm:w-10 flex-shrink-0 fretboard-height-column"
+          style={{
+            '--mobile-height': `${mobileHeight}rem`,
+            '--desktop-height': `${desktopHeight}rem`,
+            height: `${mobileHeight}rem`,
+          } as React.CSSProperties}
+        >
           {frets.map(fret => (
             <div
               key={`fret-num-${fret}`}
@@ -152,7 +163,14 @@ const Fretboard: React.FC<FretboardProps> = ({
             ))}
           </div>
 
-          <div className="relative" style={{ height: `${3.5 * frets.length}rem` }}>
+          <div
+            className="relative fretboard-height-main"
+            style={{
+              '--mobile-height': `${mobileHeight}rem`,
+              '--desktop-height': `${desktopHeight}rem`,
+              height: `${mobileHeight}rem`,
+            } as React.CSSProperties}
+          >
             {/* Fretboard position markers (dots) */}
             {frets.map((fret) => {
               // Skip frets that don't need dots

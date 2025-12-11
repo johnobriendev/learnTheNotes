@@ -1,7 +1,7 @@
 // src/components/NoteSelector.tsx
 import React from 'react';
 import { Note } from '../../types';
-import { allNotes, noteColors } from '../../constants';
+import { allNotes, noteColors, fretCountOptions } from '../../constants';
 import { displayNote } from '../../utils/utils';
 
 interface NoteSelectorProps {
@@ -12,6 +12,8 @@ interface NoteSelectorProps {
   onToggleAllNotes: () => void;
   onClearSelection: () => void;
   onFlatsToggle: () => void;
+  numFrets: number;
+  onFretsChange: (count: number) => void;
 }
 
 const NoteSelector: React.FC<NoteSelectorProps> = ({
@@ -21,26 +23,14 @@ const NoteSelector: React.FC<NoteSelectorProps> = ({
   onToggleNote,
   onToggleAllNotes,
   onClearSelection,
-  onFlatsToggle
+  onFlatsToggle,
+  numFrets,
+  onFretsChange
 }) => {
   return (
-    <div className="p-4">
-
-      {/* Sharps/Flats toggle */}
-      <div className="mb-3">
-        <button
-          className="px-3 py-1 w-full bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 text-sm"
-          onClick={onFlatsToggle}
-        >
-          {useFlats ? '♯ Use Sharps' : '♭ Use Flats'}
-        </button>
-      </div>
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold">Select Notes</h3>
-      </div>
-
+    <div className="p-3">
       {/* Note buttons grid */}
-      <div className="buttons-grid grid grid-cols-3 gap-2 w-full">
+      <div className="buttons-grid grid grid-cols-3 gap-2 w-full mb-3">
         {allNotes.map(note => (
           <button
             key={`btn-${note}`}
@@ -55,24 +45,49 @@ const NoteSelector: React.FC<NoteSelectorProps> = ({
         ))}
       </div>
 
-      {/* Action buttons */}
-      <div className="mt-6 flex flex-col gap-2">
+      {/* Action buttons row - smaller buttons */}
+      <div className="flex gap-2 mb-3">
         <button
-          className={`w-full px-4 py-2 rounded-md ${allSelected ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'
+          className={`flex-1 px-2 py-1.5 rounded-md text-sm ${allSelected ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'
             }`}
           onClick={onToggleAllNotes}
         >
           {allSelected ? "Deselect All" : "Select All"}
         </button>
 
-
         <button
-          className="w-full px-4 py-2 bg-red-500 text-white rounded-md"
+          className="flex-1 px-2 py-1.5 bg-red-500 text-white rounded-md text-sm"
           onClick={onClearSelection}
         >
-          Clear Selection
+          Clear
         </button>
 
+        <button
+          className="flex-1 px-2 py-1.5 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 text-sm"
+          onClick={onFlatsToggle}
+        >
+          {useFlats ? '♯ Sharps' : '♭ Flats'}
+        </button>
+      </div>
+
+      {/* Fret count selector */}
+      <div className="flex items-center gap-2">
+        <label className="text-sm text-gray-700 flex-shrink-0">Frets:</label>
+        <div className="flex flex-wrap gap-1">
+          {fretCountOptions.map(option => (
+            <button
+              key={`fret-option-${option}`}
+              className={`px-2 py-1 rounded-md text-xs ${
+                numFrets === option
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-200 hover:bg-gray-300'
+              }`}
+              onClick={() => onFretsChange(option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

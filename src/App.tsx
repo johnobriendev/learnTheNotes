@@ -57,10 +57,10 @@ const TitleWithNavigation = () => {
     <div ref={dropdownRef} className="relative inline-block text-left">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xl font-medium text-indigo-700 hover:text-indigo-800 transition-colors"
+        className="inline-flex items-center justify-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 text-base md:text-xl font-medium text-indigo-700 hover:text-indigo-800 transition-colors"
       >
         {headerTitle}
-        <span className={`transition-transform duration-200 ${isOpen ? 'transform rotate-180' : ''}`}>
+        <span className={`transition-transform duration-200 text-sm md:text-base ${isOpen ? 'transform rotate-180' : ''}`}>
           ▼
         </span>
       </button>
@@ -134,14 +134,14 @@ const RootLayout = () => {
   return (
     <div className="flex flex-col min-h-screen w-ful">
       {shouldShowHeader && (
-        <header className="py-1 border-b border-gray-200 bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-center">
+        <header className="py-0.5 md:py-1 border-b border-gray-200 bg-white shadow-sm">
+          <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 flex justify-center">
             <TitleWithNavigation />
           </div>
         </header>
       )}
 
-      <main className={`flex-1 w-full mx-auto ${!isLandingPage ? 'max-w-7xl px-4 py-4 sm:px-6 lg:px-8' : ''}`}>
+      <main className={`flex-1 w-full mx-auto ${!isLandingPage ? 'max-w-7xl px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8' : ''}`}>
         <Outlet key={location.key} />
       </main>
 
