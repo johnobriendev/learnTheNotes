@@ -148,7 +148,7 @@ const Fretboard: React.FC<FretboardProps> = ({
         {/* Main fretboard area - this is now the centered element */}
         <div className="relative w-60 sm:w-64 flex-shrink-0">
           {/* String Labels - positioned above the fretboard */}
-          <div className="w-full pb-2">
+          <div className="w-full pb-2.5">
             {strings.map((string, index) => (
               <div
                 key={`string-label-${index}`}
