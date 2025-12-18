@@ -23,6 +23,33 @@ const LessonsPage = () => {
       color: 'from-blue-500 to-indigo-600',
       comingSoon: false,
       difficulty: 'beginner'
+    },
+    {
+      title: 'Learn the Major Scale on One String',
+      description: 'Master the C major scale on the B string - a perfect introduction to scale patterns.',
+      icon: '🎵',
+      path: '/lessons/major-scale-one-string',
+      color: 'from-green-500 to-emerald-600',
+      comingSoon: false,
+      difficulty: 'beginner'
+    },
+    {
+      title: 'Switching Between Scale Patterns',
+      description: 'Learn to transition smoothly between 3-notes-per-string patterns in G major.',
+      icon: '🔄',
+      path: '/lessons/switching-scale-patterns',
+      color: 'from-purple-500 to-violet-600',
+      comingSoon: false,
+      difficulty: 'intermediate'
+    },
+    {
+      title: 'Two Note Per String Arpeggios',
+      description: 'Master G major 7 arpeggios using two-note-per-string patterns.',
+      icon: '🎹',
+      path: '/lessons/two-note-arpeggios',
+      color: 'from-pink-500 to-rose-600',
+      comingSoon: false,
+      difficulty: 'intermediate'
     }
     // Future lessons will be added here
   ];

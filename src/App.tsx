@@ -4,6 +4,9 @@ import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLoca
 import LandingPage from './pages/LandingPage';
 import LessonsPage from './pages/LessonsPage';
 import FirstThreeNotes from './pages/lessons/FirstThreeNotes';
+import MSOneString from './pages/lessons/MSOneString';
+import SwitchingScalePatterns from './pages/lessons/SwitchingScalePatterns';
+import TwoNoteArpeggios from './pages/lessons/TwoNoteArpeggios';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -196,6 +199,18 @@ const router = createBrowserRouter([
       {
         path: 'lessons/first-three-notes',
         element: <FirstThreeNotes />
+      },
+      {
+        path: 'lessons/major-scale-one-string',
+        element: <MSOneString />
+      },
+      {
+        path: 'lessons/switching-scale-patterns',
+        element: <SwitchingScalePatterns />
+      },
+      {
+        path: 'lessons/two-note-arpeggios',
+        element: <TwoNoteArpeggios />
       },
       {
         path: 'notes',
