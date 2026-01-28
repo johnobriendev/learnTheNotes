@@ -50,7 +50,16 @@ const LessonsPage = () => {
       color: 'from-pink-500 to-rose-600',
       comingSoon: false,
       difficulty: 'intermediate'
-    }
+    },
+    {
+      title: 'Learn the Fretboard with Triads',
+      description: 'Learn C major triads across the fretboard using full voicings and three-string shapes.',
+      icon: '🎶',
+      path: '/lessons/fretboard-triads',
+      color: 'from-amber-500 to-orange-600',
+      comingSoon: false,
+      difficulty: 'intermediate'
+    },
     // Future lessons will be added here
   ];
 

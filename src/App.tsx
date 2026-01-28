@@ -7,6 +7,7 @@ import FirstThreeNotes from './pages/lessons/FirstThreeNotes';
 import MSOneString from './pages/lessons/MSOneString';
 import SwitchingScalePatterns from './pages/lessons/SwitchingScalePatterns';
 import TwoNoteArpeggios from './pages/lessons/TwoNoteArpeggios';
+import FretboardTriads from './pages/lessons/FretboardTriads';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -211,6 +212,10 @@ const router = createBrowserRouter([
       {
         path: 'lessons/two-note-arpeggios',
         element: <TwoNoteArpeggios />
+      },
+      {
+        path: 'lessons/fretboard-triads',
+        element: <FretboardTriads />
       },
       {
         path: 'notes',
