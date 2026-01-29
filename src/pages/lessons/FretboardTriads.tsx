@@ -80,7 +80,7 @@ const FretboardTriads = () => {
 
   const textContent = (
     <>
-      <p>The idea behind these exercises is being able to move either horizontally or vertically across the neck. Exercises 1-3 move horizontally, while 4-7 are moving vertically. Closed triads like these on adjacent strings will always follow a pattern: R 3 5 , 3 5 R, or 5 R 3. These examples are for a C major triad, C is the Root, E is the third, and G is the fifth</p>
+      <p>The idea behind these exercises is being able to move either horizontally or vertically across the neck. Exercises 1-3 move horizontally, while 4-7 are moving vertically. Closed triads like these on adjacent strings will always follow a pattern: R 3 5 , 3 5 R, or 5 R 3. These examples are for a C major triad, C is the Root, E is the third, and G is the fifth.</p>
       <br />
       <h4 className="flex items-center font-semibold">
         Exercise 1
@@ -196,6 +196,8 @@ E|-------------------------------|`}
       difficulty="intermediate"
       diagrams={diagrams}
       textContent={textContent}
+      videoUrl="/fretboardTriads.mp4"
+      videoTitle="Learn the Fretboard with Triads"
     />
   );
 };
