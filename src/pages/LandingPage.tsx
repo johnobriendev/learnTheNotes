@@ -52,6 +52,14 @@ const LandingPage = () => {
       path: '/intervals',
       color: 'from-yellow-500 to-orange-600',
       comingSoon: false
+    },
+    {
+      title: 'Quizzes',
+      description: 'Test your music theory knowledge with interactive quizzes on key signatures, intervals, triads, and more.',
+      icon: '🧠',
+      path: '/quizzes',
+      color: 'from-violet-500 to-purple-600',
+      comingSoon: false
     }
   ];
 

@@ -13,6 +13,8 @@ import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
 import KeysPage from './pages/KeysPage';
 import IntervalTrainerPage from './pages/IntervalTrainerPage';
+import QuizzesPage from './pages/QuizzesPage';
+import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 
 // Title with dropdown navigation
 const TitleWithNavigation = () => {
@@ -45,6 +47,7 @@ const TitleWithNavigation = () => {
     if (location.pathname === '/scales') return 'Scales';
     if (location.pathname === '/keys') return 'Keys';
     if (location.pathname === '/intervals') return 'Intervals';
+    if (location.pathname.startsWith('/quizzes')) return 'Quizzes';
 
     return 'Guitar';
   };
@@ -55,7 +58,11 @@ const TitleWithNavigation = () => {
   };
 
   const currentPage = getCurrentPage();
-  const headerTitle = currentPage === 'Lessons' ? 'Lessons' : `You Can Learn the ${currentPage}`;
+  const headerTitle = currentPage === 'Lessons'
+    ? 'Lessons'
+    : currentPage === 'Quizzes'
+      ? 'Music Theory Quizzes'
+      : `You Can Learn the ${currentPage}`;
 
   return (
     <div ref={dropdownRef} className="relative inline-block text-left">
@@ -85,6 +92,13 @@ const TitleWithNavigation = () => {
               onClick={() => handleNavigate('/lessons')}
             >
               Lessons
+            </button>
+            <button
+              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname.startsWith('/quizzes') ? 'text-indigo-600 font-medium' : 'text-gray-700'
+                }`}
+              onClick={() => handleNavigate('/quizzes')}
+            >
+              Music Theory Quizzes
             </button>
             <div className="border-t border-gray-100 my-1"></div>
             <button
@@ -236,6 +250,14 @@ const router = createBrowserRouter([
       {
         path: 'intervals',
         element: <IntervalTrainerPage />
+      },
+      {
+        path: 'quizzes',
+        element: <QuizzesPage />
+      },
+      {
+        path: 'quizzes/major-key-signatures',
+        element: <MajorKeySignaturesQuiz />
       }
     ]
   }
