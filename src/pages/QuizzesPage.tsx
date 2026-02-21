@@ -55,12 +55,13 @@ const QuizzesPage = () => {
       icon: '🎸',
       quizzes: [
         {
-          title: 'Triad Quality',
-          description: 'Identify major, minor, diminished, and augmented triads.',
+          title: 'Triads',
+          description: 'Given a triad, identify its notes — or given notes, name the triad. Augmented triads accept all enharmonic roots.',
           icon: '🎶',
           path: '/quizzes/triads',
           color: 'from-purple-500 to-pink-600',
-          comingSoon: true
+          comingSoon: false,
+          difficulty: 'intermediate' as const
         }
       ]
     },
@@ -69,12 +70,13 @@ const QuizzesPage = () => {
       icon: '🎹',
       quizzes: [
         {
-          title: 'Chord Identification',
-          description: 'Identify chord types and extensions.',
+          title: 'Chords in the Major Key',
+          description: 'Identify diatonic chords by Roman numeral across all major keys — both directions.',
           icon: '🎼',
-          path: '/quizzes/chords',
+          path: '/quizzes/chords-in-major-key',
           color: 'from-green-500 to-teal-600',
-          comingSoon: true
+          comingSoon: false,
+          difficulty: 'intermediate' as const
         }
       ]
     }

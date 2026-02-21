@@ -15,6 +15,8 @@ import KeysPage from './pages/KeysPage';
 import IntervalTrainerPage from './pages/IntervalTrainerPage';
 import QuizzesPage from './pages/QuizzesPage';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
+import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
+import TriadsQuiz from './pages/quizzes/TriadsQuiz';
 
 // Title with dropdown navigation
 const TitleWithNavigation = () => {
@@ -258,6 +260,14 @@ const router = createBrowserRouter([
       {
         path: 'quizzes/major-key-signatures',
         element: <MajorKeySignaturesQuiz />
+      },
+      {
+        path: 'quizzes/chords-in-major-key',
+        element: <ChordsInMajorKeyQuiz />
+      },
+      {
+        path: 'quizzes/triads',
+        element: <TriadsQuiz />
       }
     ]
   }
