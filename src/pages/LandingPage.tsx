@@ -68,8 +68,7 @@ const LandingPage = () => {
           You Can Learn Guitar
         </h1>
         <p className="text-lg sm:text-xl max-w-2xl mb-10 leading-relaxed" style={{ color: colors.sage }}>
-          Learn at your own pace with interactive tools to help you visualize, practice, and truly understand
-          the fretboard with built-in quizzes and exercises.
+          Learn at your own pace with interactive tools that help you visualize the fretboard.
         </p>
         <button
           onClick={() => document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' })}
