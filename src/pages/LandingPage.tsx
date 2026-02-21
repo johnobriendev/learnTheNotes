@@ -85,7 +85,8 @@ const LandingPage = () => {
       </div>
 
       {/* Features Grid */}
-      <div id="features" className="max-w-6xl mx-auto px-4 py-16">
+      <div id="features" className="min-h-screen flex items-center">
+      <div className="max-w-6xl mx-auto px-4 py-16 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {features.map((feature) => (
             <div
@@ -109,6 +110,7 @@ const LandingPage = () => {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </div>
   );
