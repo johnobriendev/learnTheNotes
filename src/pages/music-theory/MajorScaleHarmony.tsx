@@ -26,13 +26,13 @@ const majorKeyRoots: Record<string, string[]> = {
 };
 
 const scaleFormula = [
-  { roman: 'I',    quality: 'Major' },
-  { roman: 'ii',   quality: 'Minor' },
-  { roman: 'iii',  quality: 'Minor' },
-  { roman: 'IV',   quality: 'Major' },
-  { roman: 'V',    quality: 'Major' },
-  { roman: 'vi',   quality: 'Minor' },
-  { roman: 'vii°', quality: 'Diminished' },
+  { roman: 'I',    quality: 'Major',      seventh: 'maj7' },
+  { roman: 'ii',   quality: 'Minor',      seventh: 'min7' },
+  { roman: 'iii',  quality: 'Minor',      seventh: 'min7' },
+  { roman: 'IV',   quality: 'Major',      seventh: 'maj7' },
+  { roman: 'V',    quality: 'Major',      seventh: '7'    },
+  { roman: 'vi',   quality: 'Minor',      seventh: 'min7' },
+  { roman: 'vii°', quality: 'Diminished', seventh: 'min7b5' },
 ];
 
 const keyRows = [
@@ -108,7 +108,7 @@ const MajorScaleHarmony = () => {
             <li><strong>IV maj7</strong> — major 7th</li>
             <li><strong>V 7</strong> — dominant 7th </li>
             <li><strong>vi min7</strong> — minor 7th</li>
-            <li><strong>vii° ø7</strong> — minor 7 ♭5 (also known as half-diminished 7th )</li>
+            <li><strong>vii° min7b5</strong> — half-diminished 7th</li>
           </ul>
          
 
@@ -176,31 +176,50 @@ const MajorScaleHarmony = () => {
 
             {/* Chord rows */}
             <div className="divide-y" style={{ borderColor: colors.sage }}>
-              {scaleFormula.map((row, i) => (
-                <div key={i} className="flex items-center gap-4 px-6 py-4">
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
-                    style={{ background: colors.medNavy, color: colors.cream }}
-                  >
-                    {i + 1}
+              {scaleFormula.map((row, i) => {
+                const triadNotes = [roots[i % 7], roots[(i + 2) % 7], roots[(i + 4) % 7]];
+                const seventhNotes = [...triadNotes, roots[(i + 6) % 7]];
+                return (
+                  <div key={i} className="flex items-center gap-3 px-4 py-3">
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+                      style={{ background: colors.medNavy, color: colors.cream }}
+                    >
+                      {i + 1}
+                    </div>
+                    <div
+                      className="w-12 text-center font-mono text-lg font-bold flex-shrink-0"
+                      style={{ color: colors.darkNavy }}
+                    >
+                      {row.roman}
+                    </div>
+                    <div className="flex-1 min-w-0 flex gap-3">
+                      {/* Triad */}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-semibold mb-0.5" style={{ color: colors.darkNavy }}>{roots[i]} {row.quality.toLowerCase()}</div>
+                        <div className="text-xs font-mono font-semibold" style={{ color: colors.darkNavy }}>
+                          {triadNotes.join(' – ')}
+                        </div>
+                      </div>
+                      {/* Divider */}
+                      <div className="w-px self-stretch" style={{ background: colors.sage }} />
+                      {/* 7th chord */}
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs font-semibold mb-0.5" style={{ color: colors.darkNavy }}>{roots[i]} {row.seventh}</div>
+                        <div className="text-xs font-mono font-semibold" style={{ color: colors.darkNavy }}>
+                          {seventhNotes.join(' – ')}
+                        </div>
+                      </div>
+                    </div>
+                    <span
+                      className="text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0"
+                      style={qualityColor[row.quality]}
+                    >
+                      {row.quality}
+                    </span>
                   </div>
-                  <div
-                    className="w-14 text-center font-mono text-xl font-bold flex-shrink-0"
-                    style={{ color: colors.darkNavy }}
-                  >
-                    {row.roman}
-                  </div>
-                  <div className="flex-1 font-semibold text-sm" style={{ color: colors.darkNavy }}>
-                    {roots[i]} {row.quality.toLowerCase()}
-                  </div>
-                  <span
-                    className="text-xs font-semibold px-2 py-1 rounded-full flex-shrink-0"
-                    style={qualityColor[row.quality]}
-                  >
-                    {row.quality}
-                  </span>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
