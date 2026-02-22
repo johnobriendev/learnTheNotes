@@ -58,7 +58,7 @@ const MajorScaleHarmony = () => {
     <div className="max-w-7xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Text content */}
-        <div className="bg-white rounded-xl shadow-md p-6">
+        <div className="bg-white rounded-xl shadow-md p-6 lg:overflow-y-auto lg:max-h-[calc(100vh-6rem)]">
           <H2>Building Chords from the Scale</H2>
           <p style={{ color: colors.medNavy }}>
             To build a chord on any scale degree, stack every other note of the scale starting from that degree —
