@@ -20,6 +20,12 @@ const LandingPage = () => {
       path: '/lessons',
     },
     {
+      title: 'Music Theory Lessons',
+      description: 'Understand the theory behind the music. Learn harmony, chord construction, roman numerals, and more.',
+      icon: '🎓',
+      path: '/music-theory',
+    },
+    {
       title: 'Notes on the Fretboard',
       description: 'Master the fretboard by learning where every note lives. Interactive visualization and quiz modes to test your knowledge.',
       icon: '🎵',

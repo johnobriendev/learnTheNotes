@@ -14,6 +14,8 @@ import ScalePage from './pages/ScalePage';
 import KeysPage from './pages/KeysPage';
 import IntervalTrainerPage from './pages/IntervalTrainerPage';
 import QuizzesPage from './pages/QuizzesPage';
+import MusicTheoryPage from './pages/MusicTheoryPage';
+import MajorScaleHarmony from './pages/music-theory/MajorScaleHarmony';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
@@ -38,6 +40,8 @@ const pageTitles: Record<string, string> = {
   '/scales': 'Scale Patterns for Guitar',
   '/keys': 'Key Signatures with the Circle of Fifths',
   '/intervals': 'Ear Training with Intervals',
+  '/music-theory': 'Music Theory Lessons',
+  '/music-theory/major-scale-harmony': 'Major Scale Harmony',
   '/quizzes': 'Music Theory Quizzes',
   '/quizzes/major-key-signatures': 'Major Key Signatures Quiz',
   '/quizzes/chords-in-major-key': 'Chords in Major Key Quiz',
@@ -46,6 +50,7 @@ const pageTitles: Record<string, string> = {
 
 const navItems = [
   { path: '/lessons', label: 'Guitar Lessons' },
+  { path: '/music-theory', label: 'Music Theory Lessons' },
   { path: '/notes', label: 'Notes on the Fretboard' },
   { path: '/triads', label: 'Triads on the Fretboard' },
   { path: '/scales', label: 'Scale Patterns for Guitar' },
@@ -171,6 +176,8 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <LandingPage /> },
       { path: 'lessons', element: <LessonsPage /> },
+      { path: 'music-theory', element: <MusicTheoryPage /> },
+      { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },
