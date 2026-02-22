@@ -34,45 +34,17 @@ export const useDiagramSwitcher = () => {
 };
 
 const LessonLayout = ({
-  title,
-  difficulty,
   diagram,
   diagrams,
   textContent,
   videoUrl,
-  //videoTitle
 }: LessonLayoutProps) => {
   const [showVideo, setShowVideo] = useState(false);
   const [activeDiagram, setActiveDiagram] = useState(0);
 
-  const getDifficultyColor = () => {
-    switch (difficulty) {
-      case 'beginner':
-        return 'bg-green-100 text-green-700';
-      case 'intermediate':
-        return 'bg-yellow-100 text-yellow-700';
-      case 'advanced':
-        return 'bg-red-100 text-red-700';
-      default:
-        return 'bg-gray-100 text-gray-700';
-    }
-  };
-
   return (
     <DiagramContext.Provider value={{ setActiveDiagram, activeDiagram }}>
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <h1 className=" text-xl md:text-4xl font-bold text-gray-900">{title}</h1>
-            {difficulty && (
-              <span className={`text-sm font-semibold px-3 py-1 rounded-full ${getDifficultyColor()}`}>
-                {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
-              </span>
-            )}
-          </div>
-        </div>
-
         {/* Main Content Area - Desktop: diagram left, content right. Mobile: content first, diagram second */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Content Section (Text or Video) - Shows first on mobile */}

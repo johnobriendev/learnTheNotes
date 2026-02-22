@@ -18,264 +18,177 @@ import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
 
-// Title with dropdown navigation
-const TitleWithNavigation = () => {
+const colors = {
+  sage: '#b4b8ab',
+  darkNavy: '#153243',
+  medNavy: '#284b63',
+  cream: '#f4f9e9',
+  lightGray: '#eef0eb',
+};
+
+const pageTitles: Record<string, string> = {
+  '/lessons': 'Guitar Lessons',
+  '/lessons/first-three-notes': 'Learning Your First Three Notes',
+  '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
+  '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
+  '/lessons/two-note-arpeggios': 'Two Note Per String Arpeggios',
+  '/lessons/fretboard-triads': 'Learn the Fretboard with Triads',
+  '/notes': 'Notes on the Fretboard',
+  '/triads': 'Triads on the Fretboard',
+  '/scales': 'Scale Patterns for Guitar',
+  '/keys': 'Key Signatures with the Circle of Fifths',
+  '/intervals': 'Ear Training with Intervals',
+  '/quizzes': 'Music Theory Quizzes',
+  '/quizzes/major-key-signatures': 'Major Key Signatures Quiz',
+  '/quizzes/chords-in-major-key': 'Chords in Major Key Quiz',
+  '/quizzes/triads': 'Triads Quiz',
+};
+
+const navItems = [
+  { path: '/lessons', label: 'Guitar Lessons' },
+  { path: '/notes', label: 'Notes on the Fretboard' },
+  { path: '/triads', label: 'Triads on the Fretboard' },
+  { path: '/scales', label: 'Scale Patterns for Guitar' },
+  { path: '/keys', label: 'Key Signatures with the Circle of Fifths' },
+  { path: '/intervals', label: 'Ear Training with Intervals' },
+  { path: '/quizzes', label: 'Music Theory Quizzes' },
+];
+
+const NavDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Handle clicks outside the dropdown to close it
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
-
-
-  // Get current page type based on URL
-  const getCurrentPage = () => {
-    if (location.pathname === '/') return 'Guitar';
-    if (location.pathname === '/lessons') return 'Lessons';
-    if (location.pathname === '/notes') return 'Notes';
-    if (location.pathname === '/triads') return 'Triads';
-    if (location.pathname === '/scales') return 'Scales';
-    if (location.pathname === '/keys') return 'Keys';
-    if (location.pathname === '/intervals') return 'Intervals';
-    if (location.pathname.startsWith('/quizzes')) return 'Quizzes';
-
-    return 'Guitar';
-  };
 
   const handleNavigate = (path: string) => {
     navigate(path);
     setIsOpen(false);
   };
 
-  const currentPage = getCurrentPage();
-  const headerTitle = currentPage === 'Lessons'
-    ? 'Lessons'
-    : currentPage === 'Quizzes'
-      ? 'Music Theory Quizzes'
-      : `You Can Learn the ${currentPage}`;
-
   return (
-    <div ref={dropdownRef} className="relative inline-block text-left">
+    <div ref={dropdownRef} className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="inline-flex items-center justify-center gap-1 md:gap-2 px-2 py-1 md:px-4 md:py-2 text-base md:text-xl font-medium text-indigo-700 hover:text-indigo-800 transition-colors"
+        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
+        style={{ color: colors.sage, background: isOpen ? colors.medNavy : 'transparent' }}
       >
-        {headerTitle}
-        <span className={`transition-transform duration-200 text-sm md:text-base ${isOpen ? 'transform rotate-180' : ''}`}>
-          ▼
-        </span>
+        Menu
+        <span className={`text-xs transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
       </button>
 
       {isOpen && (
-        <div className="absolute left-0 z-50 mt-2 w-48 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
+        <div
+          className="absolute left-0 z-50 mt-2 w-80 rounded-lg shadow-lg py-1 border"
+          style={{ background: colors.darkNavy, borderColor: colors.medNavy }}
+        >
+          <button
+            className="block w-full text-left px-4 py-2 text-sm transition-colors hover:bg-opacity-50"
+            style={{ color: location.pathname === '/' ? colors.cream : colors.sage }}
+            onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
+            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            onClick={() => handleNavigate('/')}
+          >
+            Home
+          </button>
+          <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
+          {navItems.map(item => (
             <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/')}
+              key={item.path}
+              className="block w-full text-left px-4 py-2 text-sm transition-colors"
+              style={{ color: location.pathname.startsWith(item.path) ? colors.cream : colors.sage }}
+              onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+              onClick={() => handleNavigate(item.path)}
             >
-              Home
+              {item.label}
             </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/lessons' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/lessons')}
-            >
-              Lessons
-            </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname.startsWith('/quizzes') ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/quizzes')}
-            >
-              Music Theory Quizzes
-            </button>
-            <div className="border-t border-gray-100 my-1"></div>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/notes' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/notes')}
-            >
-              Learn the Notes
-            </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/triads' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/triads')}
-            >
-              Learn the Triads
-            </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/scales' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/scales')}
-            >
-              Learn the Scales
-            </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/keys' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/keys')}
-            >
-              Learn the Keys
-            </button>
-            <button
-              className={`block w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${location.pathname === '/intervals' ? 'text-indigo-600 font-medium' : 'text-gray-700'
-                }`}
-              onClick={() => handleNavigate('/intervals')}
-            >
-              Learn the Intervals
-            </button>
-          </div>
+          ))}
         </div>
       )}
     </div>
   );
 };
 
-// Root layout component
 const RootLayout = () => {
   const location = useLocation();
-  const shouldShowHeader = location.pathname !== '/';
   const isLandingPage = location.pathname === '/';
 
-  return (
-    <div className="flex flex-col min-h-screen w-ful">
-      {shouldShowHeader && (
-        <header className="py-0.5 md:py-1 border-b border-gray-200 bg-white shadow-sm">
-          <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8 flex justify-center">
-            <TitleWithNavigation />
-          </div>
-        </header>
-      )}
+  if (isLandingPage) {
+    return <Outlet key={location.key} />;
+  }
 
-      <main className={`flex-1 w-full mx-auto ${!isLandingPage ? 'max-w-7xl px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8' : ''}`}>
+  const title = pageTitles[location.pathname] || '';
+
+  return (
+    <div className="flex flex-col min-h-screen" style={{ background: colors.lightGray }}>
+      <header
+        className="flex items-center px-4 py-2 border-b"
+        style={{ background: colors.darkNavy, borderColor: colors.medNavy, position: 'relative' }}
+      >
+        {/* Dropdown on the left */}
+        <div style={{ position: 'absolute', left: '16px' }}>
+          <NavDropdown />
+        </div>
+
+        {/* Title centered across full header */}
+        <div className="flex-1 text-center">
+          <span className="font-bold text-base" style={{ color: colors.cream }}>{title}</span>
+        </div>
+      </header>
+
+      <main className="flex-1 max-w-7xl w-full mx-auto px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
         <Outlet key={location.key} />
       </main>
-
-      {/* <footer className="py-3 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          © {new Date().getFullYear()} Learn the Notes
-        </div>
-      </footer> */}
     </div>
   );
 };
 
-// Error page
-const ErrorPage = () => {
-  return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h1>
-      <p className="text-gray-600 mb-6">The page you're looking for doesn't exist.</p>
-      <Link
-        to="/"
-        className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-      >
-        Go Home
-      </Link>
-    </div>
-  );
-};
+const ErrorPage = () => (
+  <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <h1 className="text-3xl font-bold text-gray-800 mb-4">Page Not Found</h1>
+    <p className="text-gray-600 mb-6">The page you're looking for doesn't exist.</p>
+    <Link to="/" className="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
+      Go Home
+    </Link>
+  </div>
+);
 
-// Coming Soon page placeholder
-// const ComingSoonPage = () => (
-//   <div className="flex flex-col items-center justify-center h-64">
-//     <h2 className="text-2xl font-bold text-gray-800 mb-4">Coming Soon</h2>
-//     <p className="text-lg text-gray-600">This feature is under development and will be available soon!</p>
-//   </div>
-// );
-
-// Create the router with routes
 const router = createBrowserRouter([
   {
     path: '/',
     element: <RootLayout />,
     errorElement: <ErrorPage />,
     children: [
-      {
-        index: true,
-        element: <LandingPage />
-      },
-      {
-        path: 'lessons',
-        element: <LessonsPage />
-      },
-      {
-        path: 'lessons/first-three-notes',
-        element: <FirstThreeNotes />
-      },
-      {
-        path: 'lessons/major-scale-one-string',
-        element: <MSOneString />
-      },
-      {
-        path: 'lessons/switching-scale-patterns',
-        element: <SwitchingScalePatterns />
-      },
-      {
-        path: 'lessons/two-note-arpeggios',
-        element: <TwoNoteArpeggios />
-      },
-      {
-        path: 'lessons/fretboard-triads',
-        element: <FretboardTriads />
-      },
-      {
-        path: 'notes',
-        element: <NotesPage />
-      },
-      {
-        path: 'triads',
-        element: <TriadsPage />
-      },
-      {
-        path: 'scales',
-        element: <ScalePage />
-      },
-      {
-        path: 'keys',
-        element: <KeysPage />
-      },
-      {
-        path: 'intervals',
-        element: <IntervalTrainerPage />
-      },
-      {
-        path: 'quizzes',
-        element: <QuizzesPage />
-      },
-      {
-        path: 'quizzes/major-key-signatures',
-        element: <MajorKeySignaturesQuiz />
-      },
-      {
-        path: 'quizzes/chords-in-major-key',
-        element: <ChordsInMajorKeyQuiz />
-      },
-      {
-        path: 'quizzes/triads',
-        element: <TriadsQuiz />
-      }
+      { index: true, element: <LandingPage /> },
+      { path: 'lessons', element: <LessonsPage /> },
+      { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
+      { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
+      { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },
+      { path: 'lessons/two-note-arpeggios', element: <TwoNoteArpeggios /> },
+      { path: 'lessons/fretboard-triads', element: <FretboardTriads /> },
+      { path: 'notes', element: <NotesPage /> },
+      { path: 'triads', element: <TriadsPage /> },
+      { path: 'scales', element: <ScalePage /> },
+      { path: 'keys', element: <KeysPage /> },
+      { path: 'intervals', element: <IntervalTrainerPage /> },
+      { path: 'quizzes', element: <QuizzesPage /> },
+      { path: 'quizzes/major-key-signatures', element: <MajorKeySignaturesQuiz /> },
+      { path: 'quizzes/chords-in-major-key', element: <ChordsInMajorKeyQuiz /> },
+      { path: 'quizzes/triads', element: <TriadsQuiz /> },
     ]
   }
 ]);
 
-// Main App component
-const App = () => {
-  return <RouterProvider router={router} />;
-};
+const App = () => <RouterProvider router={router} />;
 
 export default App;
