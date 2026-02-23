@@ -16,6 +16,7 @@ import IntervalTrainerPage from './pages/IntervalTrainerPage';
 import QuizzesPage from './pages/QuizzesPage';
 import MusicTheoryPage from './pages/MusicTheoryPage';
 import MajorScaleHarmony from './pages/music-theory/MajorScaleHarmony';
+import BuildingSeventhChords from './pages/music-theory/BuildingSeventhChords';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
@@ -42,6 +43,7 @@ const pageTitles: Record<string, string> = {
   '/intervals': 'Ear Training with Intervals',
   '/music-theory': 'Music Theory Lessons',
   '/music-theory/major-scale-harmony': 'Major Scale Harmony',
+  '/music-theory/building-seventh-chords': 'Building 7th Chords',
   '/quizzes': 'Music Theory Quizzes',
   '/quizzes/major-key-signatures': 'Major Key Signatures Quiz',
   '/quizzes/chords-in-major-key': 'Chords in Major Key Quiz',
@@ -178,6 +180,7 @@ const router = createBrowserRouter([
       { path: 'lessons', element: <LessonsPage /> },
       { path: 'music-theory', element: <MusicTheoryPage /> },
       { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
+      { path: 'music-theory/building-seventh-chords', element: <BuildingSeventhChords /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },

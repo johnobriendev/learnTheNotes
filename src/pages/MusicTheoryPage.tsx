@@ -32,6 +32,12 @@ const MusicTheoryPage = () => {
       path: '/music-theory/major-scale-harmony',
       difficulty: 'beginner',
     },
+    {
+      title: 'Building 7th Chords',
+      description: 'Explore all five 7th chord types — maj7, dominant 7, min7, min7b5, and dim7 — from any root note.',
+      path: '/music-theory/building-seventh-chords',
+      difficulty: 'beginner',
+    },
   ];
 
   return (
