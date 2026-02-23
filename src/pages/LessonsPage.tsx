@@ -56,6 +56,12 @@ const LessonsPage = () => {
       path: '/lessons/fretboard-triads',
       difficulty: 'intermediate'
     },
+    {
+      title: 'Root Position Seventh Chords',
+      description: 'Learn drop 2 (5th string root) and drop 3 (6th string root) seventh chord voicings.',
+      path: '/lessons/root-position-seventh-chords',
+      difficulty: 'intermediate'
+    },
   ];
 
   return (
