@@ -107,47 +107,18 @@ const BuildingSeventhChords = () => {
 
           <H2>The Five 7th Chord Types</H2>
 
-          <div className="mt-3 space-y-4">
-            <div className="rounded-lg p-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
-              <div className="font-bold text-sm mb-1" style={{ color: colors.darkNavy }}>Major 7 (maj7) — 1 3 5 7</div>
-              <p className="text-sm" style={{ color: colors.medNavy }}>
-                Major triad + major 7th. The most consonant 7th chord. Sounds warm, lush, and resolved.
-                Found on the I and IV chords of any major key.
-              </p>
-            </div>
-
-            <div className="rounded-lg p-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
-              <div className="font-bold text-sm mb-1" style={{ color: colors.darkNavy }}>Dominant 7 (7) — 1 3 5 b7</div>
-              <p className="text-sm" style={{ color: colors.medNavy }}>
-                Major triad + minor 7th. The most important 7th chord in tonal music. Creates strong tension
-                that wants to resolve to the I chord. Found on the V chord of any major key.
-              </p>
-            </div>
-
-            <div className="rounded-lg p-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
-              <div className="font-bold text-sm mb-1" style={{ color: colors.darkNavy }}>Minor 7 (min7) — 1 b3 5 b7</div>
-              <p className="text-sm" style={{ color: colors.medNavy }}>
-                Minor triad + minor 7th. Smooth and melancholy. Found on the ii, iii, and vi chords
-                of any major key. The workhorse of jazz and soul harmony.
-              </p>
-            </div>
-
-            <div className="rounded-lg p-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
-              <div className="font-bold text-sm mb-1" style={{ color: colors.darkNavy }}>Minor 7b5 (min7b5) — 1 b3 b5 b7</div>
-              <p className="text-sm" style={{ color: colors.medNavy }}>
-                Diminished triad + minor 7th. Also called half-diminished. Dark and unstable.
-                Found on the vii chord of any major key, and the ii chord in minor keys.
-              </p>
-            </div>
-
-            <div className="rounded-lg p-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
-              <div className="font-bold text-sm mb-1" style={{ color: colors.darkNavy }}>Fully Diminished (dim7) — 1 b3 b5 bb7</div>
-              <p className="text-sm" style={{ color: colors.medNavy }}>
-                Diminished triad + diminished 7th (bb7 = two half steps below the major 7th).
-                Maximum tension. Symmetrical — every interval is a minor third, so it can resolve
-                to four different tonic chords. Common in jazz and classical.
-              </p>
-            </div>
+          <div className="mt-3 space-y-2">
+            {[
+              'Major 7 (maj7) — 1 3 5 7',
+              'Dominant 7 (7) — 1 3 5 b7',
+              'Minor 7 (min7) — 1 b3 5 b7',
+              'Minor 7b5 (min7b5) — 1 b3 b5 b7',
+              'Fully Diminished (dim7) — 1 b3 b5 bb7',
+            ].map((label) => (
+              <div key={label} className="rounded-lg px-4 py-3" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
+                <div className="font-bold text-sm" style={{ color: colors.darkNavy }}>{label}</div>
+              </div>
+            ))}
           </div>
 
           <H2>Understanding the Interval Degrees</H2>
