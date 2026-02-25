@@ -1,4 +1,4 @@
-// src/pages/LessonsPage.tsx
+// src/pages/GuitarLessonsPage.tsx
 import { useNavigate } from 'react-router-dom';
 
 const colors = {
@@ -22,7 +22,7 @@ const difficultyStyle = {
   advanced: { background: colors.darkNavy, color: colors.cream, border: 'none' },
 };
 
-const LessonsPage = () => {
+const GuitarLessonsPage = () => {
   const navigate = useNavigate();
 
   const lessons: LessonCard[] = [
@@ -105,4 +105,4 @@ const LessonsPage = () => {
   );
 };
 
-export default LessonsPage;
+export default GuitarLessonsPage;

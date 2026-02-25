@@ -2,14 +2,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import LessonsPage from './pages/LessonsPage';
-import FirstThreeNotes from './pages/lessons/FirstThreeNotes';
-import MSOneString from './pages/lessons/MSOneString';
-import SwitchingScalePatterns from './pages/lessons/SwitchingScalePatterns';
-import TwoNoteArpeggios from './pages/lessons/TwoNoteArpeggios';
-import FretboardTriads from './pages/lessons/FretboardTriads';
-import RootPositionSeventhChords from './pages/lessons/RootPositionSeventhChords';
-import F6Dm7Arpeggio from './pages/lessons/F6Dm7Arpeggio';
+import GuitarLessonsPage from './pages/GuitarLessonsPage';
+import FirstThreeNotes from './pages/guitar-lessons/FirstThreeNotes';
+import MSOneString from './pages/guitar-lessons/MSOneString';
+import SwitchingScalePatterns from './pages/guitar-lessons/SwitchingScalePatterns';
+import TwoNoteArpeggios from './pages/guitar-lessons/TwoNoteArpeggios';
+import FretboardTriads from './pages/guitar-lessons/FretboardTriads';
+import RootPositionSeventhChords from './pages/guitar-lessons/RootPositionSeventhChords';
+import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -181,7 +181,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: 'lessons', element: <LessonsPage /> },
+      { path: 'lessons', element: <GuitarLessonsPage /> },
       { path: 'music-theory', element: <MusicTheoryPage /> },
       { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
       { path: 'music-theory/building-seventh-chords', element: <BuildingSeventhChords /> },
