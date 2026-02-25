@@ -9,6 +9,7 @@ import SwitchingScalePatterns from './pages/lessons/SwitchingScalePatterns';
 import TwoNoteArpeggios from './pages/lessons/TwoNoteArpeggios';
 import FretboardTriads from './pages/lessons/FretboardTriads';
 import RootPositionSeventhChords from './pages/lessons/RootPositionSeventhChords';
+import F6Dm7Arpeggio from './pages/lessons/F6Dm7Arpeggio';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -38,6 +39,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/two-note-arpeggios': 'Two Note Per String Arpeggios',
   '/lessons/fretboard-triads': 'Learn the Fretboard with Triads',
   '/lessons/root-position-seventh-chords': 'Root Position Seventh Chords',
+  '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
   '/notes': 'Notes on the Fretboard',
   '/triads': 'Triads on the Fretboard',
   '/scales': 'Scale Patterns for Guitar',
@@ -189,6 +191,7 @@ const router = createBrowserRouter([
       { path: 'lessons/two-note-arpeggios', element: <TwoNoteArpeggios /> },
       { path: 'lessons/fretboard-triads', element: <FretboardTriads /> },
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
+      { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
       { path: 'notes', element: <NotesPage /> },
       { path: 'triads', element: <TriadsPage /> },
       { path: 'scales', element: <ScalePage /> },

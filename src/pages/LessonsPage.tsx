@@ -62,6 +62,12 @@ const LessonsPage = () => {
       path: '/lessons/root-position-seventh-chords',
       difficulty: 'intermediate'
     },
+    {
+      title: 'F6/Dm7 Arpeggio',
+      description: 'Learn F6/Dm7 arpeggio across two positions on the fretboard.',
+      path: '/lessons/f6-dm7-arpeggio',
+      difficulty: 'intermediate'
+    },
   ];
 
   return (
