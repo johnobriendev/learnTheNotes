@@ -1,5 +1,6 @@
 // src/pages/GuitarLessonsPage.tsx
 import { useNavigate } from 'react-router-dom';
+import { PREMIUM_LESSON_PATHS } from '../config/premiumLessons';
 
 const colors = {
   sage: '#b4b8ab',
@@ -95,8 +96,10 @@ const GuitarLessonsPage = () => {
               {lesson.description}
             </p>
             <div className="mt-4 text-sm font-semibold flex items-center gap-2" style={{ color: colors.medNavy }}>
-              Start Lesson
-              <span className="transform group-hover:translate-x-2 transition-transform">→</span>
+              {PREMIUM_LESSON_PATHS.has(lesson.path) ? '🔒 Premium' : 'Start Lesson'}
+              {!PREMIUM_LESSON_PATHS.has(lesson.path) && (
+                <span className="transform group-hover:translate-x-2 transition-transform">→</span>
+              )}
             </div>
           </div>
         </div>

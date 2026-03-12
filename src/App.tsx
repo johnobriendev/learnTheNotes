@@ -1,5 +1,5 @@
 // src/App.tsx
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, ReactElement } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import GuitarLessonsPage from './pages/GuitarLessonsPage';
@@ -22,6 +22,14 @@ import BuildingSeventhChords from './pages/music-theory/BuildingSeventhChords';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedLesson from './components/ProtectedLesson';
+
+const premiumRoute = (element: ReactElement) => (
+  <ProtectedLesson>{element}</ProtectedLesson>
+);
 
 const colors = {
   sage: '#b4b8ab',
@@ -52,6 +60,8 @@ const pageTitles: Record<string, string> = {
   '/quizzes/major-key-signatures': 'Major Key Signatures Quiz',
   '/quizzes/chords-in-major-key': 'Chords in Major Key Quiz',
   '/quizzes/triads': 'Triads Quiz',
+  '/login': 'Log In',
+  '/signup': 'Create Account',
 };
 
 const navItems = [
@@ -191,7 +201,7 @@ const router = createBrowserRouter([
       { path: 'lessons/two-note-arpeggios', element: <TwoNoteArpeggios /> },
       { path: 'lessons/fretboard-triads', element: <FretboardTriads /> },
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
-      { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
+      { path: 'lessons/f6-dm7-arpeggio', element: premiumRoute(<F6Dm7Arpeggio />) },
       { path: 'notes', element: <NotesPage /> },
       { path: 'triads', element: <TriadsPage /> },
       { path: 'scales', element: <ScalePage /> },
@@ -201,10 +211,16 @@ const router = createBrowserRouter([
       { path: 'quizzes/major-key-signatures', element: <MajorKeySignaturesQuiz /> },
       { path: 'quizzes/chords-in-major-key', element: <ChordsInMajorKeyQuiz /> },
       { path: 'quizzes/triads', element: <TriadsQuiz /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'signup', element: <SignupPage /> },
     ]
   }
 ]);
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <AuthProvider>
+    <RouterProvider router={router} />
+  </AuthProvider>
+);
 
 export default App;
