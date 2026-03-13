@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { supabase } from '../lib/supabase'
@@ -12,9 +12,13 @@ const colors = {
 }
 
 const PricingPage = () => {
-  const { user, isPremium, loading } = useAuth()
+  const { user, isPremium, loading, refreshSubscription } = useAuth()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (searchParams.get('success') === 'true') refreshSubscription()
+  }, [])
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState('')
 

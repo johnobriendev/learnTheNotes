@@ -13,6 +13,7 @@ interface AuthContextType {
   subscription: UserSubscription | null
   isPremium: boolean
   loading: boolean
+  refreshSubscription: () => Promise<void>
   signUp: (email: string, password: string) => Promise<{ error: Error | null }>
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
   signInWithGoogle: () => Promise<{ error: Error | null }>
@@ -54,6 +55,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => authListener.unsubscribe()
   }, [])
 
+  const refreshSubscription = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session?.user) await fetchSubscription(session.user.id)
+  }
+
   const isPremium =
     subscription?.status === 'active' || subscription?.status === 'trialing'
 
@@ -81,7 +87,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, session, subscription, isPremium, loading, signUp, signIn, signInWithGoogle, signOut }}
+      value={{ user, session, subscription, isPremium, loading, refreshSubscription, signUp, signIn, signInWithGoogle, signOut }}
     >
       {children}
     </AuthContext.Provider>
