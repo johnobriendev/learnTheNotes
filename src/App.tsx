@@ -24,7 +24,9 @@ import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
-import { AuthProvider } from './context/AuthContext';
+import PricingPage from './pages/PricingPage';
+import PrivateLessonsPage from './pages/PrivateLessonsPage';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import ProtectedLesson from './components/ProtectedLesson';
 
 const premiumRoute = (element: ReactElement) => (
@@ -62,6 +64,8 @@ const pageTitles: Record<string, string> = {
   '/quizzes/triads': 'Triads Quiz',
   '/login': 'Log In',
   '/signup': 'Create Account',
+  '/pricing': 'Pricing',
+  '/lessons/private': 'Private Lessons',
 };
 
 const navItems = [
@@ -73,6 +77,8 @@ const navItems = [
   { path: '/keys', label: 'Key Signatures with the Circle of Fifths' },
   { path: '/intervals', label: 'Ear Training with Intervals' },
   { path: '/quizzes', label: 'Music Theory Quizzes' },
+  { path: '/pricing', label: 'Pricing' },
+  { path: '/lessons/private', label: 'Private Lessons' },
 ];
 
 const NavDropdown = () => {
@@ -142,6 +148,8 @@ const NavDropdown = () => {
 
 const RootLayout = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user, loading, signOut } = useAuth();
   const isLandingPage = location.pathname === '/';
 
   if (isLandingPage) {
@@ -149,6 +157,9 @@ const RootLayout = () => {
   }
 
   const title = pageTitles[location.pathname] || '';
+  const displayEmail = user?.email && user.email.length > 20
+    ? user.email.slice(0, 18) + '…'
+    : user?.email;
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: colors.lightGray }}>
@@ -165,6 +176,32 @@ const RootLayout = () => {
         <div className="flex-1 text-center">
           <span className="font-bold text-base" style={{ color: colors.cream }}>{title}</span>
         </div>
+
+        {/* Auth controls on the right */}
+        {!loading && (
+          <div style={{ position: 'absolute', right: '16px' }} className="flex items-center gap-2">
+            {user ? (
+              <>
+                <span className="text-xs hidden sm:block" style={{ color: colors.sage }}>{displayEmail}</span>
+                <button
+                  onClick={() => signOut()}
+                  className="px-3 py-1.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
+                  style={{ background: colors.medNavy, color: colors.cream }}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={() => navigate('/login')}
+                className="px-3 py-1.5 rounded-lg text-sm font-medium transition-opacity hover:opacity-80"
+                style={{ background: colors.medNavy, color: colors.cream }}
+              >
+                Login
+              </button>
+            )}
+          </div>
+        )}
       </header>
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
@@ -213,6 +250,8 @@ const router = createBrowserRouter([
       { path: 'quizzes/triads', element: <TriadsQuiz /> },
       { path: 'login', element: <LoginPage /> },
       { path: 'signup', element: <SignupPage /> },
+      { path: 'pricing', element: <PricingPage /> },
+      { path: 'lessons/private', element: <PrivateLessonsPage /> },
     ]
   }
 ]);
