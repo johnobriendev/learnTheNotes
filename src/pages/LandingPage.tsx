@@ -1,4 +1,5 @@
 // src/pages/LandingPage.tsx
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const colors = {
@@ -9,8 +10,52 @@ const colors = {
   lightGray: '#eef0eb',
 };
 
+const faqs = [
+  {
+    category: 'Premium Membership',
+    q: "What's included in Premium?",
+    a: "Premium gives you access to all premium guitar lessons on the site, including advanced techniques, theory-in-practice lessons, and any new premium content added in the future.",
+  },
+  {
+    category: 'Premium Membership',
+    q: 'How do I access premium lessons?',
+    a: 'Once subscribed, premium lessons are automatically unlocked. Just log in and navigate to any lesson — premium content will be fully accessible.',
+  },
+  {
+    category: 'Billing',
+    q: 'How much does Premium cost?',
+    a: 'Premium is $10/month. You can cancel at any time and will retain access until the end of your current billing period.',
+  },
+  {
+    category: 'Billing',
+    q: 'What payment methods are accepted?',
+    a: 'All major credit and debit cards are accepted (Visa, Mastercard, American Express, Discover). Payments are processed securely by Stripe.',
+  },
+  {
+    category: 'Billing',
+    q: 'Will I be charged automatically each month?',
+    a: 'Yes — your subscription renews automatically each month until you cancel. You can see your next renewal date on the Pricing page when logged in.',
+  },
+  {
+    category: 'Subscription Management',
+    q: 'How do I cancel my subscription?',
+    a: 'Go to the Pricing page and click "Manage Subscription." This opens the Stripe customer portal where you can cancel with one click.',
+  },
+  {
+    category: 'Subscription Management',
+    q: 'What happens when I cancel?',
+    a: "You'll keep access to all premium content until the end of your current billing period. After that, premium lessons will be locked again — your account stays active.",
+  },
+  {
+    category: 'Subscription Management',
+    q: 'Can I pause my subscription?',
+    a: "Pausing isn't currently supported. You can cancel and resubscribe at any time — there's no penalty or reactivation fee.",
+  },
+]
+
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const features = [
     {
@@ -161,6 +206,43 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      {/* FAQ */}
+      <div className="min-h-screen flex items-center" style={{ background: colors.cream }}>
+        <div className="max-w-2xl mx-auto px-4 py-16 w-full">
+          <h2 className="text-3xl font-bold mb-10 text-center" style={{ color: colors.darkNavy }}>
+            Frequently Asked Questions
+          </h2>
+          <div className="flex flex-col gap-2">
+            {faqs.map((faq, i) => (
+              <div
+                key={i}
+                className="rounded-xl overflow-hidden"
+                style={{ background: colors.darkNavy }}
+              >
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  className="w-full text-left px-6 py-4 flex justify-between items-center gap-4"
+                  style={{ color: colors.cream }}
+                >
+                  <span className="font-medium">{faq.q}</span>
+                  <span
+                    className="text-lg shrink-0 transition-transform duration-200"
+                    style={{ transform: openFaq === i ? 'rotate(45deg)' : 'rotate(0deg)', color: colors.sage }}
+                  >
+                    +
+                  </span>
+                </button>
+                {openFaq === i && (
+                  <div className="px-6 pb-5 text-sm leading-relaxed" style={{ color: colors.sage }}>
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
     </div>
   );
 };
