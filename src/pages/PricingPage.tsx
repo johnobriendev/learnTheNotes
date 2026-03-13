@@ -12,7 +12,7 @@ const colors = {
 }
 
 const PricingPage = () => {
-  const { user, isPremium, loading, refreshSubscription } = useAuth()
+  const { user, isPremium, loading, subscription, refreshSubscription } = useAuth()
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
 
@@ -21,6 +21,19 @@ const PricingPage = () => {
   }, [])
   const [checkoutLoading, setCheckoutLoading] = useState(false)
   const [checkoutError, setCheckoutError] = useState('')
+  const [portalLoading, setPortalLoading] = useState(false)
+
+  const renewalDate = subscription?.current_period_end
+    ? new Date(subscription.current_period_end).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+    : null
+
+  const handleManage = async () => {
+    setPortalLoading(true)
+    const { data, error } = await supabase.functions.invoke('create-portal-session')
+    setPortalLoading(false)
+    if (error || !data?.url) return
+    window.location.href = data.url
+  }
 
   const success = searchParams.get('success') === 'true'
   const canceled = searchParams.get('canceled') === 'true'
@@ -78,11 +91,26 @@ const PricingPage = () => {
 
         {!loading && (
           isPremium ? (
-            <div
-              className="w-full py-2.5 rounded-lg font-medium text-center"
-              style={{ background: colors.medNavy, color: colors.sage }}
-            >
-              You're subscribed!
+            <div className="flex flex-col gap-3">
+              <div
+                className="w-full py-2.5 rounded-lg font-medium text-center"
+                style={{ background: colors.medNavy, color: colors.sage }}
+              >
+                You're subscribed!
+              </div>
+              {renewalDate && (
+                <p className="text-xs text-center" style={{ color: colors.sage }}>
+                  Renews {renewalDate}
+                </p>
+              )}
+              <button
+                onClick={handleManage}
+                disabled={portalLoading}
+                className="w-full py-2 rounded-lg text-sm font-medium transition-opacity hover:opacity-90 disabled:opacity-50"
+                style={{ background: colors.darkNavy, color: colors.sage, border: `1px solid ${colors.medNavy}` }}
+              >
+                {portalLoading ? 'Loading…' : 'Manage Subscription'}
+              </button>
             </div>
           ) : (
             <>
