@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .from('user_subscriptions')
       .select('status, current_period_end')
       .eq('user_id', userId)
-      .single()
+      .maybeSingle()
     setSubscription(data)
   }
 
