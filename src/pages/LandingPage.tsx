@@ -118,6 +118,49 @@ const LandingPage = () => {
         </div>
       </div>
       </div>
+
+      {/* Premium + Private Lessons CTA */}
+      <div className="min-h-screen flex items-center" style={{ background: colors.darkNavy }}>
+        <div className="max-w-4xl mx-auto px-4 py-16 w-full flex flex-col gap-6 md:flex-row">
+          {/* Premium */}
+          <div
+            className="flex-1 rounded-xl p-8"
+            style={{ background: colors.medNavy }}
+          >
+            <div className="text-3xl mb-4">🔒</div>
+            <h3 className="text-xl font-bold mb-2" style={{ color: colors.cream }}>Premium Lessons</h3>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: colors.sage }}>
+              Unlock advanced guitar lessons with a monthly subscription. New content added regularly.
+            </p>
+            <button
+              onClick={() => navigate('/pricing')}
+              className="w-full py-2.5 rounded-lg font-medium transition-opacity hover:opacity-90"
+              style={{ background: colors.sage, color: colors.darkNavy }}
+            >
+              View Pricing — $10/mo
+            </button>
+          </div>
+
+          {/* Private Lessons */}
+          <div
+            className="flex-1 rounded-xl p-8"
+            style={{ background: colors.medNavy }}
+          >
+            <div className="text-3xl mb-4">🎸</div>
+            <h3 className="text-xl font-bold mb-2" style={{ color: colors.cream }}>Private Lessons</h3>
+            <p className="text-sm leading-relaxed mb-6" style={{ color: colors.sage }}>
+              One-on-one video lessons tailored to your goals. Half-hour or hour sessions available.
+            </p>
+            <button
+              onClick={() => navigate('/lessons/private')}
+              className="w-full py-2.5 rounded-lg font-medium transition-opacity hover:opacity-90"
+              style={{ background: colors.sage, color: colors.darkNavy }}
+            >
+              Book a Lesson
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
