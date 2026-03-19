@@ -69,9 +69,15 @@ const GuitarLessonsPage = () => {
       difficulty: 'intermediate'
     },
     {
-      title: 'Drop 2 Minor Seventh Voicings',
+      title: 'Drop 2 Minor Seventh Voicings (Cm7)',
       description: 'Learn drop 2 minor seventh chord voicings across all string sets.',
       path: '/lessons/drop2-minor-seventh-voicings',
+      difficulty: 'advanced'
+    },
+    {
+      title: 'Drop 2 Dominant Seventh Voicings (Bb7)',
+      description: 'Learn drop 2 dominant seventh chord voicings across all string sets.',
+      path: '/lessons/drop2-dominant-seventh-voicings',
       difficulty: 'advanced'
     },
   ];

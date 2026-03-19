@@ -11,6 +11,7 @@ import FretboardTriads from './pages/guitar-lessons/FretboardTriads';
 import RootPositionSeventhChords from './pages/guitar-lessons/RootPositionSeventhChords';
 import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
 import Drop2MinorSeventhVoicings from './pages/guitar-lessons/Drop2MinorSeventhVoicings';
+import Drop2DominantSeventhVoicings from './pages/guitar-lessons/Drop2DominantSeventhVoicings';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -41,7 +42,8 @@ const pageTitles: Record<string, string> = {
   '/lessons/fretboard-triads': 'Learn the Fretboard with Triads',
   '/lessons/root-position-seventh-chords': 'Root Position Seventh Chords',
   '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
-  '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings',
+  '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
+  '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
   '/notes': 'Notes on the Fretboard',
   '/triads': 'Triads on the Fretboard',
   '/scales': 'Scale Patterns for Guitar',
@@ -195,6 +197,7 @@ const router = createBrowserRouter([
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
       { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
       { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
+      { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },
       { path: 'triads', element: <TriadsPage /> },
       { path: 'scales', element: <ScalePage /> },
