@@ -10,6 +10,7 @@ import TwoNoteArpeggios from './pages/guitar-lessons/TwoNoteArpeggios';
 import FretboardTriads from './pages/guitar-lessons/FretboardTriads';
 import RootPositionSeventhChords from './pages/guitar-lessons/RootPositionSeventhChords';
 import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
+import Drop2MinorSeventhVoicings from './pages/guitar-lessons/Drop2MinorSeventhVoicings';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -40,6 +41,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/fretboard-triads': 'Learn the Fretboard with Triads',
   '/lessons/root-position-seventh-chords': 'Root Position Seventh Chords',
   '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
+  '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings',
   '/notes': 'Notes on the Fretboard',
   '/triads': 'Triads on the Fretboard',
   '/scales': 'Scale Patterns for Guitar',
@@ -157,7 +159,7 @@ const RootLayout = () => {
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
+      <main className="flex-1 w-full px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
         <Outlet key={location.key} />
       </main>
     </div>
@@ -192,6 +194,7 @@ const router = createBrowserRouter([
       { path: 'lessons/fretboard-triads', element: <FretboardTriads /> },
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
       { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
+      { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },
       { path: 'triads', element: <TriadsPage /> },
       { path: 'scales', element: <ScalePage /> },

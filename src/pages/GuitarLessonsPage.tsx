@@ -68,6 +68,12 @@ const GuitarLessonsPage = () => {
       path: '/lessons/f6-dm7-arpeggio',
       difficulty: 'intermediate'
     },
+    {
+      title: 'Drop 2 Minor Seventh Voicings',
+      description: 'Learn drop 2 minor seventh chord voicings across all string sets.',
+      path: '/lessons/drop2-minor-seventh-voicings',
+      difficulty: 'advanced'
+    },
   ];
 
   return (
