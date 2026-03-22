@@ -31,6 +31,12 @@ const sections: Section[] = [
         path: '/lessons/string-names',
         type: 'lesson',
       },
+      {
+        title: 'The Grid',
+        description: 'Learn how any fretboard position is described by its string and fret number.',
+        path: '/lessons/the-grid',
+        type: 'lesson',
+      },
     ],
   },
   {

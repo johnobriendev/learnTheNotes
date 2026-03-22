@@ -13,6 +13,7 @@ import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
 import Drop2MinorSeventhVoicings from './pages/guitar-lessons/Drop2MinorSeventhVoicings';
 import Drop2DominantSeventhVoicings from './pages/guitar-lessons/Drop2DominantSeventhVoicings';
 import StringNames from './pages/guitar-lessons/StringNames';
+import TheGrid from './pages/guitar-lessons/TheGrid';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -40,6 +41,7 @@ const colors = {
 const pageTitles: Record<string, string> = {
   '/lessons': 'Guitar Lessons',
   '/lessons/string-names': 'Learning the String Names',
+  '/lessons/the-grid': 'The Grid',
   '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
@@ -215,6 +217,7 @@ const router = createBrowserRouter([
       { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
       { path: 'music-theory/building-seventh-chords', element: <BuildingSeventhChords /> },
       { path: 'lessons/string-names', element: <StringNames /> },
+      { path: 'lessons/the-grid', element: <TheGrid /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },

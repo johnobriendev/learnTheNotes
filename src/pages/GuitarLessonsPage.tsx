@@ -39,6 +39,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'The Grid',
+      description: 'Understand how any note on the fretboard can be described by its string and fret number.',
+      path: '/lessons/the-grid',
+      difficulty: 'beginner'
+    },
+    {
       title: 'Learn the Major Scale on One String',
       description: 'Master the C major scale on the B string - a perfect introduction to scale patterns.',
       path: '/lessons/major-scale-one-string',
