@@ -90,8 +90,8 @@ E|-8----------------------------------------------|`}
 
   return (
     <LessonLayout
-      title="Learning Your First Three Notes"
-      difficulty="beginner"
+      title="Learn the Same Phrase in Different Positions"
+      difficulty="intermediate"
       diagram={diagram}
       textContent={textContent}
       videoUrl="/FirstThreeNotes.mp4"

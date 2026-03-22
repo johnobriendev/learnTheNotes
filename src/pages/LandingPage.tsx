@@ -12,60 +12,55 @@ const colors = {
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const features = [
+  const tools = [
     {
-      title: 'Guitar Lessons',
-      description: 'Structured lessons combining all concepts into a comprehensive learning path. Perfect for beginners and intermediate players.',
-      icon: '📚',
-      path: '/lessons',
-    },
-    {
-      title: 'Music Theory Lessons',
-      description: 'Understand the theory behind the music. Learn harmony, chord construction, roman numerals, and more.',
-      icon: '🎓',
-      path: '/music-theory',
-    },
-    {
-      title: 'Notes on the Fretboard',
+      title: 'Learn the Notes',
       description: 'Master the fretboard by learning where every note lives. Interactive visualization and quiz modes to test your knowledge.',
-      icon: '🎵',
       path: '/notes',
     },
     {
-      title: 'Triads on the Fretboard',
+      title: 'Triad Visualizer',
       description: 'Learn major, minor, diminished, and augmented triads across the entire fretboard with multiple voicings.',
-      icon: '🎸',
       path: '/triads',
     },
     {
       title: 'Scale Patterns for Guitar',
       description: 'Explore scale patterns, positions, and fingerings. Practice scales in any key with visual guides.',
-      icon: '🎼',
       path: '/scales',
     },
+  ];
+
+  const eduCards = [
     {
-      title: 'Key Signatures with the Circle of Fifths',
-      description: 'Understand key signatures, the circle of fifths, and relationships between keys.',
-      icon: '🔑',
-      path: '/keys',
+      title: 'Guitar Lessons',
+      description: 'Structured lessons combining technique and theory — from your first notes to advanced voicings.',
+      path: '/lessons',
     },
     {
-      title: 'Ear Training with Intervals',
-      description: 'Train your ear and learn to identify intervals by sight and sound on the guitar.',
-      icon: '🎹',
+      title: 'Music Theory',
+      description: 'Understand the theory behind the music. Harmony, chord construction, key signatures, and more.',
+      path: '/music-theory',
+    },
+    {
+      title: 'Guided Learning Paths',
+      description: 'Structured roadmaps for every level — follow step-by-step guides from beginner basics to intermediate techniques.',
+      path: '/paths',
+    },
+    {
+      title: 'Ear Training',
+      description: 'Train your ear to identify intervals by sight and sound on the guitar.',
       path: '/intervals',
     },
     {
-      title: 'Music Theory Quizzes',
-      description: 'Test your music theory knowledge with interactive quizzes on key signatures, intervals, triads, and more.',
-      icon: '🧠',
+      title: 'Quizzes',
+      description: 'Test your music theory knowledge with interactive quizzes on key signatures, triads, and more.',
       path: '/quizzes',
-    }
+    },
   ];
 
   return (
     <div className="min-h-screen" style={{ background: colors.cream }}>
-      {/* Hero Section */}
+      {/* Hero */}
       <div
         className="flex flex-col items-center justify-center min-h-screen px-4 text-center"
         style={{ background: colors.darkNavy }}
@@ -90,33 +85,66 @@ const LandingPage = () => {
         </div>
       </div>
 
-      {/* Features Grid */}
-      <div id="features" className="min-h-screen flex items-center">
-      <div className="max-w-6xl mx-auto px-4 py-16 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {features.map((feature) => (
-            <div
-              key={feature.path}
-              onClick={() => navigate(feature.path)}
-              className="group rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer overflow-hidden"
-              style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}
-            >
-              <div className="p-6">
-                <h3 className="text-lg font-bold mb-3 leading-snug" style={{ color: colors.darkNavy }}>
-                  {feature.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: colors.medNavy }}>
-                  {feature.description}
-                </p>
-                <div className="mt-4 text-sm font-semibold flex items-center gap-2" style={{ color: colors.medNavy }}>
-                  Explore
-                  <span className="transform group-hover:translate-x-2 transition-transform">→</span>
+      {/* Fretboard Tools */}
+      <div id="features" className="min-h-screen flex items-center" style={{ background: colors.medNavy }}>
+        <div className="max-w-6xl mx-auto px-4 py-16 w-full">
+          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.cream }}>Fretboard Tools</h2>
+          <p className="text-sm mb-8" style={{ color: colors.sage }}>Interactive visualizers to explore the guitar neck</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {tools.map((tool) => (
+              <div
+                key={tool.path}
+                onClick={() => navigate(tool.path)}
+                className="group rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer overflow-hidden"
+                style={{ background: colors.darkNavy, border: `1px solid ${colors.sage}` }}
+              >
+                <div className="p-6">
+                  <h3 className="text-lg font-bold mb-3 leading-snug" style={{ color: colors.cream }}>
+                    {tool.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: colors.sage }}>
+                    {tool.description}
+                  </p>
+                  <div className="mt-4 text-sm font-semibold flex items-center gap-2" style={{ color: colors.sage }}>
+                    Open Tool
+                    <span className="transform group-hover:translate-x-2 transition-transform">→</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Learn */}
+      <div className="min-h-screen flex items-center" style={{ background: colors.cream }}>
+        <div className="max-w-6xl mx-auto px-4 py-16 w-full">
+          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.darkNavy }}>Learn</h2>
+          <p className="text-sm mb-8" style={{ color: colors.medNavy }}>Lessons, theory, quizzes, and guided learning paths</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            {eduCards.map((card) => (
+              <div
+                key={card.path}
+                onClick={() => navigate(card.path)}
+                className="group rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer overflow-hidden"
+                style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}
+              >
+                <div className="p-6">
+                  <h3 className="text-lg font-bold mb-3 leading-snug" style={{ color: colors.darkNavy }}>
+                    {card.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: colors.medNavy }}>
+                    {card.description}
+                  </p>
+                  <div className="mt-4 text-sm font-semibold flex items-center gap-2" style={{ color: colors.medNavy }}>
+                    Explore
+                    <span className="transform group-hover:translate-x-2 transition-transform">→</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );

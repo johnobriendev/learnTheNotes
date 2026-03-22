@@ -12,6 +12,7 @@ import RootPositionSeventhChords from './pages/guitar-lessons/RootPositionSevent
 import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
 import Drop2MinorSeventhVoicings from './pages/guitar-lessons/Drop2MinorSeventhVoicings';
 import Drop2DominantSeventhVoicings from './pages/guitar-lessons/Drop2DominantSeventhVoicings';
+import StringNames from './pages/guitar-lessons/StringNames';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -24,6 +25,9 @@ import BuildingSeventhChords from './pages/music-theory/BuildingSeventhChords';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
+import PathsPage from './pages/PathsPage';
+import BeginnerPathPage from './pages/paths/BeginnerPathPage';
+import IntermediatePathPage from './pages/paths/IntermediatePathPage';
 
 const colors = {
   sage: '#b4b8ab',
@@ -35,7 +39,8 @@ const colors = {
 
 const pageTitles: Record<string, string> = {
   '/lessons': 'Guitar Lessons',
-  '/lessons/first-three-notes': 'Learning Your First Three Notes',
+  '/lessons/string-names': 'Learning the String Names',
+  '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
   '/lessons/two-note-arpeggios': 'Two Note Per String Arpeggios',
@@ -44,11 +49,14 @@ const pageTitles: Record<string, string> = {
   '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
   '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
   '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
-  '/notes': 'Notes on the Fretboard',
-  '/triads': 'Triads on the Fretboard',
+  '/notes': 'Learn the Notes',
+  '/triads': 'Triad Visualizer',
   '/scales': 'Scale Patterns for Guitar',
   '/keys': 'Key Signatures with the Circle of Fifths',
   '/intervals': 'Ear Training with Intervals',
+  '/paths': 'Guided Learning Paths',
+  '/paths/beginner': 'Beginner Path',
+  '/paths/intermediate': 'Intermediate Path',
   '/music-theory': 'Music Theory Lessons',
   '/music-theory/major-scale-harmony': 'Major Scale Harmony',
   '/music-theory/building-seventh-chords': 'Building 7th Chords',
@@ -58,15 +66,25 @@ const pageTitles: Record<string, string> = {
   '/quizzes/triads': 'Triads Quiz',
 };
 
-const navItems = [
-  { path: '/lessons', label: 'Guitar Lessons' },
-  { path: '/music-theory', label: 'Music Theory Lessons' },
-  { path: '/notes', label: 'Notes on the Fretboard' },
-  { path: '/triads', label: 'Triads on the Fretboard' },
-  { path: '/scales', label: 'Scale Patterns for Guitar' },
-  { path: '/keys', label: 'Key Signatures with the Circle of Fifths' },
-  { path: '/intervals', label: 'Ear Training with Intervals' },
-  { path: '/quizzes', label: 'Music Theory Quizzes' },
+const navSections = [
+  {
+    label: 'Fretboard Tools',
+    items: [
+      { path: '/notes', label: 'Learn the Notes' },
+      { path: '/triads', label: 'Triad Visualizer' },
+      { path: '/scales', label: 'Scale Patterns for Guitar' },
+    ],
+  },
+  {
+    label: 'Learn',
+    items: [
+      { path: '/lessons', label: 'Guitar Lessons' },
+      { path: '/music-theory', label: 'Music Theory' },
+      { path: '/intervals', label: 'Ear Training' },
+      { path: '/quizzes', label: 'Quizzes' },
+      { path: '/paths', label: 'Guided Learning Paths' },
+    ],
+  },
 ];
 
 const NavDropdown = () => {
@@ -115,18 +133,25 @@ const NavDropdown = () => {
           >
             Home
           </button>
-          <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
-          {navItems.map(item => (
-            <button
-              key={item.path}
-              className="block w-full text-left px-4 py-2 text-sm transition-colors"
-              style={{ color: location.pathname.startsWith(item.path) ? colors.cream : colors.sage }}
-              onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-              onClick={() => handleNavigate(item.path)}
-            >
-              {item.label}
-            </button>
+          {navSections.map((section, sIdx) => (
+            <div key={section.label}>
+              <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
+              <div className="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.sage, opacity: 0.6 }}>
+                {section.label}
+              </div>
+              {section.items.map(item => (
+                <button
+                  key={item.path}
+                  className="block w-full text-left px-4 py-2 text-sm transition-colors"
+                  style={{ color: location.pathname.startsWith(item.path) ? colors.cream : colors.sage }}
+                  onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  onClick={() => handleNavigate(item.path)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       )}
@@ -189,6 +214,7 @@ const router = createBrowserRouter([
       { path: 'music-theory', element: <MusicTheoryPage /> },
       { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
       { path: 'music-theory/building-seventh-chords', element: <BuildingSeventhChords /> },
+      { path: 'lessons/string-names', element: <StringNames /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },
@@ -207,6 +233,9 @@ const router = createBrowserRouter([
       { path: 'quizzes/major-key-signatures', element: <MajorKeySignaturesQuiz /> },
       { path: 'quizzes/chords-in-major-key', element: <ChordsInMajorKeyQuiz /> },
       { path: 'quizzes/triads', element: <TriadsQuiz /> },
+      { path: 'paths', element: <PathsPage /> },
+      { path: 'paths/beginner', element: <BeginnerPathPage /> },
+      { path: 'paths/intermediate', element: <IntermediatePathPage /> },
     ]
   }
 ]);

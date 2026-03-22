@@ -38,6 +38,12 @@ const MusicTheoryPage = () => {
       path: '/music-theory/building-seventh-chords',
       difficulty: 'beginner',
     },
+    {
+      title: 'Key Signatures & Circle of Fifths',
+      description: 'Understand key signatures, the circle of fifths, and relationships between keys.',
+      path: '/keys',
+      difficulty: 'beginner',
+    },
   ];
 
   return (

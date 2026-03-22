@@ -27,9 +27,15 @@ const GuitarLessonsPage = () => {
 
   const lessons: LessonCard[] = [
     {
-      title: 'Learning Your First Three Notes',
-      description: 'Start by learning C, D, and E on all strings.',
+      title: 'Learn the Same Phrase in Different Positions',
+      description: 'Play C, D, and E across all strings and positions to build fretboard awareness.',
       path: '/lessons/first-three-notes',
+      difficulty: 'intermediate'
+    },
+    {
+      title: 'Learning the String Names',
+      description: 'Learn the names and numbers of all six strings — the foundation for reading any guitar diagram.',
+      path: '/lessons/string-names',
       difficulty: 'beginner'
     },
     {
