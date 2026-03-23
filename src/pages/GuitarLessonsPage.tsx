@@ -45,6 +45,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'Open C Major Chord and Scale',
+      description: 'Learn the open C major chord shape and the C major scale in first position.',
+      path: '/lessons/c-major-chord-and-scale',
+      difficulty: 'beginner'
+    },
+    {
       title: 'Learn the Major Scale on One String',
       description: 'Master the C major scale on the B string - a perfect introduction to scale patterns.',
       path: '/lessons/major-scale-one-string',

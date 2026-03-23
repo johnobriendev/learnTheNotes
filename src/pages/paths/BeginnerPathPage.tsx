@@ -43,10 +43,10 @@ const sections: Section[] = [
     title: 'Open Position',
     steps: [
       {
-        title: 'Explore Notes on the Fretboard',
-        description: 'Use the interactive note visualizer to see where every note sits on the neck.',
-        path: '/notes',
-        type: 'tool',
+        title: 'Open C Major Chord and Scale',
+        description: 'Learn the open C major chord shape and the C major scale in first position.',
+        path: '/lessons/c-major-chord-and-scale',
+        type: 'lesson',
       },
     ],
   },
