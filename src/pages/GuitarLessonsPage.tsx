@@ -45,6 +45,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'Open Chords',
+      description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, Em, Am, and Dm.',
+      path: '/lessons/open-chords',
+      difficulty: 'beginner'
+    },
+    {
       title: 'How to Read Chord Diagrams',
       description: 'Learn what the lines, dots, and symbols in a chord diagram mean so you can learn any chord on your own.',
       path: '/lessons/how-to-read-chord-diagrams',

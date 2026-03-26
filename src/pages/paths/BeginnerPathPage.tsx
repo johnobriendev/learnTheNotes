@@ -49,6 +49,12 @@ const sections: Section[] = [
     title: 'Open Position',
     steps: [
       {
+        title: 'Open Chords',
+        description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, Em, Am, and Dm.',
+        path: '/lessons/open-chords',
+        type: 'lesson',
+      },
+      {
         title: 'Open C Major Chord and Scale',
         description: 'Learn the open C major chord shape and the C major scale in first position.',
         path: '/lessons/c-major-chord-and-scale',
