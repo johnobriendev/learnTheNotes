@@ -45,6 +45,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'How to Read Chord Diagrams',
+      description: 'Learn what the lines, dots, and symbols in a chord diagram mean so you can learn any chord on your own.',
+      path: '/lessons/how-to-read-chord-diagrams',
+      difficulty: 'beginner'
+    },
+    {
       title: 'Open C Major Chord and Scale',
       description: 'Learn the open C major chord shape and the C major scale in first position.',
       path: '/lessons/c-major-chord-and-scale',

@@ -37,6 +37,12 @@ const sections: Section[] = [
         path: '/lessons/the-grid',
         type: 'lesson',
       },
+      {
+        title: 'How to Read Chord Diagrams',
+        description: 'Learn what the lines, dots, and symbols in a chord diagram mean so you can learn any chord on your own.',
+        path: '/lessons/how-to-read-chord-diagrams',
+        type: 'lesson',
+      },
     ],
   },
   {

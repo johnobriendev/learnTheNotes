@@ -15,6 +15,7 @@ import Drop2DominantSeventhVoicings from './pages/guitar-lessons/Drop2DominantSe
 import StringNames from './pages/guitar-lessons/StringNames';
 import TheGrid from './pages/guitar-lessons/TheGrid';
 import CMajorChordAndScale from './pages/guitar-lessons/CMajorChordAndScale';
+import HowToReadChordDiagrams from './pages/guitar-lessons/HowToReadChordDiagrams';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -44,6 +45,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/string-names': 'Learning the String Names',
   '/lessons/the-grid': 'The Grid',
   '/lessons/c-major-chord-and-scale': 'Open C Major Chord and Scale',
+  '/lessons/how-to-read-chord-diagrams': 'How to Read Chord Diagrams',
   '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
@@ -221,6 +223,7 @@ const router = createBrowserRouter([
       { path: 'lessons/string-names', element: <StringNames /> },
       { path: 'lessons/the-grid', element: <TheGrid /> },
       { path: 'lessons/c-major-chord-and-scale', element: <CMajorChordAndScale /> },
+      { path: 'lessons/how-to-read-chord-diagrams', element: <HowToReadChordDiagrams /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },
