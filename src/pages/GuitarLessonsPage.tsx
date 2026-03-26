@@ -57,6 +57,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'Open 7th Chords',
+      description: 'Learn dominant, minor, and major 7th chord shapes in open position — E7, A7, D7, G7, B7, Em7, Am7, Dm7, Cmaj7, and more.',
+      path: '/lessons/open-seventh-chords',
+      difficulty: 'beginner'
+    },
+    {
       title: 'Open C Major Chord and Scale',
       description: 'Learn the open C major chord shape and the C major scale in first position.',
       path: '/lessons/c-major-chord-and-scale',

@@ -17,6 +17,7 @@ import TheGrid from './pages/guitar-lessons/TheGrid';
 import CMajorChordAndScale from './pages/guitar-lessons/CMajorChordAndScale';
 import HowToReadChordDiagrams from './pages/guitar-lessons/HowToReadChordDiagrams';
 import OpenChords from './pages/guitar-lessons/OpenChords';
+import OpenSeventhChords from './pages/guitar-lessons/OpenSeventhChords';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -48,6 +49,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/c-major-chord-and-scale': 'Open C Major Chord and Scale',
   '/lessons/how-to-read-chord-diagrams': 'How to Read Chord Diagrams',
   '/lessons/open-chords': 'Open Chords',
+  '/lessons/open-seventh-chords': 'Open 7th Chords',
   '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
@@ -227,6 +229,7 @@ const router = createBrowserRouter([
       { path: 'lessons/c-major-chord-and-scale', element: <CMajorChordAndScale /> },
       { path: 'lessons/how-to-read-chord-diagrams', element: <HowToReadChordDiagrams /> },
       { path: 'lessons/open-chords', element: <OpenChords /> },
+      { path: 'lessons/open-seventh-chords', element: <OpenSeventhChords /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },

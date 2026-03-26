@@ -55,6 +55,12 @@ const sections: Section[] = [
         type: 'lesson',
       },
       {
+        title: 'Open 7th Chords',
+        description: 'Learn dominant, minor, and major 7th chord shapes in open position.',
+        path: '/lessons/open-seventh-chords',
+        type: 'lesson',
+      },
+      {
         title: 'Open C Major Chord and Scale',
         description: 'Learn the open C major chord shape and the C major scale in first position.',
         path: '/lessons/c-major-chord-and-scale',
