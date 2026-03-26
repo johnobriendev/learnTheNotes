@@ -137,7 +137,7 @@ const NavDropdown = () => {
           >
             Home
           </button>
-          {navSections.map((section, sIdx) => (
+          {navSections.map((section) => (
             <div key={section.label}>
               <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
               <div className="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.sage, opacity: 0.6 }}>
