@@ -19,6 +19,7 @@ import HowToReadChordDiagrams from './pages/guitar-lessons/HowToReadChordDiagram
 import OpenChords from './pages/guitar-lessons/OpenChords';
 import OpenSeventhChords from './pages/guitar-lessons/OpenSeventhChords';
 import NotesInOpenPosition from './pages/guitar-lessons/NotesInOpenPosition';
+import IIVProgression from './pages/guitar-lessons/IIVProgression';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -52,6 +53,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/open-chords': 'Open Chords',
   '/lessons/open-seventh-chords': 'Open 7th Chords',
   '/lessons/notes-in-open-position': 'Learn the Notes in Open Position',
+  '/lessons/i-iv-progression': 'The I–IV Progression',
   '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
@@ -233,6 +235,7 @@ const router = createBrowserRouter([
       { path: 'lessons/open-chords', element: <OpenChords /> },
       { path: 'lessons/open-seventh-chords', element: <OpenSeventhChords /> },
       { path: 'lessons/notes-in-open-position', element: <NotesInOpenPosition /> },
+      { path: 'lessons/i-iv-progression', element: <IIVProgression /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },

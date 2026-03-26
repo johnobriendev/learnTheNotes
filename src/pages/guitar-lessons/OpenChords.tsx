@@ -57,6 +57,13 @@ const MAJOR_CHORDS: Chord[] = [
     fingering: ['Index — B string, 1st fret', 'Middle — D string, 2nd fret', 'Ring — A string, 3rd fret'],
     muted: [0],
   },
+  {
+    name: 'F',
+    root: 'F',
+    positions: { 2: [3], 3: [2], 4: [1], 5: [1] },
+    fingering: ['Index — B and e strings, 1st fret (mini barre)', 'Middle — G string, 2nd fret', 'Ring — D string, 3rd fret'],
+    muted: [0, 1],
+  },
 ];
 
 const MINOR_CHORDS: Chord[] = [

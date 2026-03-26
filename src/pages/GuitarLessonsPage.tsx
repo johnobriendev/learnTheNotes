@@ -46,7 +46,7 @@ const GuitarLessonsPage = () => {
     },
     {
       title: 'Open Chords',
-      description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, Em, Am, and Dm.',
+      description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, F, Em, Am, and Dm.',
       path: '/lessons/open-chords',
       difficulty: 'beginner'
     },
@@ -54,6 +54,12 @@ const GuitarLessonsPage = () => {
       title: 'How to Read Chord Diagrams',
       description: 'Learn what the lines, dots, and symbols in a chord diagram mean so you can learn any chord on your own.',
       path: '/lessons/how-to-read-chord-diagrams',
+      difficulty: 'beginner'
+    },
+    {
+      title: 'The I–IV Progression',
+      description: 'Learn the I–IV chord progression in every open key — C, G, D, A, and E.',
+      path: '/lessons/i-iv-progression',
       difficulty: 'beginner'
     },
     {

@@ -50,7 +50,7 @@ const sections: Section[] = [
     steps: [
       {
         title: 'Open Chords',
-        description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, Em, Am, and Dm.',
+        description: 'Learn all the open major and minor chord shapes — E, A, D, G, C, F, Em, Am, and Dm.',
         path: '/lessons/open-chords',
         type: 'lesson',
       },
@@ -70,6 +70,17 @@ const sections: Section[] = [
         title: 'Learn the Notes in Open Position',
         description: 'Learn where every natural note falls in the first five frets, and understand where sharps and flats fit in.',
         path: '/lessons/notes-in-open-position',
+        type: 'lesson',
+      },
+    ],
+  },
+  {
+    title: 'Common Chord Progressions',
+    steps: [
+      {
+        title: 'The I–IV Progression',
+        description: 'Learn the I–IV chord progression in every open key — C, G, D, A, and E.',
+        path: '/lessons/i-iv-progression',
         type: 'lesson',
       },
     ],
