@@ -66,6 +66,12 @@ const sections: Section[] = [
         path: '/lessons/c-major-chord-and-scale',
         type: 'lesson',
       },
+      {
+        title: 'Learn the Notes in Open Position',
+        description: 'Learn where every natural note falls in the first five frets, and understand where sharps and flats fit in.',
+        path: '/lessons/notes-in-open-position',
+        type: 'lesson',
+      },
     ],
   },
   {

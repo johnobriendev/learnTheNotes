@@ -57,6 +57,12 @@ const GuitarLessonsPage = () => {
       difficulty: 'beginner'
     },
     {
+      title: 'Learn the Notes in Open Position',
+      description: 'Learn where every natural note falls in the first five frets, and understand where sharps and flats fit in.',
+      path: '/lessons/notes-in-open-position',
+      difficulty: 'beginner'
+    },
+    {
       title: 'Open 7th Chords',
       description: 'Learn dominant, minor, and major 7th chord shapes in open position — E7, A7, D7, G7, B7, Em7, Am7, Dm7, Cmaj7, and more.',
       path: '/lessons/open-seventh-chords',
