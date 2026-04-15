@@ -154,6 +154,13 @@ const OpenChords = () => {
           </div>
         </div>
 
+        {/* Video */}
+        <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
+          <video key={active.name} autoPlay controls className="w-full h-full">
+            <source src={`/open${active.name}.mp4`} type="video/mp4" />
+          </video>
+        </div>
+
         {/* Fingering + string map */}
         <div className="rounded-xl p-5 flex flex-col gap-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
           <h3 className="font-bold text-lg" style={{ color: colors.darkNavy }}>
