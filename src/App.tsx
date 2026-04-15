@@ -177,6 +177,10 @@ const RootLayout = () => {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   if (isLandingPage) {
     return <Outlet key={location.key} />;
   }

@@ -85,6 +85,26 @@ const LandingPage = () => {
         </div>
       </div>
 
+      {/* Beginner CTA */}
+      <div className="min-h-screen flex items-center justify-center" style={{ background: colors.cream }}>
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <p className="text-lg font-bold uppercase tracking-widest mb-4" style={{ color: colors.sage }}>New to guitar?</p>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight" style={{ color: colors.darkNavy }}>
+            Try our beginner course
+          </h2>
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: colors.medNavy }}>
+            A step-by-step path built for players just starting out — no experience required.
+          </p>
+          <button
+            onClick={() => navigate('/paths/beginner')}
+            className="font-semibold px-10 py-4 rounded-lg text-lg transition-all transform hover:scale-105 hover:opacity-90"
+            style={{ background: colors.darkNavy, color: colors.cream, border: `2px solid ${colors.sage}` }}
+          >
+            Start the beginner path →
+          </button>
+        </div>
+      </div>
+
       {/* Fretboard Tools */}
       <div id="features" className="min-h-screen flex items-center" style={{ background: colors.medNavy }}>
         <div className="max-w-6xl mx-auto px-4 py-16 w-full">
