@@ -94,6 +94,13 @@ const IIVProgression = () => {
           </div>
         </div>
 
+        {/* Video */}
+        <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
+          <video key={prog.key} autoPlay controls className="w-full h-full">
+            <source src={`/14${prog.one}${prog.four}.mp4`} type="video/mp4" />
+          </video>
+        </div>
+
         {/* Description */}
         <div className="flex flex-col gap-3 text-sm" style={{ color: colors.darkNavy }}>
           <p>
