@@ -121,9 +121,11 @@ const CMajorChordAndScale = () => {
             <div className="p-6 flex flex-col gap-4">
               <h3 className="text-lg font-semibold text-gray-800">{ex.title}</h3>
 
-              {/* Video placeholder */}
-              <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
-                Video coming soon
+              {/* Video */}
+              <div className="aspect-video w-full rounded-lg overflow-hidden bg-black">
+                <video controls className="w-full h-full">
+                  <source src="/openCchordScale.mp4" type="video/mp4" />
+                </video>
               </div>
 
               {/* Tab */}

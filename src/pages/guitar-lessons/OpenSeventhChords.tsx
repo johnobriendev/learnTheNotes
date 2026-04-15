@@ -64,8 +64,8 @@ const MIN7_CHORDS: Chord[] = [
   {
     name: 'Em7',
     root: 'E',
-    positions: { 0: [0], 1: [2], 2: [0], 3: [0], 4: [0], 5: [0] },
-    fingering: ['Middle — A string, 2nd fret'],
+    positions: { 0: [0], 1: [2], 2: [0, 2], 3: [0], 4: [0, 3], 5: [0] },
+    fingering: ['Middle — A string, 2nd fret', 'Ring — D string, 2nd fret', 'Pinky — B string, 3rd fret'],
     muted: [],
   },
   {
@@ -153,6 +153,13 @@ const OpenSeventhChords = () => {
         <ChordGroup label="Dominant 7th" chords={DOM7_CHORDS} />
         <ChordGroup label="Minor 7th" chords={MIN7_CHORDS} />
         <ChordGroup label="Major 7th" chords={MAJ7_CHORDS} />
+
+        {/* Video */}
+        <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
+          <video key={active.name} autoPlay controls className="w-full h-full">
+            <source src={`/open${active.name}.mp4`} type="video/mp4" />
+          </video>
+        </div>
 
         {/* Fingering */}
         <div className="rounded-xl p-5 flex flex-col gap-4" style={{ background: colors.lightGray, border: `1px solid ${colors.sage}` }}>
