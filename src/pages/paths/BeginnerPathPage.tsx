@@ -94,12 +94,6 @@ const sections: Section[] = [
         path: '/lessons/major-scale-one-string',
         type: 'lesson',
       },
-      {
-        title: 'Practice Scale Patterns',
-        description: 'Explore the five major scale positions up and down the neck.',
-        path: '/scales',
-        type: 'tool',
-      },
     ],
   },
 ];
