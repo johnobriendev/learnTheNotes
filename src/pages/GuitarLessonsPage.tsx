@@ -1,5 +1,5 @@
 // src/pages/GuitarLessonsPage.tsx
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const colors = {
@@ -69,13 +69,14 @@ const GuitarLessonsPage = () => {
         <div className="flex gap-2 flex-wrap">
           {difficultyOptions.map(opt => {
             const active = filters.difficulty === opt;
-            const style = opt === 'all'
-              ? active
-                ? { background: colors.darkNavy, color: colors.cream, border: 'none' }
-                : { background: colors.lightGray, color: colors.darkNavy, border: `1px solid ${colors.sage}` }
-              : active
-                ? difficultyStyle[opt]
-                : { background: colors.lightGray, color: colors.darkNavy, border: `1px solid ${colors.sage}` };
+            const activeStyle: Record<DifficultyFilter, React.CSSProperties> = {
+              all: { background: colors.darkNavy, color: colors.cream, border: 'none' },
+              beginner: { background: colors.sage, color: colors.darkNavy, border: 'none' },
+              intermediate: difficultyStyle.intermediate,
+              advanced: difficultyStyle.advanced,
+            };
+            const inactiveStyle: React.CSSProperties = { background: colors.lightGray, color: colors.darkNavy, border: `1px solid ${colors.sage}` };
+            const style = active ? activeStyle[opt] : inactiveStyle;
             return (
               <button
                 key={opt}
