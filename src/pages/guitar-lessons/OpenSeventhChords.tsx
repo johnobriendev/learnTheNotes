@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Fretboard from '../../components/shared/Fretboard';
 import { Note } from '../../types';
+import useIsDesktop from '../../hooks/useIsDesktop';
 
 const strings: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
 
@@ -113,6 +114,7 @@ const STRING_NAMES = ['E', 'A', 'D', 'G', 'B', 'e'];
 
 const OpenSeventhChords = () => {
   const [active, setActive] = useState<Chord>(DOM7_CHORDS[0]);
+  const isDesktop = useIsDesktop();
 
   const colors = {
     darkNavy: '#153243',
@@ -156,7 +158,7 @@ const OpenSeventhChords = () => {
 
         {/* Video */}
         <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
-          <video key={active.name} autoPlay controls className="w-full h-full">
+          <video key={active.name} autoPlay={isDesktop} controls className="w-full h-full">
             <source src={`/open${active.name}.mp4`} type="video/mp4" />
           </video>
         </div>

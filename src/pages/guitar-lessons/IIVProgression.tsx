@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Fretboard from '../../components/shared/Fretboard';
 import { Note } from '../../types';
+import useIsDesktop from '../../hooks/useIsDesktop';
 
 const strings: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
 const ALL_NOTES: Note[] = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
@@ -62,6 +63,7 @@ const ChordPanel = ({ chord, numeral }: { chord: ChordShape; numeral: string }) 
 
 const IIVProgression = () => {
   const [activeIdx, setActiveIdx] = useState(0);
+  const isDesktop = useIsDesktop();
   const prog = PROGRESSIONS[activeIdx];
 
   return (
@@ -96,7 +98,7 @@ const IIVProgression = () => {
 
         {/* Video */}
         <div className="aspect-video w-full rounded-xl overflow-hidden bg-black">
-          <video key={prog.key} autoPlay controls className="w-full h-full">
+          <video key={prog.key} autoPlay={isDesktop} controls className="w-full h-full">
             <source src={`/14${prog.one}${prog.four}.mp4`} type="video/mp4" />
           </video>
         </div>
