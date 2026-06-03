@@ -150,8 +150,8 @@ const RootLayout = () => {
         </div>
 
         {/* Title centered across full header */}
-        <div className="flex-1 text-center">
-          <span className="font-bold text-base" style={{ color: colors.cream }}>{title}</span>
+        <div className="flex-1 text-center min-w-0 pl-20 pr-2">
+          <span className="font-bold text-base truncate block" style={{ color: colors.cream }}>{title}</span>
         </div>
       </header>
 
