@@ -2,13 +2,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { createBrowserRouter, RouterProvider, Outlet, useNavigate, Link, useLocation } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
-import LessonsPage from './pages/LessonsPage';
-import FirstThreeNotes from './pages/lessons/FirstThreeNotes';
-import MSOneString from './pages/lessons/MSOneString';
-import SwitchingScalePatterns from './pages/lessons/SwitchingScalePatterns';
-import TwoNoteArpeggios from './pages/lessons/TwoNoteArpeggios';
-import FretboardTriads from './pages/lessons/FretboardTriads';
-import RootPositionSeventhChords from './pages/lessons/RootPositionSeventhChords';
+import GuitarLessonsPage from './pages/GuitarLessonsPage';
+import FirstThreeNotes from './pages/guitar-lessons/FirstThreeNotes';
+import MSOneString from './pages/guitar-lessons/MSOneString';
+import SwitchingScalePatterns from './pages/guitar-lessons/SwitchingScalePatterns';
+import TwoNoteArpeggios from './pages/guitar-lessons/TwoNoteArpeggios';
+import FretboardTriads from './pages/guitar-lessons/FretboardTriads';
+import RootPositionSeventhChords from './pages/guitar-lessons/RootPositionSeventhChords';
+import F6Dm7Arpeggio from './pages/guitar-lessons/F6Dm7Arpeggio';
+import Drop2MinorSeventhVoicings from './pages/guitar-lessons/Drop2MinorSeventhVoicings';
+import Drop2DominantSeventhVoicings from './pages/guitar-lessons/Drop2DominantSeventhVoicings';
+import StringNames from './pages/guitar-lessons/StringNames';
+import TheGrid from './pages/guitar-lessons/TheGrid';
+import CMajorChordAndScale from './pages/guitar-lessons/CMajorChordAndScale';
+import HowToReadChordDiagrams from './pages/guitar-lessons/HowToReadChordDiagrams';
+import OpenChords from './pages/guitar-lessons/OpenChords';
+import OpenSeventhChords from './pages/guitar-lessons/OpenSeventhChords';
+import NotesInOpenPosition from './pages/guitar-lessons/NotesInOpenPosition';
+import IIVProgression from './pages/guitar-lessons/IIVProgression';
 import NotesPage from './pages/NotesPage';
 import TriadsPage from './pages/TriadsPage';
 import ScalePage from './pages/ScalePage';
@@ -21,6 +32,9 @@ import BuildingSeventhChords from './pages/music-theory/BuildingSeventhChords';
 import MajorKeySignaturesQuiz from './pages/quizzes/MajorKeySignaturesQuiz';
 import ChordsInMajorKeyQuiz from './pages/quizzes/ChordsInMajorKeyQuiz';
 import TriadsQuiz from './pages/quizzes/TriadsQuiz';
+import PathsPage from './pages/PathsPage';
+import BeginnerPathPage from './pages/paths/BeginnerPathPage';
+import IntermediatePathPage from './pages/paths/IntermediatePathPage';
 
 const colors = {
   sage: '#b4b8ab',
@@ -32,17 +46,31 @@ const colors = {
 
 const pageTitles: Record<string, string> = {
   '/lessons': 'Guitar Lessons',
-  '/lessons/first-three-notes': 'Learning Your First Three Notes',
+  '/lessons/string-names': 'Learning the String Names',
+  '/lessons/the-grid': 'The Grid',
+  '/lessons/c-major-chord-and-scale': 'Open C Major Chord and Scale',
+  '/lessons/how-to-read-chord-diagrams': 'How to Read Chord Diagrams',
+  '/lessons/open-chords': 'Open Chords',
+  '/lessons/open-seventh-chords': 'Open 7th Chords',
+  '/lessons/notes-in-open-position': 'Learn the Notes in Open Position',
+  '/lessons/i-iv-progression': 'The I–IV Progression',
+  '/lessons/first-three-notes': 'Learn the Same Phrase in Different Positions',
   '/lessons/major-scale-one-string': 'Learn the Major Scale on One String',
   '/lessons/switching-scale-patterns': 'Switching Between Scale Patterns',
   '/lessons/two-note-arpeggios': 'Two Note Per String Arpeggios',
   '/lessons/fretboard-triads': 'Learn the Fretboard with Triads',
   '/lessons/root-position-seventh-chords': 'Root Position Seventh Chords',
-  '/notes': 'Notes on the Fretboard',
-  '/triads': 'Triads on the Fretboard',
+  '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
+  '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
+  '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
+  '/notes': 'Learn the Notes',
+  '/triads': 'Triad Visualizer',
   '/scales': 'Scale Patterns for Guitar',
   '/keys': 'Key Signatures with the Circle of Fifths',
   '/intervals': 'Ear Training with Intervals',
+  '/paths': 'Guided Learning Paths',
+  '/paths/beginner': 'Beginner Path',
+  '/paths/intermediate': 'Intermediate Path',
   '/music-theory': 'Music Theory Lessons',
   '/music-theory/major-scale-harmony': 'Major Scale Harmony',
   '/music-theory/building-seventh-chords': 'Building 7th Chords',
@@ -52,15 +80,25 @@ const pageTitles: Record<string, string> = {
   '/quizzes/triads': 'Triads Quiz',
 };
 
-const navItems = [
-  { path: '/lessons', label: 'Guitar Lessons' },
-  { path: '/music-theory', label: 'Music Theory Lessons' },
-  { path: '/notes', label: 'Notes on the Fretboard' },
-  { path: '/triads', label: 'Triads on the Fretboard' },
-  { path: '/scales', label: 'Scale Patterns for Guitar' },
-  { path: '/keys', label: 'Key Signatures with the Circle of Fifths' },
-  { path: '/intervals', label: 'Ear Training with Intervals' },
-  { path: '/quizzes', label: 'Music Theory Quizzes' },
+const navSections = [
+  {
+    label: 'Fretboard Tools',
+    items: [
+      { path: '/notes', label: 'Learn the Notes' },
+      { path: '/triads', label: 'Triad Visualizer' },
+      { path: '/scales', label: 'Scale Patterns for Guitar' },
+    ],
+  },
+  {
+    label: 'Learn',
+    items: [
+      { path: '/lessons', label: 'Guitar Lessons' },
+      { path: '/music-theory', label: 'Music Theory' },
+      { path: '/intervals', label: 'Ear Training' },
+      { path: '/quizzes', label: 'Quizzes' },
+      { path: '/paths', label: 'Guided Learning Paths' },
+    ],
+  },
 ];
 
 const NavDropdown = () => {
@@ -109,18 +147,25 @@ const NavDropdown = () => {
           >
             Home
           </button>
-          <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
-          {navItems.map(item => (
-            <button
-              key={item.path}
-              className="block w-full text-left px-4 py-2 text-sm transition-colors"
-              style={{ color: location.pathname.startsWith(item.path) ? colors.cream : colors.sage }}
-              onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-              onClick={() => handleNavigate(item.path)}
-            >
-              {item.label}
-            </button>
+          {navSections.map((section) => (
+            <div key={section.label}>
+              <div className="my-1 border-t" style={{ borderColor: colors.medNavy }} />
+              <div className="px-4 pt-2 pb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: colors.sage, opacity: 0.6 }}>
+                {section.label}
+              </div>
+              {section.items.map(item => (
+                <button
+                  key={item.path}
+                  className="block w-full text-left px-4 py-2 text-sm transition-colors"
+                  style={{ color: location.pathname.startsWith(item.path) ? colors.cream : colors.sage }}
+                  onMouseEnter={e => (e.currentTarget.style.background = colors.medNavy)}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                  onClick={() => handleNavigate(item.path)}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
           ))}
         </div>
       )}
@@ -131,6 +176,10 @@ const NavDropdown = () => {
 const RootLayout = () => {
   const location = useLocation();
   const isLandingPage = location.pathname === '/';
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   if (isLandingPage) {
     return <Outlet key={location.key} />;
@@ -155,7 +204,7 @@ const RootLayout = () => {
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
+      <main className="flex-1 w-full px-2 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 lg:px-8">
         <Outlet key={location.key} />
       </main>
     </div>
@@ -179,16 +228,27 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: 'lessons', element: <LessonsPage /> },
+      { path: 'lessons', element: <GuitarLessonsPage /> },
       { path: 'music-theory', element: <MusicTheoryPage /> },
       { path: 'music-theory/major-scale-harmony', element: <MajorScaleHarmony /> },
       { path: 'music-theory/building-seventh-chords', element: <BuildingSeventhChords /> },
+      { path: 'lessons/string-names', element: <StringNames /> },
+      { path: 'lessons/the-grid', element: <TheGrid /> },
+      { path: 'lessons/c-major-chord-and-scale', element: <CMajorChordAndScale /> },
+      { path: 'lessons/how-to-read-chord-diagrams', element: <HowToReadChordDiagrams /> },
+      { path: 'lessons/open-chords', element: <OpenChords /> },
+      { path: 'lessons/open-seventh-chords', element: <OpenSeventhChords /> },
+      { path: 'lessons/notes-in-open-position', element: <NotesInOpenPosition /> },
+      { path: 'lessons/i-iv-progression', element: <IIVProgression /> },
       { path: 'lessons/first-three-notes', element: <FirstThreeNotes /> },
       { path: 'lessons/major-scale-one-string', element: <MSOneString /> },
       { path: 'lessons/switching-scale-patterns', element: <SwitchingScalePatterns /> },
       { path: 'lessons/two-note-arpeggios', element: <TwoNoteArpeggios /> },
       { path: 'lessons/fretboard-triads', element: <FretboardTriads /> },
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
+      { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
+      { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
+      { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },
       { path: 'triads', element: <TriadsPage /> },
       { path: 'scales', element: <ScalePage /> },
@@ -198,6 +258,9 @@ const router = createBrowserRouter([
       { path: 'quizzes/major-key-signatures', element: <MajorKeySignaturesQuiz /> },
       { path: 'quizzes/chords-in-major-key', element: <ChordsInMajorKeyQuiz /> },
       { path: 'quizzes/triads', element: <TriadsQuiz /> },
+      { path: 'paths', element: <PathsPage /> },
+      { path: 'paths/beginner', element: <BeginnerPathPage /> },
+      { path: 'paths/intermediate', element: <IntermediatePathPage /> },
     ]
   }
 ]);
