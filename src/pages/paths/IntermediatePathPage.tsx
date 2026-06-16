@@ -49,7 +49,6 @@ const sections: Section[] = [
         description: 'Apply barre chords in I–IV–V and I–V–vi–IV progressions — the most common chord movement in Western music.',
         path: '/lessons/barre-chord-progressions',
         type: 'lesson',
-        comingSoon: true,
       },
     ],
   },
