@@ -22,7 +22,7 @@ const paths = [
     description: 'Build on the basics with barre chords, scale patterns across the neck, and seventh chord voicings.',
     path: '/paths/intermediate',
     level: 'Intermediate',
-    available: false,
+    available: true,
   },
 ];
 
