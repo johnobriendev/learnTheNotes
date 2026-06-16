@@ -60,7 +60,6 @@ const sections: Section[] = [
         description: 'Understand how the five open chord shapes — C, A, G, E, D — repeat across the entire neck.',
         path: '/lessons/caged-chord-shapes',
         type: 'lesson',
-        comingSoon: true,
       },
       {
         title: 'CAGED Scale Positions',
