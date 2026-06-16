@@ -43,7 +43,6 @@ const sections: Section[] = [
         description: 'Learn the Em-shape and Am-shape barre chords — the minor counterparts to the two essential barre shapes.',
         path: '/lessons/minor-barre-chords',
         type: 'lesson',
-        comingSoon: true,
       },
       {
         title: 'Barre Chord Progressions',
