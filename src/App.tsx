@@ -36,6 +36,7 @@ import PathsPage from './pages/PathsPage';
 import BeginnerPathPage from './pages/paths/BeginnerPathPage';
 import IntermediatePathPage from './pages/paths/IntermediatePathPage';
 import EShapeBarreChord from './pages/guitar-lessons/EShapeBarreChord';
+import AShapeBarreChord from './pages/guitar-lessons/AShapeBarreChord';
 
 const colors = {
   sage: '#b4b8ab',
@@ -63,6 +64,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/root-position-seventh-chords': 'Root Position Seventh Chords',
   '/lessons/f6-dm7-arpeggio': 'F6/Dm7 Arpeggio',
   '/lessons/e-shape-barre-chord': 'E-Shape Barre Chord',
+  '/lessons/a-shape-barre-chord': 'A-Shape Barre Chord',
   '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
   '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
   '/notes': 'Learn the Notes',
@@ -250,6 +252,7 @@ const router = createBrowserRouter([
       { path: 'lessons/root-position-seventh-chords', element: <RootPositionSeventhChords /> },
       { path: 'lessons/f6-dm7-arpeggio', element: <F6Dm7Arpeggio /> },
       { path: 'lessons/e-shape-barre-chord', element: <EShapeBarreChord /> },
+      { path: 'lessons/a-shape-barre-chord', element: <AShapeBarreChord /> },
       { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
       { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },

@@ -37,7 +37,6 @@ const sections: Section[] = [
         description: 'Learn the moveable A-shape barre chord to unlock Bb, B, C, and more across the fretboard.',
         path: '/lessons/a-shape-barre-chord',
         type: 'lesson',
-        comingSoon: true,
       },
       {
         title: 'Minor Barre Chords',
