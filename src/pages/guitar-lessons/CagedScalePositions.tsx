@@ -1,12 +1,25 @@
 // src/pages/guitar-lessons/CagedScalePositions.tsx
 import { useState } from 'react';
 import Fretboard from '../../components/shared/Fretboard';
-import { Note } from '../../types';
+import { Note, MajorScaleKey } from '../../types';
 
 const strings: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
-const ALL_NOTES: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const NOTE_ORDER: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const KEYS: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const KEYS: MajorScaleKey[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Gb', 'F', 'Bb', 'Eb', 'Ab', 'Db'];
+
+const KEY_TO_NOTE: Record<MajorScaleKey, Note> = {
+  C: 'C', G: 'G', D: 'D', A: 'A', E: 'E', B: 'B',
+  'F#': 'F#', Gb: 'F#',
+  F: 'F', Bb: 'A#', Eb: 'D#', Ab: 'G#', Db: 'C#',
+};
+
+const FLAT_KEYS = new Set<MajorScaleKey>(['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb']);
+
+// Notes that need non-default display in a given key
+const CUSTOM_DISPLAY: Partial<Record<MajorScaleKey, Partial<Record<Note, string>>>> = {
+  'F#': { F: 'E#' },
+  Gb: { B: 'Cb' },
+};
 
 const colors = {
   darkNavy: '#153243',
@@ -35,7 +48,8 @@ interface WindowInfo {
   desc: string;
 }
 
-const getWindow = (key: Note, shape: Shape): WindowInfo => {
+const getWindow = (keyName: MajorScaleKey, shape: Shape): WindowInfo => {
+  const key = KEY_TO_NOTE[keyName];
   switch (shape) {
     case 'E': {
       const n = E_FRET[key];
@@ -78,9 +92,9 @@ const getWindow = (key: Note, shape: Shape): WindowInfo => {
   }
 };
 
-const makeNoteColors = (key: Note): Record<Note, string> => {
-  const keyIdx = NOTE_ORDER.indexOf(key);
-  return Object.fromEntries(ALL_NOTES.map(n => {
+const makeNoteColors = (keyName: MajorScaleKey): Record<Note, string> => {
+  const keyIdx = NOTE_ORDER.indexOf(KEY_TO_NOTE[keyName]);
+  return Object.fromEntries(NOTE_ORDER.map(n => {
     const interval = (NOTE_ORDER.indexOf(n) - keyIdx + 12) % 12;
     if (interval === 0) return [n, 'bg-blue-500'];
     if (interval === 4) return [n, 'bg-orange-500'];
@@ -99,8 +113,8 @@ const getStringRange = (shape: Shape, si: number, win: WindowInfo) => {
   return { low, high };
 };
 
-const getHighlight = (key: Note, win: WindowInfo, shape: Shape) => {
-  const keyIdx = NOTE_ORDER.indexOf(key);
+const getHighlight = (keyName: MajorScaleKey, win: WindowInfo, shape: Shape) => {
+  const keyIdx = NOTE_ORDER.indexOf(KEY_TO_NOTE[keyName]);
   return (si: number, fret: number): boolean => {
     const { low, high } = getStringRange(shape, si, win);
     if (fret < low || fret > high) return false;
@@ -111,13 +125,15 @@ const getHighlight = (key: Note, win: WindowInfo, shape: Shape) => {
 };
 
 const CagedScalePositions = () => {
-  const [key, setKey] = useState<Note>('C');
+  const [key, setKey] = useState<MajorScaleKey>('C');
   const [shape, setShape] = useState<Shape>('C');
 
   const win = getWindow(key, shape);
   const noteColors = makeNoteColors(key);
   const highlight = getHighlight(key, win, shape);
   const numFrets = Math.max(13, win.high + 2);
+  const useFlats = FLAT_KEYS.has(key);
+  const customNoteDisplay = CUSTOM_DISPLAY[key] as Record<Note, string> | undefined;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -212,10 +228,11 @@ const CagedScalePositions = () => {
           numFrets={numFrets}
           strings={strings}
           selectedNotes={[]}
-          useFlats={false}
+          useFlats={useFlats}
           noteColors={noteColors}
           displayMode="notes"
           shouldHighlight={highlight}
+          customNoteDisplay={customNoteDisplay}
         />
       </div>
     </div>
