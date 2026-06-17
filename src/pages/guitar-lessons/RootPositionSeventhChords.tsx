@@ -69,12 +69,12 @@ const nc6 = {
 
 type ChordKey = 'maj7' | 'dom7' | 'min7' | 'm7b5' | 'dim7';
 
-const makeFretboard = (hl: (si: number, f: number) => boolean, noteColors: Record<Note, string>) => (
+const makeFretboard = (hl: (si: number, f: number) => boolean, noteColors: Record<Note, string>, useFlats = false) => (
   <Fretboard
     numFrets={7}
     strings={strings}
     selectedNotes={[]}
-    useFlats={false}
+    useFlats={useFlats}
     noteColors={noteColors}
     displayMode="notes"
     shouldHighlight={hl}
@@ -98,14 +98,22 @@ const chordEntries: Array<{ key: ChordKey; label: string }> = [
   { key: 'dim7', label: 'dim 7' },
 ];
 
+const chordUseFlats: Record<ChordKey, boolean> = {
+  maj7: false,
+  dom7: true,
+  min7: true,
+  m7b5: true,
+  dim7: true,
+};
+
 const diagrams = chordEntries.map(({ key, label }) => ({
   label,
   content: (
     <div className="bg-white rounded-xl shadow-md p-4 space-y-2">
       <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">5th string root — C</p>
-      {makeFretboard(hl5[key], nc5[key])}
+      {makeFretboard(hl5[key], nc5[key], chordUseFlats[key])}
       <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide pt-2">6th string root — G</p>
-      {makeFretboard(hl6[key], nc6[key])}
+      {makeFretboard(hl6[key], nc6[key], chordUseFlats[key])}
       {legend}
     </div>
   ),

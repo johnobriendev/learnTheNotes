@@ -105,11 +105,31 @@ const LandingPage = () => {
         </div>
       </div>
 
+      {/* Intermediate CTA */}
+      <div className="min-h-screen flex items-center justify-center" style={{ background: colors.medNavy }}>
+        <div className="max-w-2xl mx-auto px-4 py-16 text-center">
+          <p className="text-lg font-bold uppercase tracking-widest mb-4" style={{ color: colors.sage }}>Ready to level up?</p>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight" style={{ color: colors.cream }}>
+            Try our intermediate course
+          </h2>
+          <p className="text-lg mb-10 leading-relaxed" style={{ color: colors.sage }}>
+            Dive deeper into theory, chord voicings, and technique — built for players who know the basics.
+          </p>
+          <button
+            onClick={() => navigate('/paths/intermediate')}
+            className="font-semibold px-10 py-4 rounded-lg text-lg transition-all transform hover:scale-105 hover:opacity-90"
+            style={{ background: colors.darkNavy, color: colors.cream, border: `2px solid ${colors.sage}` }}
+          >
+            Start the intermediate path →
+          </button>
+        </div>
+      </div>
+
       {/* Fretboard Tools */}
-      <div id="features" className="min-h-screen flex items-center" style={{ background: colors.medNavy }}>
+      <div id="features" className="min-h-screen flex items-center" style={{ background: colors.cream }}>
         <div className="max-w-6xl mx-auto px-4 py-16 w-full">
-          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.cream }}>Fretboard Tools</h2>
-          <p className="text-sm mb-8" style={{ color: colors.sage }}>Interactive visualizers to explore the guitar neck</p>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.darkNavy }}>Fretboard Tools</h2>
+          <p className="text-sm mb-8" style={{ color: colors.medNavy }}>Interactive visualizers to explore the guitar neck</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {tools.map((tool) => (
               <div
@@ -137,10 +157,10 @@ const LandingPage = () => {
       </div>
 
       {/* Learn */}
-      <div className="min-h-screen flex items-center" style={{ background: colors.cream }}>
+      <div className="min-h-screen flex items-center" style={{ background: colors.medNavy }}>
         <div className="max-w-6xl mx-auto px-4 py-16 w-full">
-          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.darkNavy }}>Learn</h2>
-          <p className="text-sm mb-8" style={{ color: colors.medNavy }}>Lessons, theory, quizzes, and guided learning paths</p>
+          <h2 className="text-2xl font-bold mb-2" style={{ color: colors.cream }}>Learn</h2>
+          <p className="text-sm mb-8" style={{ color: colors.sage }}>Lessons, theory, quizzes, and guided learning paths</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {eduCards.map((card) => (
               <div
