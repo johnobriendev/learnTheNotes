@@ -1,12 +1,20 @@
 // src/pages/guitar-lessons/CagedChordShapes.tsx
 import { useState } from 'react';
 import Fretboard from '../../components/shared/Fretboard';
-import { Note } from '../../types';
+import { Note, MajorScaleKey } from '../../types';
+import { displayNote } from '../../utils/utils';
 
 const strings: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
-const ALL_NOTES: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const NOTE_ORDER: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const KEYS: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const KEYS: MajorScaleKey[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Gb', 'F', 'Bb', 'Eb', 'Ab', 'Db'];
+
+const KEY_TO_NOTE: Record<MajorScaleKey, Note> = {
+  C: 'C', G: 'G', D: 'D', A: 'A', E: 'E', B: 'B',
+  'F#': 'F#', Gb: 'F#',
+  F: 'F', Bb: 'A#', Eb: 'D#', Ab: 'G#', Db: 'C#',
+};
+
+const FLAT_KEYS = new Set<MajorScaleKey>(['F', 'Bb', 'Eb', 'Ab', 'Db', 'Gb']);
 
 const colors = {
   darkNavy: '#153243',
@@ -33,7 +41,8 @@ interface ShapeConfig {
   highlight: (si: number, fret: number) => boolean;
 }
 
-const getConfig = (key: Note, shape: Shape): ShapeConfig => {
+const getConfig = (keyName: MajorScaleKey, shape: Shape): ShapeConfig => {
+  const key = KEY_TO_NOTE[keyName];
   switch (shape) {
     case 'E': {
       const n = E_FRET[key];
@@ -93,10 +102,11 @@ const getConfig = (key: Note, shape: Shape): ShapeConfig => {
   }
 };
 
-const makeNoteColors = (key: Note): Record<Note, string> => {
+const makeNoteColors = (keyName: MajorScaleKey): Record<Note, string> => {
+  const key = KEY_TO_NOTE[keyName];
   const third = step(key, 4);
   const fifth = step(key, 7);
-  const def = Object.fromEntries(ALL_NOTES.map(n => [n, 'bg-gray-300'])) as Record<Note, string>;
+  const def = Object.fromEntries(NOTE_ORDER.map(n => [n, 'bg-gray-300'])) as Record<Note, string>;
   return { ...def, [key]: 'bg-blue-500', [third]: 'bg-orange-500', [fifth]: 'bg-green-500' };
 };
 
@@ -114,13 +124,15 @@ const CAGED_PREV: Record<Shape, Shape> = { C: 'D', A: 'C', G: 'A', E: 'G', D: 'E
 const CAGED_NEXT: Record<Shape, Shape> = { C: 'A', A: 'G', G: 'E', E: 'D', D: 'C' };
 
 const CagedChordShapes = () => {
-  const [key, setKey] = useState<Note>('C');
+  const [key, setKey] = useState<MajorScaleKey>('C');
   const [shape, setShape] = useState<Shape>('C');
 
+  const keyNote = KEY_TO_NOTE[key];
   const config = getConfig(key, shape);
-  const third = step(key, 4);
-  const fifth = step(key, 7);
+  const third = step(keyNote, 4);
+  const fifth = step(keyNote, 7);
   const numFrets = getNumFrets(shape, config.fret);
+  const useFlats = FLAT_KEYS.has(key);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -202,11 +214,11 @@ const CagedChordShapes = () => {
             </span>
             <span className="flex items-center gap-1.5" style={{ color: colors.medNavy }}>
               <span className="w-3 h-3 rounded-full bg-orange-500 inline-block shrink-0" />
-              3rd ({third})
+              3rd ({displayNote(third, useFlats)})
             </span>
             <span className="flex items-center gap-1.5" style={{ color: colors.medNavy }}>
               <span className="w-3 h-3 rounded-full bg-green-500 inline-block shrink-0" />
-              5th ({fifth})
+              5th ({displayNote(fifth, useFlats)})
             </span>
           </div>
         </div>
@@ -218,7 +230,7 @@ const CagedChordShapes = () => {
           numFrets={numFrets}
           strings={strings}
           selectedNotes={[]}
-          useFlats={false}
+          useFlats={useFlats}
           noteColors={makeNoteColors(key)}
           displayMode="notes"
           shouldHighlight={config.highlight}
