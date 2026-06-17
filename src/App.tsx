@@ -35,6 +35,8 @@ import TriadsQuiz from './pages/quizzes/TriadsQuiz';
 import PathsPage from './pages/PathsPage';
 import BeginnerPathPage from './pages/paths/BeginnerPathPage';
 import IntermediatePathPage from './pages/paths/IntermediatePathPage';
+import AdvancedPathPage from './pages/paths/AdvancedPathPage';
+import SeventhChordArpeggios from './pages/guitar-lessons/SeventhChordArpeggios';
 import EShapeBarreChord from './pages/guitar-lessons/EShapeBarreChord';
 import AShapeBarreChord from './pages/guitar-lessons/AShapeBarreChord';
 import MinorBarreChords from './pages/guitar-lessons/MinorBarreChords';
@@ -75,6 +77,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/caged-chord-shapes': 'CAGED Chord Shapes',
   '/lessons/caged-scale-positions': 'CAGED Scale Positions',
   '/lessons/pentatonic-scales': 'Pentatonic Scales',
+  '/lessons/seventh-chord-arpeggios': 'Seventh Chord Arpeggios',
   '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
   '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
   '/notes': 'Learn the Notes',
@@ -85,6 +88,7 @@ const pageTitles: Record<string, string> = {
   '/paths': 'Guided Learning Paths',
   '/paths/beginner': 'Beginner Path',
   '/paths/intermediate': 'Intermediate Path',
+  '/paths/advanced': 'Advanced Path',
   '/music-theory': 'Music Theory Lessons',
   '/music-theory/major-scale-harmony': 'Major Scale Harmony',
   '/music-theory/building-seventh-chords': 'Building 7th Chords',
@@ -268,6 +272,7 @@ const router = createBrowserRouter([
       { path: 'lessons/caged-chord-shapes', element: <CagedChordShapes /> },
       { path: 'lessons/caged-scale-positions', element: <CagedScalePositions /> },
       { path: 'lessons/pentatonic-scales', element: <PentatonicScales /> },
+      { path: 'lessons/seventh-chord-arpeggios', element: <SeventhChordArpeggios /> },
       { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
       { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },
@@ -282,6 +287,7 @@ const router = createBrowserRouter([
       { path: 'paths', element: <PathsPage /> },
       { path: 'paths/beginner', element: <BeginnerPathPage /> },
       { path: 'paths/intermediate', element: <IntermediatePathPage /> },
+      { path: 'paths/advanced', element: <AdvancedPathPage /> },
     ]
   }
 ]);

@@ -24,6 +24,13 @@ const paths = [
     level: 'Intermediate',
     available: true,
   },
+  {
+    title: 'Advanced Path',
+    description: 'Push further with advanced techniques, extended patterns, and jazz-oriented vocabulary.',
+    path: '/paths/advanced',
+    level: 'Advanced',
+    available: true,
+  },
 ];
 
 const PathsPage = () => {

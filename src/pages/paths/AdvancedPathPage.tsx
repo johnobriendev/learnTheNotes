@@ -1,4 +1,3 @@
-// src/pages/paths/IntermediatePathPage.tsx
 import { useNavigate } from 'react-router-dom';
 
 const colors = {
@@ -24,87 +23,18 @@ interface Section {
 
 const sections: Section[] = [
   {
-    title: 'Barre Chords',
-    steps: [
-      {
-        title: 'E-Shape Barre Chord',
-        description: 'Learn the moveable E-shape barre chord — the foundation for playing chords all the way up the neck.',
-        path: '/lessons/e-shape-barre-chord',
-        type: 'lesson',
-      },
-      {
-        title: 'A-Shape Barre Chord',
-        description: 'Learn the moveable A-shape barre chord to unlock Bb, B, C, and more across the fretboard.',
-        path: '/lessons/a-shape-barre-chord',
-        type: 'lesson',
-      },
-      {
-        title: 'Minor Barre Chords',
-        description: 'Learn the Em-shape and Am-shape barre chords — the minor counterparts to the two essential barre shapes.',
-        path: '/lessons/minor-barre-chords',
-        type: 'lesson',
-      },
-      {
-        title: 'Barre Chord Progressions',
-        description: 'Apply barre chords in I–IV–V and I–V–vi–IV progressions — the most common chord movement in Western music.',
-        path: '/lessons/barre-chord-progressions',
-        type: 'lesson',
-      },
-    ],
-  },
-  {
-    title: 'The CAGED System',
-    steps: [
-      {
-        title: 'CAGED Chord Shapes',
-        description: 'Understand how the five open chord shapes — C, A, G, E, D — repeat across the entire neck.',
-        path: '/lessons/caged-chord-shapes',
-        type: 'lesson',
-      },
-      {
-        title: 'CAGED Scale Positions',
-        description: 'Use the CAGED system to map major scale patterns to each of the five chord positions across the neck.',
-        path: '/lessons/caged-scale-positions',
-        type: 'lesson',
-      },
-    ],
-  },
-  {
-    title: 'Scales Across the Neck',
-    steps: [
-      {
-        title: 'Pentatonic Scales',
-        description: 'Learn the major and minor pentatonic scales — the most essential scales for soloing and improvisation.',
-        path: '/lessons/pentatonic-scales',
-        type: 'lesson',
-      },
-      {
-        title: 'Learn the Same Phrase in Different Positions',
-        description: 'Play the same melodic phrase in multiple positions up the neck to internalize how scale patterns connect.',
-        path: '/lessons/first-three-notes',
-        type: 'lesson',
-      },
-      {
-        title: 'Switching Between Scale Patterns',
-        description: 'Practice moving between adjacent scale positions smoothly — the key to navigating the full neck.',
-        path: '/lessons/switching-scale-patterns',
-        type: 'lesson',
-      },
-    ],
-  },
-  {
     title: 'Chord Voicings',
     steps: [
       {
-        title: 'Learn the Fretboard with Triads',
-        description: 'Use triad shapes to learn the notes on every string and unlock new chord voicings across the neck.',
-        path: '/lessons/fretboard-triads',
+        title: 'Drop 2 Minor Seventh Voicings (Cm7)',
+        description: 'Learn drop 2 minor seventh chord voicings across all string sets.',
+        path: '/lessons/drop2-minor-seventh-voicings',
         type: 'lesson',
       },
       {
-        title: 'Root Position Seventh Chords',
-        description: 'Learn major 7th, dominant 7th, and minor 7th chord shapes rooted on every string group.',
-        path: '/lessons/root-position-seventh-chords',
+        title: 'Drop 2 Dominant Seventh Voicings (Bb7)',
+        description: 'Learn drop 2 dominant seventh chord voicings across all string sets.',
+        path: '/lessons/drop2-dominant-seventh-voicings',
         type: 'lesson',
       },
     ],
@@ -113,22 +43,28 @@ const sections: Section[] = [
     title: 'Arpeggios',
     steps: [
       {
-        title: 'Seventh Chord Arpeggios',
-        description: 'Learn maj7, dom7, min7, min7♭5, and dim7 arpeggio shapes rooted on the 6th and 5th strings.',
-        path: '/lessons/seventh-chord-arpeggios',
+        title: 'Two Note Per String Arpeggios',
+        description: 'Build fluid arpeggio technique using two-note-per-string patterns across common chord types.',
+        path: '/lessons/two-note-arpeggios',
+        type: 'lesson',
+      },
+      {
+        title: 'F6/Dm7 Arpeggio',
+        description: 'Apply two-note-per-string arpeggios to the F6/Dm7 chord — a rich, jazz-flavored sound.',
+        path: '/lessons/f6-dm7-arpeggio',
         type: 'lesson',
       },
     ],
   },
 ];
 
-const IntermediatePathPage = () => {
+const AdvancedPathPage = () => {
   const navigate = useNavigate();
 
   return (
     <div className="max-w-2xl mx-auto">
       <p className="text-sm mb-10" style={{ color: colors.medNavy }}>
-        Build on the basics with barre chords, scale patterns across the neck, and seventh chord voicings.
+        Push further with advanced techniques, extended patterns, and jazz-oriented vocabulary.
       </p>
 
       <div className="flex flex-col gap-10">
@@ -193,4 +129,4 @@ const IntermediatePathPage = () => {
   );
 };
 
-export default IntermediatePathPage;
+export default AdvancedPathPage;
