@@ -1,12 +1,45 @@
 // src/pages/guitar-lessons/PentatonicScales.tsx
 import { useState } from 'react';
 import Fretboard from '../../components/shared/Fretboard';
-import { Note } from '../../types';
+import { Note, MajorScaleKey } from '../../types';
+import { displayNote } from '../../utils/utils';
 
 const strings: Note[] = ['E', 'A', 'D', 'G', 'B', 'E'];
-const ALL_NOTES: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const NOTE_ORDER: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-const KEYS: Note[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+const KEYS: MajorScaleKey[] = ['C', 'G', 'D', 'A', 'E', 'B', 'F#', 'Gb', 'F', 'Bb', 'Eb', 'Ab', 'Db'];
+
+const KEY_TO_NOTE: Record<MajorScaleKey, Note> = {
+  C: 'C', G: 'G', D: 'D', A: 'A', E: 'E', B: 'B',
+  'F#': 'F#', Gb: 'F#',
+  F: 'F', Bb: 'A#', Eb: 'D#', Ab: 'G#', Db: 'C#',
+};
+
+type ScaleType = 'major' | 'minor';
+
+// useFlats depends on both key and scale type:
+// minor pentatonic of sharp keys (C, G) uses flats (Eb, Bb)
+const USE_FLATS: Record<MajorScaleKey, Record<ScaleType, boolean>> = {
+  C:  { major: false, minor: true  },
+  G:  { major: false, minor: true  },
+  D:  { major: false, minor: false },
+  A:  { major: false, minor: false },
+  E:  { major: false, minor: false },
+  B:  { major: false, minor: false },
+  'F#': { major: false, minor: false },
+  Gb: { major: true,  minor: true  },
+  F:  { major: false, minor: true  },
+  Bb: { major: true,  minor: true  },
+  Eb: { major: true,  minor: true  },
+  Ab: { major: true,  minor: true  },
+  Db: { major: true,  minor: true  },
+};
+
+// Extra display overrides beyond what useFlats handles (Cb, Fb, Bbb)
+const CUSTOM_DISPLAY: Partial<Record<MajorScaleKey, Partial<Record<ScaleType, Partial<Record<Note, string>>>>>> = {
+  Ab: { minor: { B: 'Cb' } },
+  Db: { minor: { E: 'Fb', B: 'Cb' } },
+  Gb: { minor: { A: 'Bbb', B: 'Cb', E: 'Fb' } },
+};
 
 const colors = {
   darkNavy: '#153243',
@@ -21,8 +54,6 @@ const E_FRET: Record<Note, number> = { F:1,'F#':2,G:3,'G#':4,A:5,'A#':6,B:7,C:8,
 
 const MINOR_PENT = new Set([0, 3, 5, 7, 10]);
 const MAJOR_PENT = new Set([0, 2, 4, 7, 9]);
-
-type ScaleType = 'major' | 'minor';
 
 // Fret window offsets relative to E_FRET[key].
 // Minor P3 and major P2 extend to +8/+5 to reach the B string's extra fret.
@@ -43,11 +74,11 @@ const WINDOWS: Record<ScaleType, { low: number; high: number }[]> = {
   ],
 };
 
-const makeNoteColors = (key: Note, scaleType: ScaleType): Record<Note, string> => {
-  const keyIdx = NOTE_ORDER.indexOf(key);
+const makeNoteColors = (keyName: MajorScaleKey, scaleType: ScaleType): Record<Note, string> => {
+  const keyIdx = NOTE_ORDER.indexOf(KEY_TO_NOTE[keyName]);
   const scale = scaleType === 'minor' ? MINOR_PENT : MAJOR_PENT;
   const thirdInterval = scaleType === 'minor' ? 3 : 4;
-  return Object.fromEntries(ALL_NOTES.map(n => {
+  return Object.fromEntries(NOTE_ORDER.map(n => {
     const interval = (NOTE_ORDER.indexOf(n) - keyIdx + 12) % 12;
     if (interval === 0) return [n, 'bg-blue-500'];
     if (interval === thirdInterval) return [n, 'bg-orange-500'];
@@ -57,8 +88,8 @@ const makeNoteColors = (key: Note, scaleType: ScaleType): Record<Note, string> =
   })) as Record<Note, string>;
 };
 
-const getHighlight = (key: Note, scaleType: ScaleType, lowFret: number, highFret: number) => {
-  const keyIdx = NOTE_ORDER.indexOf(key);
+const getHighlight = (keyName: MajorScaleKey, scaleType: ScaleType, lowFret: number, highFret: number) => {
+  const keyIdx = NOTE_ORDER.indexOf(KEY_TO_NOTE[keyName]);
   const scale = scaleType === 'minor' ? MINOR_PENT : MAJOR_PENT;
   return (si: number, fret: number): boolean => {
     if (fret < lowFret || fret > highFret) return false;
@@ -69,30 +100,32 @@ const getHighlight = (key: Note, scaleType: ScaleType, lowFret: number, highFret
 };
 
 const PentatonicScales = () => {
-  const [key, setKey] = useState<Note>('A');
+  const [key, setKey] = useState<MajorScaleKey>('A');
   const [scaleType, setScaleType] = useState<ScaleType>('minor');
   const [position, setPosition] = useState(1);
 
-  const r = E_FRET[key];
+  const keyNote = KEY_TO_NOTE[key];
+  const r = E_FRET[keyNote];
   const win = WINDOWS[scaleType][position - 1];
   let offset = r;
   while (offset - 12 + win.low >= 0) offset -= 12;
   const lowFret = Math.max(0, offset + win.low);
   const highFret = offset + win.high;
   const numFrets = Math.max(13, highFret + 2);
+  const useFlats = USE_FLATS[key][scaleType];
+  const customDisplay = CUSTOM_DISPLAY[key]?.[scaleType];
   const noteColors = makeNoteColors(key, scaleType);
   const highlight = getHighlight(key, scaleType, lowFret, highFret);
 
-  const keyIdx = NOTE_ORDER.indexOf(key);
+  const keyIdx = NOTE_ORDER.indexOf(keyNote);
   const thirdInterval = scaleType === 'minor' ? 3 : 4;
   const thirdNote = NOTE_ORDER[(keyIdx + thirdInterval) % 12];
   const fifthNote = NOTE_ORDER[(keyIdx + 7) % 12];
-  const relativeNote = scaleType === 'minor'
-    ? NOTE_ORDER[(keyIdx + 3) % 12]
-    : NOTE_ORDER[(keyIdx + 9) % 12];
+  const noteDisp = (n: Note): string => customDisplay?.[n] ?? displayNote(n, useFlats);
+  const relativeChromatic = NOTE_ORDER[scaleType === 'minor' ? (keyIdx + 3) % 12 : (keyIdx + 9) % 12];
   const relativeLabel = scaleType === 'minor'
-    ? `Same notes as ${relativeNote} major pentatonic`
-    : `Same notes as ${relativeNote} minor pentatonic`;
+    ? `Same notes as ${displayNote(relativeChromatic, useFlats)} major pentatonic`
+    : `Same notes as ${displayNote(relativeChromatic, useFlats)} minor pentatonic`;
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -181,11 +214,11 @@ const PentatonicScales = () => {
             </span>
             <span className="flex items-center gap-1.5" style={{ color: colors.medNavy }}>
               <span className="w-3 h-3 rounded-full bg-orange-500 inline-block shrink-0" />
-              {scaleType === 'minor' ? 'b3' : '3'} ({thirdNote})
+              {scaleType === 'minor' ? 'b3' : '3'} ({noteDisp(thirdNote)})
             </span>
             <span className="flex items-center gap-1.5" style={{ color: colors.medNavy }}>
               <span className="w-3 h-3 rounded-full bg-green-500 inline-block shrink-0" />
-              5th ({fifthNote})
+              5th ({noteDisp(fifthNote)})
             </span>
             <span className="flex items-center gap-1.5" style={{ color: colors.medNavy }}>
               <span className="w-3 h-3 rounded-full bg-yellow-400 inline-block shrink-0" />
@@ -201,10 +234,11 @@ const PentatonicScales = () => {
           numFrets={numFrets}
           strings={strings}
           selectedNotes={[]}
-          useFlats={false}
+          useFlats={useFlats}
           noteColors={noteColors}
           displayMode="notes"
           shouldHighlight={highlight}
+          customNoteDisplay={customDisplay as Record<Note, string> | undefined}
         />
       </div>
     </div>
