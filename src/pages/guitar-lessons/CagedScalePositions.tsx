@@ -52,25 +52,27 @@ const getWindow = (key: Note, shape: Shape): WindowInfo => {
       };
     }
     case 'G': {
-      const n = E_FRET[key];
+      const raw = E_FRET[key];
+      const n = raw < 4 ? raw + 12 : raw;
       return {
         low: n - 3, high: n + 1, rootFret: n, rootString: '6th and 1st strings (E)',
-        desc: `Based on the open G chord shape. Root on the E strings at fret ${n}. Pattern extends below the root — frets ${Math.max(0, n - 4)}–${n + 1}.`,
+        desc: `Based on the open G chord shape. Root on the E strings at fret ${n}. Pattern extends below the root — frets ${n - 4}–${n + 1}.`,
       };
     }
     case 'C': {
-      const n = A_FRET[key];
+      const raw = A_FRET[key];
+      const n = raw < 3 ? raw + 12 : raw;
       return {
         low: n - 3, high: n + 1, rootFret: n, rootString: '5th string (A)',
-        desc: `Based on the open C chord shape. Root on the A string at fret ${n}. Pattern extends below the root — frets ${Math.max(0, n - 3)}–${n + 1}.`,
+        desc: `Based on the open C chord shape. Root on the A string at fret ${n}. Pattern extends below the root — frets ${n - 3}–${n + 1}.`,
       };
     }
     case 'D': {
-      const n = D_FRET[key];
-      const low = Math.max(0, n - 1);
+      const raw = D_FRET[key];
+      const n = raw < 2 ? raw + 12 : raw;
       return {
-        low, high: n + 3, rootFret: n, rootString: '4th string (D)',
-        desc: `Based on the open D chord shape. Root on the D string at fret ${n}${n === 0 ? ' (open string)' : ''}. Scale box covers frets ${low}–${n + 3}.`,
+        low: n - 1, high: n + 3, rootFret: n, rootString: '4th string (D)',
+        desc: `Based on the open D chord shape. Root on the D string at fret ${n}. Scale box covers frets ${n - 1}–${n + 3}.`,
       };
     }
   }
