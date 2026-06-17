@@ -66,7 +66,6 @@ const sections: Section[] = [
         description: 'Use the CAGED system to map major scale patterns to each of the five chord positions across the neck.',
         path: '/lessons/caged-scale-positions',
         type: 'lesson',
-        comingSoon: true,
       },
     ],
   },

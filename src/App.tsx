@@ -40,6 +40,7 @@ import AShapeBarreChord from './pages/guitar-lessons/AShapeBarreChord';
 import MinorBarreChords from './pages/guitar-lessons/MinorBarreChords';
 import BarreChordProgressions from './pages/guitar-lessons/BarreChordProgressions';
 import CagedChordShapes from './pages/guitar-lessons/CagedChordShapes';
+import CagedScalePositions from './pages/guitar-lessons/CagedScalePositions';
 
 const colors = {
   sage: '#b4b8ab',
@@ -71,6 +72,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/minor-barre-chords': 'Minor Barre Chords',
   '/lessons/barre-chord-progressions': 'Barre Chord Progressions',
   '/lessons/caged-chord-shapes': 'CAGED Chord Shapes',
+  '/lessons/caged-scale-positions': 'CAGED Scale Positions',
   '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
   '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
   '/notes': 'Learn the Notes',
@@ -262,6 +264,7 @@ const router = createBrowserRouter([
       { path: 'lessons/minor-barre-chords', element: <MinorBarreChords /> },
       { path: 'lessons/barre-chord-progressions', element: <BarreChordProgressions /> },
       { path: 'lessons/caged-chord-shapes', element: <CagedChordShapes /> },
+      { path: 'lessons/caged-scale-positions', element: <CagedScalePositions /> },
       { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
       { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },
       { path: 'notes', element: <NotesPage /> },
