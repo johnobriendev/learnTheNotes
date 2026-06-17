@@ -77,7 +77,6 @@ const sections: Section[] = [
         description: 'Learn the major and minor pentatonic scales — the most essential scales for soloing and improvisation.',
         path: '/lessons/pentatonic-scales',
         type: 'lesson',
-        comingSoon: true,
       },
       {
         title: 'Learn the Same Phrase in Different Positions',
