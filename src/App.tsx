@@ -44,6 +44,7 @@ import BarreChordProgressions from './pages/guitar-lessons/BarreChordProgression
 import CagedChordShapes from './pages/guitar-lessons/CagedChordShapes';
 import CagedScalePositions from './pages/guitar-lessons/CagedScalePositions';
 import PentatonicScales from './pages/guitar-lessons/PentatonicScales';
+import ThreeNotePerStringScales from './pages/guitar-lessons/ThreeNotePerStringScales';
 
 const colors = {
   sage: '#b4b8ab',
@@ -77,6 +78,7 @@ const pageTitles: Record<string, string> = {
   '/lessons/caged-chord-shapes': 'CAGED Chord Shapes',
   '/lessons/caged-scale-positions': 'CAGED Scale Positions',
   '/lessons/pentatonic-scales': 'Pentatonic Scales',
+  '/lessons/three-note-per-string-scales': 'Three Note Per String Scales',
   '/lessons/seventh-chord-arpeggios': 'Seventh Chord Arpeggios',
   '/lessons/drop2-minor-seventh-voicings': 'Drop 2 Minor Seventh Voicings (Cm7)',
   '/lessons/drop2-dominant-seventh-voicings': 'Drop 2 Dominant Seventh Voicings (Bb7)',
@@ -272,6 +274,7 @@ const router = createBrowserRouter([
       { path: 'lessons/caged-chord-shapes', element: <CagedChordShapes /> },
       { path: 'lessons/caged-scale-positions', element: <CagedScalePositions /> },
       { path: 'lessons/pentatonic-scales', element: <PentatonicScales /> },
+      { path: 'lessons/three-note-per-string-scales', element: <ThreeNotePerStringScales /> },
       { path: 'lessons/seventh-chord-arpeggios', element: <SeventhChordArpeggios /> },
       { path: 'lessons/drop2-minor-seventh-voicings', element: <Drop2MinorSeventhVoicings /> },
       { path: 'lessons/drop2-dominant-seventh-voicings', element: <Drop2DominantSeventhVoicings /> },

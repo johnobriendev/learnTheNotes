@@ -53,6 +53,7 @@ const lessons: LessonCard[] = [
   { title: 'F6/Dm7 Arpeggio', description: 'Learn F6/Dm7 arpeggio across two positions on the fretboard.', path: '/lessons/f6-dm7-arpeggio', difficulty: 'advanced', dateCreated: '2026-02-25' },
   { title: 'Drop 2 Minor Seventh Voicings (Cm7)', description: 'Learn drop 2 minor seventh chord voicings across all string sets.', path: '/lessons/drop2-minor-seventh-voicings', difficulty: 'advanced', dateCreated: '2026-03-19' },
   { title: 'Drop 2 Dominant Seventh Voicings (Bb7)', description: 'Learn drop 2 dominant seventh chord voicings across all string sets.', path: '/lessons/drop2-dominant-seventh-voicings', difficulty: 'advanced', dateCreated: '2026-03-19' },
+  { title: 'Three Note Per String Scales', description: 'Learn all 7 three-note-per-string major scale patterns across the neck in any key.', path: '/lessons/three-note-per-string-scales', difficulty: 'advanced', dateCreated: '2026-06-17' },
 ];
 
 const GuitarLessonsPage = () => {

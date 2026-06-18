@@ -23,6 +23,17 @@ interface Section {
 
 const sections: Section[] = [
   {
+    title: 'Scales',
+    steps: [
+      {
+        title: 'Three Note Per String Scales',
+        description: 'Master all 7 three-note-per-string major scale patterns in any key.',
+        path: '/lessons/three-note-per-string-scales',
+        type: 'lesson',
+      },
+    ],
+  },
+  {
     title: 'Chord Voicings',
     steps: [
       {
